@@ -28,5 +28,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: pylint report
-        path: '["functioncheck.txt","is-fs-lexus.txt","is-fs-hssd.txt","is-fs-mhc.txt"]'
+        path: |
+          functioncheck.txt
+          is-fs-lexus.txt
+          is-fs-hssd.txt
+          is-fs-mhc.txt
         

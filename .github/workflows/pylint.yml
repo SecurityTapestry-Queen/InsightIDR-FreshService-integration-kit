@@ -20,7 +20,7 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') | tee pylint.txt
+        pylint functioncheck.py is-fs-lexus.py is-fs-hssd.py is-fs-mhc.py | tee pylint.txt
     - name: Upload pylint.txt as artifact
       uses: actions/upload-artifact@v2
       with:

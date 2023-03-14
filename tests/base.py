@@ -31,7 +31,9 @@ def whenWasTheLastTime():
 def getInsightInvestigations():
     print("Getting Open Investigations")
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
-    headers = {"X-Api-Key": IDR_API, "Accept-version": "investigations-preview"}
+    headers = {
+        "X-Api-Key": IDR_API,
+        "Accept-version": "investigations-preview"}
     params = {
         "statuses": "OPEN,INVESTIGATING",
         # "multi-customer": True,
@@ -133,8 +135,9 @@ def getInvestigationComments(id):
 
 def postCommentsToFS(fsID):
     webhook_url = (
-        "https://securitytapestry.freshservice.com/api/v2/tickets/" + fsID + "/notes"
-    )
+        "https://securitytapestry.freshservice.com/api/v2/tickets/" +
+        fsID +
+        "/notes")
 
     data = {"body": c["body"], "private": False}
 

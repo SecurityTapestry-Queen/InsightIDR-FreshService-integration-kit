@@ -20,15 +20,16 @@ jobs:
       - name: install dependencies
         run: |
           pip3 install -r requirements.txt
-      - name: run scraper
+      - name: run scrapers
         env:
           IDR_API_LEXUS: ${{ secrets.IDR_API_LEXUS }}
           IDR_API_HSSD: ${{ secrets.IDR_API_HSSD }}
           IDR_API_MHC: ${{ secrets.IDR_API_MHC }}
           FS_API: ${{ secrets.FS_API }}
-        run: python3 is-fs-lexus.py
-        run: python3 is-fs-hssd.py
-        run: python3 is-fs-mhc.py
+        run: |
+        python3 is-fs-lexus.py
+        python3 is-fs-hssd.py
+        python3 is-fs-mhc.py
       - name: save changes
         run: |
           git config --global user.email "bot-parser@users.noreply.github.com"

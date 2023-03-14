@@ -20,10 +20,13 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint functioncheck.py is-fs-lexus.py is-fs-hssd.py is-fs-mhc.py | tee pylint.txt
+        pylint functioncheck.py | tee functioncheck.txt
+        pylint is-fs-lexus.py | tee is-fs-lexus.txt
+        pylint is-fs-hssd.py | tee is-fs-hssd.txt
+        pylint is-fs-mhc.py | tee is-fs-mhc.txt
     - name: Upload pylint.txt as artifact
       uses: actions/upload-artifact@v2
       with:
         name: pylint report
-        path: pylint.txt
+        path: '["functioncheck.txt","is-fs-lexus.txt","is-fs-hssd.txt","is-fs-mhc.txt"]'
         

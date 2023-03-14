@@ -10,8 +10,8 @@ global commentdata
 global ticketID
 global c
 
-IDR_API_MHC = os.getenv('IDR_API_MHC')
-FS_API = os.getenv('FS_API')
+IDR_API_MHC = os.getenv("IDR_API_MHC")
+FS_API = os.getenv("FS_API")
 
 
 def whenWasTheLastTime():
@@ -22,23 +22,22 @@ def whenWasTheLastTime():
     lasttime.close()
     # print("Last Check: " + lasttimedata)
 
+
 def getInsightInvestigations():
     print("Getting Open Investigations for MHC")
-    url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations'
-    headers = {
-    "X-Api-Key": IDR_API_MHC,
-    "Accept-version": "investigations-preview"
-    }
+    url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
+    headers = {"X-Api-Key": IDR_API_MHC, "Accept-version": "investigations-preview"}
     params = {
-    "statuses": "OPEN,INVESTIGATING",
-    "multi-customer": True,
-    "sources": "ALERT",
-    "priorities": "CRITICAL,HIGH,MEDIUM,LOW"
+        "statuses": "OPEN,INVESTIGATING",
+        "multi-customer": True,
+        "sources": "ALERT",
+        "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
 
     r = requests.get(url, headers=headers, params=params)
     global investigations
     investigations = r.json()["data"]
+
 
 def checkForNew():
     print("Anything New for MHC?")
@@ -55,53 +54,55 @@ def checkForNew():
             postTicketToFS()
             getInvestigationComments(item["rrn"])
 
+
 def updateLastTime():
     lasttime = open("lasttime-mhc.txt", "w")
-    lasttime.write(datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ'))
+    lasttime.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
     lasttime.close()
     # print('Updated to current time')
 
+
 def postTicketToFS():
-    url = 'https://securitytapestry.freshservice.com/api/v2/tickets'
+    url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
     idr_priority = 1
-    if item["priority"] == 'LOW':
+    if item["priority"] == "LOW":
         idr_priority = 1
-    elif item["priority"] == 'MEDIUM':
+    elif item["priority"] == "MEDIUM":
         idr_priority = 2
-    elif item["priority"] == 'HIGH':
+    elif item["priority"] == "HIGH":
         idr_priority = 3
-    elif item["priority"] == 'CRITICAL':
+    elif item["priority"] == "CRITICAL":
         idr_priority = 4
 
     data = {
-    "description":item["title"],
-    "subject":"Security Incident: " + item["title"],
-    "email":"itdept@mphshc.org",
-    "status":2,
-    "priority":idr_priority,
-    "source":14,
-    "group_id":21000544549,
-    "category":"InsightIDR"
+        "description": item["title"],
+        "subject": "Security Incident: " + item["title"],
+        "email": "itdept@mphshc.org",
+        "status": 2,
+        "priority": idr_priority,
+        "source": 14,
+        "group_id": 21000544549,
+        "category": "InsightIDR",
     }
     global ticketID
-    r = requests.post(url, auth=(FS_API, 'X'), data=json.dumps(data), headers= {'Content-Type': 'application/json'})
+    r = requests.post(
+        url,
+        auth=(FS_API, "X"),
+        data=json.dumps(data),
+        headers={"Content-Type": "application/json"},
+    )
     ticketID = r.json()["ticket"]["id"]
     print("Posted ticket #" + str(ticketID))
     # print(ticketID)
     # print(ticketResponse["ticket"]["id"])
     # print(data)
 
+
 def getInvestigationComments(id):
-    url = 'https://us2.api.insight.rapid7.com/idr/v1/comments'
-    headers = {
-    "X-Api-Key": IDR_API_MHC,
-    "Accept-version": "comments-preview"
-    }
-    params = {
-    "multi-customer": True,
-    "target": id
-    }
+    url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
+    headers = {"X-Api-Key": IDR_API_MHC, "Accept-version": "comments-preview"}
+    params = {"multi-customer": True, "target": id}
 
     r = requests.get(url, headers=headers, params=params)
     global commentdata
@@ -124,16 +125,22 @@ def getInvestigationComments(id):
             #     + c["body"]
             #     )
 
+
 def postCommentsToFS(fsID):
-    webhook_url = 'https://securitytapestry.freshservice.com/api/v2/tickets/' + fsID + '/notes'
+    webhook_url = (
+        "https://securitytapestry.freshservice.com/api/v2/tickets/" + fsID + "/notes"
+    )
 
-    data = {
-        "body": c["body"],
-        "private": False
-    }
+    data = {"body": c["body"], "private": False}
 
-    requests.post(webhook_url, auth=(FS_API, 'X'), data=json.dumps(data), headers= {'Content-Type': 'application/json'})
+    requests.post(
+        webhook_url,
+        auth=(FS_API, "X"),
+        data=json.dumps(data),
+        headers={"Content-Type": "application/json"},
+    )
     print("Posted comment to ticket #" + str(fsID))
+
 
 # Execution Block
 whenWasTheLastTime()

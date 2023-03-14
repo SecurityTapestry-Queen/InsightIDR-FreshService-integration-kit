@@ -20,12 +20,9 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') > pylint.txt
-    - name: save changes
-      run: |
-        git config --global user.email "pylinter@users.noreply.github.com"
-        git config --global user.name "PyLinterr"
-        DATE=$(date -Iseconds)
-        git commit --all --message "Updated by PyLinter on $DATE" || echo "no changes to commit"
-        git push
-
+        pylint $(git ls-files '*.py') | tee pylint.txt
+    - name: Upload pylint.txt as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: pylint report
+        path: pylint.txt

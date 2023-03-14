@@ -1,6 +1,5 @@
 import requests
 import json
-import sys
 import os
 from datetime import datetime
 
@@ -24,7 +23,7 @@ def whenWasTheLastTime():
     # print("Last Check: " + lasttimedata)
 
 def getInsightInvestigations():
-    print("Getting Open Investigations")
+    print("Getting Open Investigations for Lexus")
     url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations'
     headers = {
     "X-Api-Key": IDR_API_LEXUS,
@@ -42,7 +41,7 @@ def getInsightInvestigations():
     investigations = r.json()["data"]
 
 def checkForNew():
-    print("Anything New?")
+    print("Anything New for Lexus?")
     for i in investigations:
         created = datetime.strptime(i["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -136,18 +135,7 @@ def postCommentsToFS(fsID):
     requests.post(webhook_url, auth=(FS_API, 'X'), data=json.dumps(data), headers= {'Content-Type': 'application/json'})
     print("Posted comment to ticket #" + str(fsID))
 
-def functionCheck():
-    print("Performing Function Check")
-    if sys.version_info < (3, 10):
-        sys.exit("Python 3.10+ Needed")
-    if(str(IDR_API_LEXUS) == "None"):
-        sys.exit("IDR_API_LEXUS key missing")
-    if(str(FS_API) == "None"):
-        sys.exit("FS_API key missing")
-    print("Function Check Succeeded")
-
 # Execution Block
-functionCheck()
 whenWasTheLastTime()
 getInsightInvestigations()
 checkForNew()

@@ -25,6 +25,7 @@ jobs:
           IDR_API_LEXUS: ${{ secrets.IDR_API_LEXUS }}
           IDR_API_HSSD: ${{ secrets.IDR_API_HSSD }}
           IDR_API_MHC: ${{ secrets.IDR_API_MHC }}
+          IDR_API_L4: ${{ secrets.IDR_API_L4 }}
           FS_API: ${{ secrets.FS_API }}
         run: |
           python3 functioncheck.py

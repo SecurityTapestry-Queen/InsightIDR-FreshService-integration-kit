@@ -4,6 +4,7 @@ import os
 IDR_API_LEXUS = os.getenv("IDR_API_LEXUS")
 IDR_API_HSSD = os.getenv("IDR_API_HSSD")
 IDR_API_MHC = os.getenv("IDR_API_MHC")
+IDR_API_L4 = os.getenv("IDR_API_L4")
 FS_API = os.getenv("FS_API")
 
 
@@ -17,6 +18,8 @@ def functionCheck():
         sys.exit("IDR_API_HSSD key missing")
     if str(IDR_API_MHC) == "None":
         sys.exit("IDR_API_MHC key missing")
+    if str(IDR_API_L4) == "None":
+        sys.exit("IDR_API_L4 key missing")
     if str(FS_API) == "None":
         sys.exit("FS_API key missing")
     print("Function Check Succeeded")

@@ -31,6 +31,7 @@ jobs:
           python3 is-fs-lexus.py
           python3 is-fs-hssd.py
           python3 is-fs-mhc.py
+          python3 is-fs-l4.py
       - name: save changes
         run: |
           git config --global user.email "bot-parser@users.noreply.github.com"

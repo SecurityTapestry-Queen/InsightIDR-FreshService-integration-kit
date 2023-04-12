@@ -4,7 +4,7 @@ from datetime import datetime
 def getInvestigationAlerts(identifier):
     url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/'+identifier+'/alerts'
     headers = {
-    "X-Api-Key": "0690fa52-b1f5-458c-8c2a-4ca31f6643c9",
+    "X-Api-Key": "1cd2a8cf-24af-4d3d-a40c-a544c54f584d",
     "Accept-version": "investigations-preview"
     }
     params = {
@@ -29,4 +29,4 @@ def getInvestigationAlerts(identifier):
     
 
 print("Getting Investigation Alerts" + "\n")
-getInvestigationAlerts('2daa60d2-da04-444a-84b8-d0c36a59d6ec')
+getInvestigationAlerts('9f977d93-8ea9-49e3-8364-fa3057c15d8c')

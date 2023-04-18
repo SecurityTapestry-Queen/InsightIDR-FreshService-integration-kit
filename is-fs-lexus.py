@@ -77,7 +77,7 @@ def postTicketToFS():
 
     data = {
         "description": item["title"],
-        "subject": "Security Incident: " + item["title"],
+        "subject": "Security Investigation: " + item["title"],
         "email": "alerts@lexusofmemphis.com",
         "status": 2,
         "priority": idr_priority,

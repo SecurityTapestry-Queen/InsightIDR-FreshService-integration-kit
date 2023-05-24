@@ -26,12 +26,14 @@ jobs:
           IDR_API_HSSD: ${{ secrets.IDR_API_HSSD }}
           IDR_API_MHC: ${{ secrets.IDR_API_MHC }}
           IDR_API_L4: ${{ secrets.IDR_API_L4 }}
+          IDR_API_ICS: ${{ secrets.IDR_API_ICS }}
           FS_API: ${{ secrets.FS_API }}
         run: |
           python3 functioncheck.py
           python3 is-fs-lexus.py
           python3 is-fs-hssd.py
           # python3 is-fs-mhc.py
+          python3 is-fs-ics.py
           python3 is-fs-l4.py
       - name: save changes
         run: |

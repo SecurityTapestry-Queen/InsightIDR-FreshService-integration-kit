@@ -35,7 +35,7 @@ jobs:
           python3 is-fs-hssd.py
           # python3 is-fs-mhc.py
           python3 is-fs-ics.py
-          python3 is-fa-gossett.py
+          python3 is-fs-gossett.py
           python3 is-fs-l4.py
       - name: save changes
         run: |

@@ -1,7 +1,6 @@
 {
     "Lab": {
-        "email": "alerts@labfour.edu",
-        "ccs": []
+        "email": "alerts@labfour.edu"
     },
     "LOM": {
         "email": "alerts@lexusofmemphis.com",
@@ -12,8 +11,7 @@
         "ccs": ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"]
     },
     "MHC": {
-        "email": "itdept@mphshc.org",
-        "ccs": []
+        "email": "itdept@mphshc.org"
     },
     "ICS": {
         "email": "alerts@ics-hs.org",

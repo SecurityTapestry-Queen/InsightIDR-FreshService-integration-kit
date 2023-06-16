@@ -19,12 +19,10 @@ def whenWasTheLastTime(client):
     if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
     if client == "ICS": lastCheckFile = "lasttime-ics.txt"
     if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
-    # print("Obtaining Last Time Ran")
     lasttime = open(lastCheckFile, "r")
     global lasttimedata
     lasttimedata = lasttime.read()
     lasttime.close()
-    # print("Last Check: " + lasttimedata)
 
 
 def getInsightInvestigations(client):
@@ -43,27 +41,22 @@ def getInsightInvestigations(client):
         "sources": "ALERT,USER",
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
-
     r = requests.get(url, headers=headers, params=params)
     global investigations
     investigations = r.json()["data"]
-
 
 def checkForNew(client):
     print("Anything New?")
     for i in investigations:
         created = datetime.strptime(i["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")
-
         if checktime > created:
             continue
         else:
-            # print(i["title"] + "\n" + i["created_time"])
             global item
             item = i
             postTicketToFS(client)
             getInvestigationComments(item["rrn"],client)
-
 
 def updateLastTime(client):
     if client == "LabFour": lastCheckFile = "lasttime-l4.txt"
@@ -75,8 +68,6 @@ def updateLastTime(client):
     lasttime = open(lastCheckFile, "w")
     lasttime.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
     lasttime.close()
-    # print('Updated to current time')
-
 
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
@@ -142,10 +133,6 @@ def postTicketToFS(client):
     )
     ticketID = r.json()["ticket"]["id"]
     print("Posted ticket #" + str(ticketID))
-    # print(ticketID)
-    # print(ticketResponse["ticket"]["id"])
-    # print(data)
-
 
 def getInvestigationComments(id,client):
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
@@ -173,20 +160,12 @@ def getInvestigationComments(id,client):
             continue
         else:
             postCommentsToFS(str(ticketID))
-            # print(
-            #     c["created_time"] + "\n"
-            #     + c["creator"]["name"] + "\n"
-            #     + c["body"]
-            #     )
-
 
 def postCommentsToFS(fsID):
     webhook_url = (
         "https://securitytapestry.freshservice.com/api/v2/tickets/" + fsID + "/notes"
     )
-
     data = {"body": c["body"], "private": False}
-
     requests.post(
         webhook_url,
         auth=(FS_API, "X"),

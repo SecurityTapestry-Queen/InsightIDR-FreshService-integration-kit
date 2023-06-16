@@ -1,6 +1,8 @@
 from InsightFunctions import *
 
-whenWasTheLastTime("LabFour")
-getInsightInvestigations("LabFour")
-checkForNew("LabFour")
-updateLastTime("LabFour")
+company = "LabFour"
+
+whenWasTheLastTime(company)
+getInsightInvestigations(company)
+checkForNew(company)
+updateLastTime(company)

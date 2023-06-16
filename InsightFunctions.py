@@ -9,16 +9,16 @@ global item
 global commentdata
 global ticketID
 global comment
-global times
+global config
 
 FS_API = os.getenv("FS_API")
 
 def whenWasTheLastTime(client):
-    with open('times.json', 'r') as timefile:
-        global times
-        times = json.load(timefile)
+    with open('config.json', 'r') as configfile:
+        global config
+        config = json.load(configfile)
     global lasttimedata
-    lasttimedata = times[client]
+    lasttimedata = config[client]["time"]
 
 
 def getInsightInvestigations(client):
@@ -55,18 +55,17 @@ def checkForNew(client):
             getInvestigationComments(item["rrn"],client)
 
 def updateLastTime(client):
-    with open('times.json', 'w') as timefile:
-        times[client] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-        json.dump(times, timefile)
+    with open('config.json', 'w') as configfile:
+        config[client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        json.dump(config, configfile)
 
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
-    with open('emails.json', 'r') as emailfile:
-        emails = json.load(emailfile)
-        e = emails[client]["email"]
-        if "ccs" in emails[client]:
-            ccs = emails[client]["ccs"]
+    with open('config.json', 'r') as configfile:
+        e = config[client]["email"]
+        if "ccs" in config[client]:
+            ccs = config[client]["ccs"]
         else: ccs = []
 
     idr_priority = 1

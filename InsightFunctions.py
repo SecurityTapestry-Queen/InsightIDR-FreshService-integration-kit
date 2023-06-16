@@ -62,30 +62,31 @@ def updateLastTime(client):
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
-    if client == "Lab":
-        email = "alerts@labfour.edu"
-        ccs = []
-    if client == "LOM":
-        email = "alerts@lexusofmemphis.com"
-        ccs = ["ltemple@lexusofmemphis.com"]
-    if client == "HSSD":
-        email = "mdr@hssdk12.org"
-        ccs = ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"]
-    if client == "MHC":
-        email = "itdept@mphshc.org"
-        ccs = []
-    if client == "ICS":
-        email = "alerts@ics-hs.org"
-        ccs = ["tleasure@ics-hs.org"]
-    if client == "GosM":
-        email = "rapid7@gossettmotors.com"
-        ccs = ["dfields@gossettmotors.com","rgodbey@gossettmotors.com"]
+    # if client == "Lab":
+    #     email = "alerts@labfour.edu"
+    #     ccs = []
+    # if client == "LOM":
+    #     email = "alerts@lexusofmemphis.com"
+    #     ccs = ["ltemple@lexusofmemphis.com"]
+    # if client == "HSSD":
+    #     email = "mdr@hssdk12.org"
+    #     ccs = ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"]
+    # if client == "MHC":
+    #     email = "itdept@mphshc.org"
+    #     ccs = []
+    # if client == "ICS":
+    #     email = "alerts@ics-hs.org"
+    #     ccs = ["tleasure@ics-hs.org"]
+    # if client == "GosM":
+    #     email = "rapid7@gossettmotors.com"
+    #     ccs = ["dfields@gossettmotors.com","rgodbey@gossettmotors.com"]
 
-    # with open('emails.json', 'r') as emailfile:
-    #     email = json.load(emailfile)[client]["email"]
-    #     if "ccs" in json.load(emailfile)[client]:
-    #         ccs = json.load(emailfile)[client]["ccs"]
-    #     else: ccs = []
+    with open('emails.json', 'r') as emailfile:
+        emails = json.load(emailfile)
+        email = emails["email"]
+        if "ccs" in emails[client]:
+            ccs = emails[client]["ccs"]
+        else: ccs = []
 
     idr_priority = 1
     idr_urgency = 1

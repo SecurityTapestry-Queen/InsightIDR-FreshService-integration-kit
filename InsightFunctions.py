@@ -20,7 +20,8 @@ def whenWasTheLastTime(client):
     # if client == "ICS": lastCheckFile = "lasttime-ics.txt"
     # if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
     # lasttime = open("timecheck/" + lastCheckFile, "r")
-    times = json.loads(open('times.json', "r"))
+    with open('times.json', 'r') as timefile:
+        times = json.load(timefile)
     global lasttimedata
     lasttimedata = times[client]
     # lasttimedata = lasttime.read()

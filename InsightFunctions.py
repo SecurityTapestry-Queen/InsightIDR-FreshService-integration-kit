@@ -62,7 +62,7 @@ def checkForNew(client):
             global item
             item = i
             postTicketToFS(client)
-            getInvestigationComments(item["rrn"])
+            getInvestigationComments(item["rrn"],client)
 
 
 def updateLastTime(client):

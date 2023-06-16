@@ -79,6 +79,7 @@ def postTicketToFS():
         "description": item["title"],
         "subject": "Security Investigation: " + item["title"],
         "email": "mdr@hssdk12.org",
+        "cc_emails": ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"],
         "status": 2,
         "priority": idr_priority,
         "source": 14,

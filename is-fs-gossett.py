@@ -79,6 +79,7 @@ def postTicketToFS():
         "description": item["title"],
         "subject": "Security Investigation: " + item["title"],
         "email": "rapid7@gossettmotors.com",
+        "cc_emails": ["dfields@gossettmotors.com","rgodbey@gossettmotors.com"],
         "status": 2,
         "priority": idr_priority,
         "source": 14,

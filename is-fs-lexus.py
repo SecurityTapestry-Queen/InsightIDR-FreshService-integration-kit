@@ -79,6 +79,7 @@ def postTicketToFS():
         "description": item["title"],
         "subject": "Security Investigation: " + item["title"],
         "email": "alerts@lexusofmemphis.com",
+        "cc_emails": ["ltemple@lexusofmemphis.com"],
         "status": 2,
         "priority": idr_priority,
         "source": 14,

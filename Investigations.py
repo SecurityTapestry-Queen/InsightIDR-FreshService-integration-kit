@@ -5,33 +5,33 @@ if __name__ == '__main__':
 
     parser = OptionParser(usage="usage: %prog [options]",
                           version="%prog 2.0.6")
-    parser.add_option("-l4",
+    parser.add_option("--lab",
                       action="store_true",
-                      dest="L4",
+                      dest="Lab",
                       default=False)
-    parser.add_option("-lom",
+    parser.add_option("--lom",
                       action="store_true",
                       dest="LOM",
                       default=False)
-    parser.add_option("-hssd",
+    parser.add_option("--hssd",
                       action="store_true",
                       dest="HSSD",
                       default=False)
-    parser.add_option("-mhc",
+    parser.add_option("--mhc",
                       action="store_true",
                       dest="MHC",
                       default=False)
-    parser.add_option("-ics",
+    parser.add_option("--ics",
                       action="store_true",
                       dest="ICS",
                       default=False)
-    parser.add_option("-goss",
+    parser.add_option("--goss",
                       action="store_true",
                       dest="Goss",
                       default=False)
     (options, args) = parser.parse_args()
     
-    if options.L4:
+    if options.Lab:
         company = "LabFour"
         whenWasTheLastTime(company)
         getInsightInvestigations(company)

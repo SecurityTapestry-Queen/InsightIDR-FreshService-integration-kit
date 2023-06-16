@@ -83,7 +83,7 @@ def postTicketToFS(client):
 
     with open('emails.json', 'r') as emailfile:
         emails = json.load(emailfile)
-        e = emails["email"]
+        e = emails[client]["email"]
         if "ccs" in emails[client]:
             ccs = emails[client]["ccs"]
         else: ccs = []

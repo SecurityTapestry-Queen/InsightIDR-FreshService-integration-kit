@@ -19,7 +19,7 @@ def whenWasTheLastTime(client):
     if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
     if client == "ICS": lastCheckFile = "lasttime-ics.txt"
     if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
-    lasttime = open(lastCheckFile, "r")
+    lasttime = open("timecheck/" + lastCheckFile, "r")
     global lasttimedata
     lasttimedata = lasttime.read()
     lasttime.close()
@@ -65,7 +65,7 @@ def updateLastTime(client):
     if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
     if client == "ICS": lastCheckFile = "lasttime-ics.txt"
     if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
-    lasttime = open(lastCheckFile, "w")
+    lasttime = open("timecheck/" + lastCheckFile, "w")
     lasttime.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
     lasttime.close()
 

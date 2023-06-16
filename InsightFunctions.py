@@ -62,25 +62,6 @@ def updateLastTime(client):
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
-    # if client == "Lab":
-    #     email = "alerts@labfour.edu"
-    #     ccs = []
-    # if client == "LOM":
-    #     email = "alerts@lexusofmemphis.com"
-    #     ccs = ["ltemple@lexusofmemphis.com"]
-    # if client == "HSSD":
-    #     email = "mdr@hssdk12.org"
-    #     ccs = ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"]
-    # if client == "MHC":
-    #     email = "itdept@mphshc.org"
-    #     ccs = []
-    # if client == "ICS":
-    #     email = "alerts@ics-hs.org"
-    #     ccs = ["tleasure@ics-hs.org"]
-    # if client == "GosM":
-    #     email = "rapid7@gossettmotors.com"
-    #     ccs = ["dfields@gossettmotors.com","rgodbey@gossettmotors.com"]
-
     with open('emails.json', 'r') as emailfile:
         emails = json.load(emailfile)
         e = emails[client]["email"]

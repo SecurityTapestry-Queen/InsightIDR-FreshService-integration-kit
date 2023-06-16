@@ -30,8 +30,8 @@ def getInsightInvestigations():
     params = {
         "statuses": "OPEN,INVESTIGATING",
         "multi-customer": True,
-        "sources": "ALERT",
-        "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
+        "sources": "ALERT,USER",
+        "priorities": "CRITICAL,HIGH,MEDIUM,LOW,UNSPECIFIED",
     }
 
     r = requests.get(url, headers=headers, params=params)

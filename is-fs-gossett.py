@@ -30,7 +30,7 @@ def getInsightInvestigations():
     params = {
         "statuses": "OPEN,INVESTIGATING",
         "multi-customer": True,
-        "sources": "ALERT",
+        "sources": "ALERT,USER",
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
 
@@ -40,7 +40,7 @@ def getInsightInvestigations():
 
 
 def checkForNew():
-    print("Anything New for Gossett??")
+    print("Anything New for Gossett?")
     for i in investigations:
         created = datetime.strptime(i["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")

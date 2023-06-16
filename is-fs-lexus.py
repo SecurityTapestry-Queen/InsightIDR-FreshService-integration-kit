@@ -30,7 +30,7 @@ def getInsightInvestigations():
     params = {
         "statuses": "OPEN,INVESTIGATING",
         "multi-customer": True,
-        "sources": "ALERT",
+        "sources": "ALERT,USER",
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
 

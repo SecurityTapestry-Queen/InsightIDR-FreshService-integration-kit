@@ -13,16 +13,18 @@ global c
 FS_API = os.getenv("FS_API")
 
 def whenWasTheLastTime(client):
-    if client == "LabFour": lastCheckFile = "lasttime-l4.txt"
-    if client == "Lexus": lastCheckFile = "lasttime-lexus.txt"
-    if client == "HSSD": lastCheckFile = "lasttime-hssd.txt"
-    if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
-    if client == "ICS": lastCheckFile = "lasttime-ics.txt"
-    if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
-    lasttime = open("timecheck/" + lastCheckFile, "r")
+    # if client == "LabFour": lastCheckFile = "lasttime-l4.txt"
+    # if client == "Lexus": lastCheckFile = "lasttime-lexus.txt"
+    # if client == "HSSD": lastCheckFile = "lasttime-hssd.txt"
+    # if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
+    # if client == "ICS": lastCheckFile = "lasttime-ics.txt"
+    # if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
+    # lasttime = open("timecheck/" + lastCheckFile, "r")
+    times = json.loads(open('times.json', "r"))
     global lasttimedata
-    lasttimedata = lasttime.read()
-    lasttime.close()
+    lasttimedata = times[client]
+    # lasttimedata = lasttime.read()
+    # lasttime.close()
 
 
 def getInsightInvestigations(client):
@@ -59,15 +61,17 @@ def checkForNew(client):
             getInvestigationComments(item["rrn"],client)
 
 def updateLastTime(client):
-    if client == "LabFour": lastCheckFile = "lasttime-l4.txt"
-    if client == "Lexus": lastCheckFile = "lasttime-lexus.txt"
-    if client == "HSSD": lastCheckFile = "lasttime-hssd.txt"
-    if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
-    if client == "ICS": lastCheckFile = "lasttime-ics.txt"
-    if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
-    lasttime = open("timecheck/" + lastCheckFile, "w")
-    lasttime.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-    lasttime.close()
+    # if client == "LabFour": lastCheckFile = "lasttime-l4.txt"
+    # if client == "Lexus": lastCheckFile = "lasttime-lexus.txt"
+    # if client == "HSSD": lastCheckFile = "lasttime-hssd.txt"
+    # if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
+    # if client == "ICS": lastCheckFile = "lasttime-ics.txt"
+    # if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
+    # lasttime = open("timecheck/" + lastCheckFile, "w")
+    times = json.loads(open('times.json', "w"))
+    times[client] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+    # lasttime.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+    # lasttime.close()
 
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"

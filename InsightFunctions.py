@@ -9,6 +9,7 @@ global item
 global commentdata
 global ticketID
 global c
+global times
 
 FS_API = os.getenv("FS_API")
 
@@ -21,6 +22,7 @@ def whenWasTheLastTime(client):
     # if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
     # lasttime = open("timecheck/" + lastCheckFile, "r")
     with open('times.json', 'r') as timefile:
+        global times
         times = json.load(timefile)
     global lasttimedata
     lasttimedata = times[client]
@@ -69,8 +71,9 @@ def updateLastTime(client):
     # if client == "ICS": lastCheckFile = "lasttime-ics.txt"
     # if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
     # lasttime = open("timecheck/" + lastCheckFile, "w")
-    times = json.loads(open('times.json', "w"))
-    times[client] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+    with open('times.json', 'w') as timefile:
+        times[client] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        json.dump(times, timefile)
     # lasttime.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
     # lasttime.close()
 

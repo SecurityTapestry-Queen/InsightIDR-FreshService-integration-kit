@@ -66,14 +66,24 @@ def postTicketToFS():
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
     idr_priority = 1
+    idr_urgency = 1
+    idr_impact = 1
     if item["priority"] == "LOW":
         idr_priority = 1
+        idr_urgency = 1
+        idr_impact = 1
     elif item["priority"] == "MEDIUM":
         idr_priority = 2
+        idr_urgency = 2
+        idr_impact = 2
     elif item["priority"] == "HIGH":
         idr_priority = 3
+        idr_urgency = 3
+        idr_impact = 3
     elif item["priority"] == "CRITICAL":
         idr_priority = 4
+        idr_urgency = 3
+        idr_impact = 3
 
     data = {
         "description": item["title"],
@@ -82,6 +92,8 @@ def postTicketToFS():
         "cc_emails": ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"],
         "status": 2,
         "priority": idr_priority,
+        "urgency": idr_urgency,
+        "impact": idr_impact,
         "source": 14,
         "group_id": 21000544549,
         "category": "InsightIDR",

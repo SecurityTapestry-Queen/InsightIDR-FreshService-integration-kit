@@ -47,7 +47,7 @@ def checkForNew(client):
         created = datetime.strptime(i["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")
         if checktime > created:
-            print("No")
+            continue
         else:
             global item
             item = i

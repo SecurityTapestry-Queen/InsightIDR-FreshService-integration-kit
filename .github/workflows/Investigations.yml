@@ -31,12 +31,7 @@ jobs:
           FS_API: ${{ secrets.FS_API }}
         run: |
           python3 functioncheck.py
-          python3 is-fs-lexus.py
-          python3 is-fs-hssd.py
-          # python3 is-fs-mhc.py
-          python3 is-fs-ics.py
-          python3 is-fs-gossett.py
-          python3 is-fs-l4.py
+          python3 Investigations.py -l4 -lom -hssd -ics -goss
       - name: save changes
         run: |
           git config --global user.email "bot-parser@users.noreply.github.com"

@@ -129,12 +129,12 @@ def getInvestigationComments(id,client):
     commentdata = comments["data"]
     global comment
     for comment in commentdata:
-        created = datetime.strptime(c["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+        created = datetime.strptime(comment["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")
 
         if checktime > created:
             continue
-        elif c["body"] is None:
+        elif comment["body"] is None:
             continue
         else:
             postCommentsToFS(str(ticketID))

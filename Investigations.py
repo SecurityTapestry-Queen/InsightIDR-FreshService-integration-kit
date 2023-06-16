@@ -25,21 +25,21 @@ if __name__ == '__main__':
                       action="store_true",
                       dest="ICS",
                       default=False)
-    parser.add_option("--goss",
+    parser.add_option("--gosm",
                       action="store_true",
-                      dest="Goss",
+                      dest="GosM",
                       default=False)
     (options, args) = parser.parse_args()
     
     if options.Lab:
-        company = "LabFour"
+        company = "Lab"
         whenWasTheLastTime(company)
         getInsightInvestigations(company)
         checkForNew(company)
         updateLastTime(company)
     
     if options.LOM:
-        company = "Lexus"
+        company = "LOM"
         whenWasTheLastTime(company)
         getInsightInvestigations(company)
         checkForNew(company)
@@ -66,8 +66,8 @@ if __name__ == '__main__':
         checkForNew(company)
         updateLastTime(company)
 
-    if options.Goss:
-        company = "Gossett"
+    if options.GosM:
+        company = "GosM"
         whenWasTheLastTime(company)
         getInsightInvestigations(company)
         checkForNew(company)

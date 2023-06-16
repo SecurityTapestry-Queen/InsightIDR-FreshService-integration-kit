@@ -1,0 +1,26 @@
+{
+    "Lab": {
+        "email": "alerts@labfour.edu",
+        "ccs": []
+    },
+    "LOM": {
+        "email": "alerts@lexusofmemphis.com",
+        "ccs": ["ltemple@lexusofmemphis.com"]
+    },
+    "HSSD": {
+        "email": "mdr@hssdk12.org",
+        "ccs": ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"]
+    },
+    "MHC": {
+        "email": "itdept@mphshc.org",
+        "ccs": []
+    },
+    "ICS": {
+        "email": "alerts@ics-hs.org",
+        "ccs": ["tleasure@ics-hs.org"]
+    },
+    "GosM": {
+        "email": "rapid7@gossettmotors.com",
+        "ccs": ["dfields@gossettmotors.com","rgodbey@gossettmotors.com"]
+    }
+}

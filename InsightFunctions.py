@@ -14,31 +14,22 @@ global times
 FS_API = os.getenv("FS_API")
 
 def whenWasTheLastTime(client):
-    # if client == "LabFour": lastCheckFile = "lasttime-l4.txt"
-    # if client == "Lexus": lastCheckFile = "lasttime-lexus.txt"
-    # if client == "HSSD": lastCheckFile = "lasttime-hssd.txt"
-    # if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
-    # if client == "ICS": lastCheckFile = "lasttime-ics.txt"
-    # if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
-    # lasttime = open("timecheck/" + lastCheckFile, "r")
     with open('times.json', 'r') as timefile:
         global times
         times = json.load(timefile)
     global lasttimedata
     lasttimedata = times[client]
-    # lasttimedata = lasttime.read()
-    # lasttime.close()
 
 
 def getInsightInvestigations(client):
     print("Getting Open Investigations for "+ str(client))
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
-    if client == "LabFour": IDR_API = os.getenv("IDR_API_L4")
-    if client == "Lexus": IDR_API = os.getenv("IDR_API_LEXUS")
+    if client == "Lab": IDR_API = os.getenv("IDR_API_L4")
+    if client == "LOM": IDR_API = os.getenv("IDR_API_LEXUS")
     if client == "HSSD": IDR_API = os.getenv("IDR_API_HSSD")
     if client == "MHC": IDR_API = os.getenv("IDR_API_MHC")
     if client == "ICS": IDR_API = os.getenv("IDR_API_ICS")
-    if client == "Gossett": IDR_API = os.getenv("IDR_API_GOSSETT")
+    if client == "GosM": IDR_API = os.getenv("IDR_API_GOSSETT")
     headers = {"X-Api-Key": IDR_API, "Accept-version": "investigations-preview"}
     params = {
         "statuses": "OPEN,INVESTIGATING",
@@ -56,7 +47,7 @@ def checkForNew(client):
         created = datetime.strptime(i["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")
         if checktime > created:
-            continue
+            print("No")
         else:
             global item
             item = i
@@ -64,40 +55,16 @@ def checkForNew(client):
             getInvestigationComments(item["rrn"],client)
 
 def updateLastTime(client):
-    # if client == "LabFour": lastCheckFile = "lasttime-l4.txt"
-    # if client == "Lexus": lastCheckFile = "lasttime-lexus.txt"
-    # if client == "HSSD": lastCheckFile = "lasttime-hssd.txt"
-    # if client == "MHC": lastCheckFile = "lasttime-mhc.txt"
-    # if client == "ICS": lastCheckFile = "lasttime-ics.txt"
-    # if client == "Gossett": lastCheckFile = "lasttime-gossett.txt"
-    # lasttime = open("timecheck/" + lastCheckFile, "w")
     with open('times.json', 'w') as timefile:
         times[client] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
         json.dump(times, timefile)
-    # lasttime.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-    # lasttime.close()
 
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
-    if client == "LabFour":
-        email = "alerts@labfour.edu"
-        ccs = []
-    if client == "Lexus":
-        email = "alerts@lexusofmemphis.com"
-        ccs = ["ltemple@lexusofmemphis.com"]
-    if client == "HSSD":
-        email = "mdr@hssdk12.org"
-        ccs = ["jselman@hssdk12.org","bmullinix@hssdk12.org","aaverett@hssdk12.org"]
-    if client == "MHC":
-        email = "itdept@mphshc.org"
-        ccs = []
-    if client == "ICS":
-        email = "alerts@ics-hs.org"
-        ccs = ["tleasure@ics-hs.org"]
-    if client == "Gossett":
-        email = "rapid7@gossettmotors.com"
-        ccs = ["dfields@gossettmotors.com","rgodbey@gossettmotors.com"]
+    with open('emails.json', 'r') as emailfile:
+        email = json.load(emailfile)[client]["email"]
+        ccs = json.load(emailfile)[client]["ccs"]
 
     idr_priority = 1
     idr_urgency = 1
@@ -144,12 +111,12 @@ def postTicketToFS(client):
 
 def getInvestigationComments(id,client):
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
-    if client == "LabFour": IDR_API = os.getenv("IDR_API_L4")
-    if client == "Lexus": IDR_API = os.getenv("IDR_API_LEXUS")
+    if client == "Lab": IDR_API = os.getenv("IDR_API_L4")
+    if client == "LOM": IDR_API = os.getenv("IDR_API_LEXUS")
     if client == "HSSD": IDR_API = os.getenv("IDR_API_HSSD")
     if client == "MHC": IDR_API = os.getenv("IDR_API_MHC")
     if client == "ICS": IDR_API = os.getenv("IDR_API_ICS")
-    if client == "Gossett": IDR_API = os.getenv("IDR_API_GOSSETT")
+    if client == "GosM": IDR_API = os.getenv("IDR_API_GOSSETT")
     headers = {"X-Api-Key": IDR_API, "Accept-version": "comments-preview"}
     params = {"multi-customer": True, "target": id}
 

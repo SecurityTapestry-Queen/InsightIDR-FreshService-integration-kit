@@ -57,7 +57,7 @@ def checkForNew(client):
 def updateLastTime(client):
     with open('config.json', 'w') as configfile:
         config[client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-        json.dump(config, configfile)
+        json.dump(config, configfile, indent=4)
 
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"

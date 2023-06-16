@@ -1,7 +1,7 @@
 {
     "Lab": {
         "email": "alerts@labfour.edu",
-        "ccs": []
+        "ccs": [""]
     },
     "LOM": {
         "email": "alerts@lexusofmemphis.com",
@@ -13,7 +13,7 @@
     },
     "MHC": {
         "email": "itdept@mphshc.org",
-        "ccs": []
+        "ccs": [""]
     },
     "ICS": {
         "email": "alerts@ics-hs.org",

@@ -2,11 +2,11 @@ name: Investigations
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 jobs:
-  FETCH:
+  Investigations:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: CI

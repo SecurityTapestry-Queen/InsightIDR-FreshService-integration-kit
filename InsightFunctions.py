@@ -8,7 +8,7 @@ global investigations
 global item
 global commentdata
 global ticketID
-global c
+global comment
 global times
 
 FS_API = os.getenv("FS_API")
@@ -146,8 +146,8 @@ def getInvestigationComments(id,client):
     global commentdata
     comments = r.json()
     commentdata = comments["data"]
-    global c
-    for c in commentdata:
+    global comment
+    for comment in commentdata:
         created = datetime.strptime(c["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")
 
@@ -162,7 +162,7 @@ def postCommentsToFS(fsID):
     webhook_url = (
         "https://securitytapestry.freshservice.com/api/v2/tickets/" + fsID + "/notes"
     )
-    data = {"body": c["body"], "private": False}
+    data = {"body": comment["body"], "private": False}
     requests.post(
         webhook_url,
         auth=(FS_API, "X"),

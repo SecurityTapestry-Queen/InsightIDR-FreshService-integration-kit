@@ -2,39 +2,33 @@ from InsightFunctions import *
 from optparse import OptionParser
 
 if __name__ == '__main__':
-    
+
     parser = OptionParser(usage="usage: %prog [options]",
                           version="%prog 2.0.6")
-    parser.add_option("-l4", "--l4",
+    parser.add_option("-l4",
                       action="store_true",
                       dest="L4",
-                      default=False,
-                      help="L4")
-    parser.add_option("-lom", "--lom",
+                      default=False)
+    parser.add_option("-lom",
                       action="store_true",
                       dest="LOM",
-                      default=False,
-                      help="LOM")
-    parser.add_option("-hssd", "--hssd",
+                      default=False)
+    parser.add_option("-hssd",
                       action="store_true",
                       dest="HSSD",
-                      default=False,
-                      help="HSSD")
-    parser.add_option("-mhc", "--mhc",
+                      default=False)
+    parser.add_option("-mhc",
                       action="store_true",
                       dest="MHC",
-                      default=False,
-                      help="MHC")
-    parser.add_option("-ics", "--ics",
+                      default=False)
+    parser.add_option("-ics",
                       action="store_true",
                       dest="ICS",
-                      default=False,
-                      help="ICS")
-    parser.add_option("-goss", "--goss",
+                      default=False)
+    parser.add_option("-goss",
                       action="store_true",
                       dest="Goss",
-                      default=False,
-                      help="Goss")
+                      default=False)
     (options, args) = parser.parse_args()
     
     if options.L4:

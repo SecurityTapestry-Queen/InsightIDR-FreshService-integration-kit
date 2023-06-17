@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""Module performing Functional check for Python 3.10+ and FS_API secret"""
+
 import sys
 import os
 
 FS_API = os.getenv('FS_API')
 
 
-def functionCheck():
+def function_check():
+    """Functional Check"""
     print('Performing Function Check')
     if sys.version_info < (3, 10):
         sys.exit('Python 3.10+ Needed')
@@ -17,4 +20,4 @@ def functionCheck():
 
 
 if __name__ == '__main__':
-    functionCheck()
+    function_check()

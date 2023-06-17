@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""Module providing functions to Investigations.py"""
+
 import requests
 import json
 import os
@@ -16,15 +18,17 @@ global config
 
 FS_API = os.getenv("FS_API")
 
-def whenWasTheLastTime(client):
-    with open('config.json', 'r') as configfile:
+def when_was_the_last_time(client):
+    """Check lasttime checked from config.json"""
+    with open('config.json', 'r', encoding='UTF-8') as configfile:
         global config
         config = json.load(configfile)
     global lasttimedata
     lasttimedata = config[client]["time"]
 
 
-def getInsightInvestigations(client):
+def get_insight_investigations(client):
+    """Fetch Investigations from InsightIDR"""
     print("Getting Open Investigations for "+ str(client))
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
     IDR_API = os.getenv(config[client]['api'])
@@ -39,7 +43,8 @@ def getInsightInvestigations(client):
     global investigations
     investigations = r.json()["data"]
 
-def checkForNew(client):
+def check_for_new(client):
+    """Use lasttime to determine if new investigations are posted"""
     print("Anything New?")
     for i in investigations:
         created = datetime.strptime(i["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -49,15 +54,17 @@ def checkForNew(client):
         else:
             global item
             item = i
-            postTicketToFS(client)
-            getInvestigationComments(item["rrn"],client)
+            post_ticket_to_fs(client)
+            get_investigation_comments(item["rrn"],client)
 
-def updateLastTime(client):
-    with open('config.json', 'w') as configfile:
+def update_last_time(client):
+    """Update time per client in config.json"""
+    with open('config.json', 'w', encoding='UTF-8') as configfile:
         config[client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
         json.dump(config, configfile, indent=4)
 
-def postTicketToFS(client):
+def post_ticket_to_fs(client):
+    """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
     e = config[client]["email"]
@@ -105,7 +112,8 @@ def postTicketToFS(client):
     ticketID = r.json()["ticket"]["id"]
     print("Posted ticket #" + str(ticketID))
 
-def getInvestigationComments(id,client):
+def get_investigation_comments(id,client):
+    """Fetch Comments from InsightIDR"""
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
     IDR_API = os.getenv(config[client]['api'])
     headers = {"X-Api-Key": IDR_API, "Accept-version": "comments-preview"}
@@ -125,9 +133,10 @@ def getInvestigationComments(id,client):
         elif comment["body"] is None:
             continue
         else:
-            postCommentsToFS(str(ticketID))
+            post_comments_to_fs(str(ticketID))
 
-def postCommentsToFS(fsID):
+def post_comments_to_fs(fsID):
+    """Posting comments from InsightIDR to FreshService"""
     webhook_url = (
         "https://securitytapestry.freshservice.com/api/v2/tickets/" + fsID + "/notes"
     )
@@ -140,8 +149,9 @@ def postCommentsToFS(fsID):
     )
     print("Posted comment to ticket #" + str(fsID))
 
-def Investigations(client):
-    whenWasTheLastTime(client)
-    getInsightInvestigations(client)
-    checkForNew(client)
-    updateLastTime(client)
+def investigation_post(client):
+    """Bot Main Activity"""
+    when_was_the_last_time(client)
+    get_insight_investigations(client)
+    check_for_new(client)
+    update_last_time(client)

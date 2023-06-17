@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""Module performing Investigations posting"""
+
 from InsightFunctions import *
 
 clients = [
@@ -21,7 +23,7 @@ if __name__ == '__main__':
             config = json.load(configfile)
 
             if config[c]['enabled'] is True:
-                Investigations(c)
+                investigation_post(c)
             else:
 
                 print (str(c) + ' is Disabled.')

@@ -4,6 +4,7 @@
 """Module providing functions to Investigations.py"""
 
 import os
+import sys
 import json
 from datetime import datetime
 import requests
@@ -18,6 +19,16 @@ global config
 
 FS_API = os.getenv("FS_API")
 
+
+def function_check():
+    """Functional Check for Python 3.10+ and FS_API secret"""
+    print('Performing Function Check')
+    if sys.version_info < (3, 10):
+        sys.exit('Python 3.10+ Needed')
+    if str(FS_API) == 'None':
+        sys.exit('FS_API key missing')
+    print('Function Check Succeeded')
+
 def when_was_the_last_time(client):
     """Check lasttime checked from config.json"""
     with open('config.json', 'r', encoding='UTF-8') as config_file:
@@ -25,7 +36,6 @@ def when_was_the_last_time(client):
         config = json.load(config_file)
     global last_time_data
     last_time_data = config[client]["time"]
-
 
 def get_insight_investigations(client):
     """Fetch Investigations from InsightIDR"""

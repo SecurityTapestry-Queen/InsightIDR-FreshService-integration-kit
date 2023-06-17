@@ -1,6 +1,16 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from InsightFunctions import *
 
-clients = ['Lab','LOM','HSSD','MHC','ICS','GosM']
+clients = [
+    'Lab',
+    'LOM',
+    'HSSD',
+    'MHC',
+    'ICS',
+    'GosM',
+    ]
 
 if __name__ == '__main__':
 
@@ -10,6 +20,8 @@ if __name__ == '__main__':
 
             config = json.load(configfile)
 
-            if config[c]['enabled'] is True: Investigations(c)
+            if config[c]['enabled'] is True:
+                Investigations(c)
+            else:
 
-            else: print(str(c) + " is Disabled.")
+                print (str(c) + ' is Disabled.')

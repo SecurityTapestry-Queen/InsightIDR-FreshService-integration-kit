@@ -2,6 +2,8 @@
 
 ## V2.0.6 - as of 6/17/23
 
+### Licensed under GPL v3.0
+
 <br>
 
 ### Notice

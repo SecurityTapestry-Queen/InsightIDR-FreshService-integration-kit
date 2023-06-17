@@ -1,3 +1,4 @@
 api-key.txt
 dump.txt
 __pycache__/
+.vscode/

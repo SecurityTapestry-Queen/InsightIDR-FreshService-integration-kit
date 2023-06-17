@@ -7,25 +7,25 @@ import os
 import sys
 import json
 from datetime import datetime
-import requests
+import requests # pylint: disable=E0401
 
-global last_time_data
-global investigations
-global item
-global comment_data
-global ticket_id
-global comment
-global config
+# global last_time_data
+# global investigations
+# global investigation_item
+# global comment_data
+# global ticket_id
+# global comment
+# global config
 
-FS_API = os.getenv("FS_API")
+fs_api = os.getenv("FS_API")
 
 
 def function_check():
-    """Functional Check for Python 3.10+ and FS_API secret"""
+    """Functional Check for Python 3.10+ and fs_api secret"""
     print('Performing Function Check')
     if sys.version_info < (3, 10):
         sys.exit('Python 3.10+ Needed')
-    if str(FS_API) == 'None':
+    if str(fs_api) == 'None':
         sys.exit('FS_API key missing')
     print('Function Check Succeeded')
 
@@ -41,30 +41,30 @@ def get_insight_investigations(client):
     """Fetch Investigations from InsightIDR"""
     print("Getting Open Investigations for "+ str(client))
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
-    IDR_API = os.getenv(config[client]['api'])
-    headers = {"X-Api-Key": IDR_API, "Accept-version": "investigations-preview"}
+    idr_api = os.getenv(config[client]['api'])
+    headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {
         "statuses": "OPEN,INVESTIGATING",
         "multi-customer": True,
         "sources": "ALERT,USER",
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
-    r = requests.get(url, headers=headers, params=params)
+    request = requests.get(url, headers=headers, params=params)
     global investigations
-    investigations = r.json()["data"]
+    investigations = request.json()["data"]
 
 def check_for_new(client):
     """Use lasttime to determine if new investigations are posted"""
     print("Anything New?")
-    for i in investigations:
-        created = datetime.strptime(i["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-        checktime = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
-        if checktime > created:
+    for investigation in investigations:
+        created_time = datetime.strptime(investigation["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+        checked_time = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
+        if checked_time > created_time:
             continue
-        global item
-        item = i
+        global investigation_item
+        investigation_item = investigation
         post_ticket_to_fs(client)
-        get_investigation_comments(item["rrn"],client)
+        get_investigation_comments(investigation_item["rrn"],client)
 
 def update_last_time(client):
     """Update time per client in config.json"""
@@ -76,32 +76,32 @@ def post_ticket_to_fs(client):
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
-    e = config[client]["email"]
+    email = config[client]["email"]
     if "ccs" in config[client]:
         ccs = config[client]["ccs"]
     else: ccs = []
 
-    if item["priority"] == "LOW":
+    if investigation_item["priority"] == "LOW":
         idr_priority = 1
         idr_urgency = 1
         idr_impact = 1
-    elif item["priority"] == "MEDIUM":
+    elif investigation_item["priority"] == "MEDIUM":
         idr_priority = 2
         idr_urgency = 2
         idr_impact = 2
-    elif item["priority"] == "HIGH":
+    elif investigation_item["priority"] == "HIGH":
         idr_priority = 3
         idr_urgency = 3
         idr_impact = 3
-    elif item["priority"] == "CRITICAL":
+    elif investigation_item["priority"] == "CRITICAL":
         idr_priority = 4
         idr_urgency = 3
         idr_impact = 3
 
     data = {
-        "description": item["title"],
-        "subject": "Security Investigation: " + item["title"],
-        "email": e,
+        "description": investigation_item["title"],
+        "subject": "Security Investigation: " + investigation_item["title"],
+        "email": email,
         "cc_emails": ccs,
         "status": 2,
         "priority": idr_priority,
@@ -112,32 +112,32 @@ def post_ticket_to_fs(client):
         "category": "InsightIDR",
     }
     global ticket_id
-    r = requests.post(
+    request = requests.post(
         url,
-        auth=(FS_API, "X"),
+        auth=(fs_api, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
     )
-    ticket_id = r.json()["ticket"]["id"]
+    ticket_id = request.json()["ticket"]["id"]
     print("Posted ticket #" + str(ticket_id))
 
 def get_investigation_comments(t_id,client):
     """Fetch Comments from InsightIDR"""
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
-    IDR_API = os.getenv(config[client]['api'])
-    headers = {"X-Api-Key": IDR_API, "Accept-version": "comments-preview"}
+    idr_api = os.getenv(config[client]['api'])
+    headers = {"X-Api-Key": idr_api, "Accept-version": "comments-preview"}
     params = {"multi-customer": True, "target": t_id}
 
-    r = requests.get(url, headers=headers, params=params)
+    request = requests.get(url, headers=headers, params=params)
     global comment_data
-    comments = r.json()
+    comments = request.json()
     comment_data = comments["data"]
     global comment
     for comment in comment_data:
-        created = datetime.strptime(comment["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-        checktime = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
+        created_time = datetime.strptime(comment["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+        checked_time = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
 
-        if checktime > created:
+        if checked_time > created_time:
             continue
         if comment["body"] is None:
             continue
@@ -151,7 +151,7 @@ def post_comments_to_fs(fs_id):
     data = {"body": comment["body"], "private": False}
     requests.post(
         webhook_url,
-        auth=(FS_API, "X"),
+        auth=(fs_api, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
     )

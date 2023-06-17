@@ -24,12 +24,7 @@ def whenWasTheLastTime(client):
 def getInsightInvestigations(client):
     print("Getting Open Investigations for "+ str(client))
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
-    if client == "Lab": IDR_API = os.getenv("IDR_API_L4")
-    if client == "LOM": IDR_API = os.getenv("IDR_API_LEXUS")
-    if client == "HSSD": IDR_API = os.getenv("IDR_API_HSSD")
-    if client == "MHC": IDR_API = os.getenv("IDR_API_MHC")
-    if client == "ICS": IDR_API = os.getenv("IDR_API_ICS")
-    if client == "GosM": IDR_API = os.getenv("IDR_API_GOSSETT")
+    IDR_API = os.getenv(config[client]['api'])
     headers = {"X-Api-Key": IDR_API, "Accept-version": "investigations-preview"}
     params = {
         "statuses": "OPEN,INVESTIGATING",
@@ -68,9 +63,6 @@ def postTicketToFS(client):
             ccs = config[client]["ccs"]
         else: ccs = []
 
-    idr_priority = 1
-    idr_urgency = 1
-    idr_impact = 1
     if item["priority"] == "LOW":
         idr_priority = 1
         idr_urgency = 1
@@ -113,12 +105,7 @@ def postTicketToFS(client):
 
 def getInvestigationComments(id,client):
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
-    if client == "Lab": IDR_API = os.getenv("IDR_API_L4")
-    if client == "LOM": IDR_API = os.getenv("IDR_API_LEXUS")
-    if client == "HSSD": IDR_API = os.getenv("IDR_API_HSSD")
-    if client == "MHC": IDR_API = os.getenv("IDR_API_MHC")
-    if client == "ICS": IDR_API = os.getenv("IDR_API_ICS")
-    if client == "GosM": IDR_API = os.getenv("IDR_API_GOSSETT")
+    IDR_API = os.getenv(config[client]['api'])
     headers = {"X-Api-Key": IDR_API, "Accept-version": "comments-preview"}
     params = {"multi-customer": True, "target": id}
 

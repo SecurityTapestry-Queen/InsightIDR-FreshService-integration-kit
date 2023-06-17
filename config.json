@@ -1,11 +1,13 @@
 {
     "Lab": {
         "enabled": true,
+        "api": "IDR_API_L4",
         "email": "alerts@labfour.edu",
         "time": "2023-06-17T12:20:23.748099Z"
     },
     "LOM": {
         "enabled": true,
+        "api": "IDR_API_LEXUS",
         "email": "alerts@lexusofmemphis.com",
         "ccs": [
             "ltemple@lexusofmemphis.com"
@@ -14,6 +16,7 @@
     },
     "HSSD": {
         "enabled": true,
+        "api": "IDR_API_HSSD",
         "email": "mdr@hssdk12.org",
         "ccs": [
             "jselman@hssdk12.org",
@@ -24,11 +27,13 @@
     },
     "MHC": {
         "enabled": false,
+        "api": "IDR_API_MHC",
         "email": "itdept@mphshc.org",
         "time": "2023-04-12T07:38:20.454312Z"
     },
     "ICS": {
         "enabled": true,
+        "api": "IDR_API_ICS",
         "email": "alerts@ics-hs.org",
         "ccs": [
             "tleasure@ics-hs.org"
@@ -37,6 +42,7 @@
     },
     "GosM": {
         "enabled": true,
+        "api": "IDR_API_GOSSETT",
         "email": "rapid7@gossettmotors.com",
         "ccs": [
             "dfields@gossettmotors.com",

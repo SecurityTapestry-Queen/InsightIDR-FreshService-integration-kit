@@ -137,3 +137,9 @@ def postCommentsToFS(fsID):
         headers={"Content-Type": "application/json"},
     )
     print("Posted comment to ticket #" + str(fsID))
+
+def Investigations(client):
+    whenWasTheLastTime(client)
+    getInsightInvestigations(client)
+    checkForNew(client)
+    updateLastTime(client)

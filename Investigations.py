@@ -11,7 +11,4 @@ if __name__ == '__main__':
             config = json.load(configfile)
 
             if config[c]['enabled'] is True:
-                whenWasTheLastTime(c)
-                getInsightInvestigations(c)
-                checkForNew(c)
-                updateLastTime(c)
+                Investigations(c)

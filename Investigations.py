@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""Module performing Investigations posting"""
+"""Module performing Bot Activity"""
 
-from InsightFunctions import *
+from insight_functions import *
 
 clients = [
     'Lab',

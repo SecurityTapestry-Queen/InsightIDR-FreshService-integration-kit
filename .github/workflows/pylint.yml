@@ -24,7 +24,7 @@ jobs:
         pylint InsightFunctions.py | tee InsightFunctions.txt
         pylint Investigations.py | tee Investigations.txt 
     - name: Upload pylint artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: pylint report
         path: |

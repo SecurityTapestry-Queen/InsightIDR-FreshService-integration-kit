@@ -20,9 +20,9 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint functioncheck.py | tee functioncheck.txt
-        pylint InsightFunctions.py | tee InsightFunctions.txt
-        pylint Investigations.py | tee Investigations.txt 
+        pylint function_check.py | tee function_check.txt
+        pylint insight_gunctions.py | tee insight_functions.txt
+        pylint investigations.py | tee investigations.txt 
     - name: Upload pylint artifacts
       uses: actions/upload-artifact@v3
       with:

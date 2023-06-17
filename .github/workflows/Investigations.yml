@@ -30,8 +30,8 @@ jobs:
           IDR_API_GOSSETT: ${{ secrets.IDR_API_GOSSETT }}
           FS_API: ${{ secrets.FS_API }}
         run: |
-          python3 functioncheck.py
-          python3 Investigations.py
+          python3 function_check.py
+          python3 investigations.py
       - name: save changes
         run: |
           git config --global user.email "bot-parser@users.noreply.github.com"

@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     for c in clients:
 
-        with open('config.json', 'r') as configfile:
+        with open('config.json', 'r', encoding='UTF-8') as configfile:
 
             config = json.load(configfile)
 

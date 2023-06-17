@@ -20,7 +20,6 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint function_check.py | tee function_check.txt
         pylint insight_functions.py | tee insight_functions.txt
         pylint investigations_to_fs.py | tee investigations_to_fs.txt 
     - name: Upload pylint artifacts
@@ -28,7 +27,6 @@ jobs:
       with:
         name: pylint report
         path: |
-          function_check.txt
           insight_functions.txt
           investigations_to_fs.txt
         

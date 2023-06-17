@@ -21,18 +21,14 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint functioncheck.py | tee functioncheck.txt
-        pylint is-fs-lexus.py | tee lexus.txt
-        pylint is-fs-hssd.py | tee hssd.txt
-        pylint is-fs-mhc.py | tee mhc.txt
-        pylint is-fs-l4.py | tee labfour.txt
+        pylint InsightFunctions.py | tee InsightFunctions.txt
+        pylint Investigations.py | tee Investigations.txt 
     - name: Upload pylint artifacts
       uses: actions/upload-artifact@v2
       with:
         name: pylint report
         path: |
           functioncheck.txt
-          lexus.txt
-          hssd.txt
-          mhc.txt
-          labfour.txt
+          InsightFunctions.txt
+          Investigations.txt
         

@@ -4,11 +4,11 @@
 
 ## Status
 
-[![CodeQL](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/github-code-scanning/codeql)
+[![CodeQL](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/codeql.yml)
 
-[![Pylint](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/pylint.yml/badge.svg)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/pylint.yml)
+[![Pylint](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/pylint.yml)
 
-[![Investigations](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/Investigations.yml/badge.svg)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/Investigations.yml)
+[![Investigations](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/Investigations.yml/badge.svg?branch=main)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/Investigations.yml)
 
 ### Licensed under GPL v3.0
 

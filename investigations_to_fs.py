@@ -18,9 +18,9 @@ if __name__ == '__main__':
 
     for c in clients:
 
-        with open('config.json', 'r', encoding='UTF-8') as configfile:
+        with open('config.json', 'r', encoding='UTF-8') as config_file:
 
-            config = json.load(configfile)
+            config = json.load(config_file)
 
             if config[c]['enabled'] is True:
                 investigation_post(c)

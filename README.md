@@ -1,16 +1,20 @@
 # InsightIDR + FreshService Helpdesk Integration Kit
 
-## V2.0.6 - as of 6/17/23
+## V2.0.7 - as of 6/17/23
+
+## Status
+
+[![CodeQL](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/github-code-scanning/codeql)
+
+[![Pylint](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/pylint.yml/badge.svg)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/pylint.yml)
+
+[![Investigations](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/Investigations.yml/badge.svg)](https://github.com/SecurityTapestry-Queen/is-fs-integration-st/actions/workflows/Investigations.yml)
 
 ### Licensed under GPL v3.0
-
-<br>
 
 ### Notice
 
 > This is for use by the Security Tapestry Threat Hunting Team, and is written for compatibility with **InsightIDR** as an Alerts Platform, and **FreshService Helpdesk**.
-
-<br>
 
 ## Important Files
 

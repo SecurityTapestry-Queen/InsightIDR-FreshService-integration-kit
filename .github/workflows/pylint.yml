@@ -21,7 +21,7 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint function_check.py | tee function_check.txt
-        pylint insight_gunctions.py | tee insight_functions.txt
+        pylint insight_functions.py | tee insight_functions.txt
         pylint investigations.py | tee investigations.txt 
     - name: Upload pylint artifacts
       uses: actions/upload-artifact@v3

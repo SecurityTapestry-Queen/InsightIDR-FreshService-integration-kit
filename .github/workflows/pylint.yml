@@ -28,7 +28,7 @@ jobs:
       with:
         name: pylint report
         path: |
-          functioncheck.txt
-          InsightFunctions.txt
-          Investigations.txt
+          function_check.txt
+          insight_functions.txt
+          investigations.txt
         

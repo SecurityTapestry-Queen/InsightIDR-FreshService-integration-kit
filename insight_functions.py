@@ -3,10 +3,10 @@
 
 """Module providing functions to Investigations.py"""
 
-import requests
-import json
 import os
+import json
 from datetime import datetime
+import requests
 
 global lasttimedata
 global investigations
@@ -51,11 +51,10 @@ def check_for_new(client):
         checktime = datetime.strptime(lasttimedata, "%Y-%m-%dT%H:%M:%S.%fZ")
         if checktime > created:
             continue
-        else:
-            global item
-            item = i
-            post_ticket_to_fs(client)
-            get_investigation_comments(item["rrn"],client)
+        global item
+        item = i
+        post_ticket_to_fs(client)
+        get_investigation_comments(item["rrn"],client)
 
 def update_last_time(client):
     """Update time per client in config.json"""
@@ -130,10 +129,9 @@ def get_investigation_comments(id,client):
 
         if checktime > created:
             continue
-        elif comment["body"] is None:
+        if comment["body"] is None:
             continue
-        else:
-            post_comments_to_fs(str(ticketID))
+        post_comments_to_fs(str(ticketID))
 
 def post_comments_to_fs(fsID):
     """Posting comments from InsightIDR to FreshService"""

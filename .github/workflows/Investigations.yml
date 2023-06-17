@@ -31,7 +31,7 @@ jobs:
           FS_API: ${{ secrets.FS_API }}
         run: |
           python3 function_check.py
-          python3 investigations.py
+          python3 investigations_to_fs.py
       - name: save changes
         run: |
           git config --global user.email "bot-parser@users.noreply.github.com"

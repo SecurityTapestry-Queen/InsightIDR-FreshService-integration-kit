@@ -57,11 +57,10 @@ def updateLastTime(client):
 def postTicketToFS(client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
-    with open('config.json', 'r') as configfile:
-        e = config[client]["email"]
-        if "ccs" in config[client]:
-            ccs = config[client]["ccs"]
-        else: ccs = []
+    e = config[client]["email"]
+    if "ccs" in config[client]:
+        ccs = config[client]["ccs"]
+    else: ccs = []
 
     if item["priority"] == "LOW":
         idr_priority = 1

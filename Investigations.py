@@ -10,5 +10,6 @@ if __name__ == '__main__':
 
             config = json.load(configfile)
 
-            if config[c]['enabled'] is True:
-                Investigations(c)
+            if config[c]['enabled'] is True: Investigations(c)
+
+            else: print(str(c) + " is Disabled.")

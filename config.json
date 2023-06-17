@@ -3,7 +3,7 @@
         "enabled": true,
         "api": "IDR_API_L4",
         "email": "alerts@labfour.edu",
-        "time": "2023-06-17T17:09:37.198576Z"
+        "time": "2023-06-17T17:23:38.708087Z"
     },
     "LOM": {
         "enabled": true,
@@ -12,7 +12,7 @@
         "ccs": [
             "ltemple@lexusofmemphis.com"
         ],
-        "time": "2023-06-17T17:09:39.252948Z"
+        "time": "2023-06-17T17:23:39.787365Z"
     },
     "HSSD": {
         "enabled": true,
@@ -23,7 +23,7 @@
             "bmullinix@hssdk12.org",
             "aaverett@hssdk12.org"
         ],
-        "time": "2023-06-17T17:09:40.955188Z"
+        "time": "2023-06-17T17:23:40.697949Z"
     },
     "MHC": {
         "enabled": false,
@@ -38,7 +38,7 @@
         "ccs": [
             "tleasure@ics-hs.org"
         ],
-        "time": "2023-06-17T17:09:42.757250Z"
+        "time": "2023-06-17T17:23:41.583933Z"
     },
     "GosM": {
         "enabled": true,
@@ -48,6 +48,6 @@
             "dfields@gossettmotors.com",
             "rgodbey@gossettmotors.com"
         ],
-        "time": "2023-06-17T17:09:45.480620Z"
+        "time": "2023-06-17T17:23:42.632398Z"
     }
 }

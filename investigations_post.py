@@ -5,11 +5,10 @@
 
 from insight_functions import *  # pylint: disable=W0401,W0614
 
-clients = []
-
 if __name__ == "__main__":
     function_check()
     config = fetch_config()
+    clients = []
     for key in config:
         clients.append(key)
     for client in clients:

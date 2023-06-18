@@ -20,7 +20,7 @@ jobs:
       - name: install dependencies
         run: |
           pip3 install -r requirements.txt
-      - name: run scrapers
+      - name: run bot
         env:
           IDR_API_LEXUS: ${{ secrets.IDR_API_LEXUS }}
           IDR_API_HSSD: ${{ secrets.IDR_API_HSSD }}
@@ -30,8 +30,8 @@ jobs:
           IDR_API_GOSSETT: ${{ secrets.IDR_API_GOSSETT }}
           FS_API: ${{ secrets.FS_API }}
         run: |
-          python3 investigations_to_fs.py
-      - name: save changes
+          python3 investigations_post.py
+      - name: commit config
         run: |
           git config --global user.email "bot-parser@users.noreply.github.com"
           git config --global user.name "Bot-Parser"

@@ -28,11 +28,11 @@
     - 'ccs' - Email Addresses to CC upon Investigation creation per client.
     - 'time' - Time in UTC of last bot check-in per client.
 
-2. [insight_functions.py](insight_functions.py) - Contains all Functions called by [investigations_to_fs.py](investigations_to_fs.py)
+2. [insight_functions.py](insight_functions.py) - Contains all Functions called by [investigations_post.py](investigations_post.py)
 
-3. [investigations_to_fs.py](investigations_to_fs.py) - Main script to be run, called by Workflow YAML
+3. [investigations_post.py](investigations_post.py) - Main script to be run, called by Workflow YAML
 
-4. [Investigations.yml](.github/workflows/Investigations.yml) - Main Workflow file for Github Actions, calls all API Keys and [investigations_to_fs.py](investigations_to_fs.py) every 15 minutes via cronjob.
+4. [Investigations.yml](.github/workflows/Investigations.yml) - Main Workflow file for Github Actions, calls all API Keys and [investigations_post.py](investigations_post.py) every 15 minutes via cronjob.
 
 
 ### Extra Workflows

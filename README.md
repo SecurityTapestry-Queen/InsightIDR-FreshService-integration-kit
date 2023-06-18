@@ -1,6 +1,8 @@
 # InsightIDR + FreshService Helpdesk Integration Kit
 
-## V2.0.7 - as of 6/17/23
+## V2.0.8 - as of 6/17/23
+
+- See [CHANGELOG.md](CHANGELOG.md) for details
 
 ## Status
 
@@ -28,9 +30,13 @@
 
 2. [insight_functions.py](insight_functions.py) - Contains all Functions called by [investigations_to_fs.py](investigations_to_fs.py)
 
-3. [investigations_to_fs.py](investigations_to_fs.py) - Main script to be run, contains statement:
-```python
-from insight_functions import *
-```
+3. [investigations_to_fs.py](investigations_to_fs.py) - Main script to be run, called by Workflow YAML
 
 4. [Investigations.yml](.github/workflows/Investigations.yml) - Main Workflow file for Github Actions, calls all API Keys and [investigations_to_fs.py](investigations_to_fs.py) every 15 minutes via cronjob.
+
+
+### Extra Workflows
+
+- [Pylint](.github/workflows/pylint.yml)
+- [CodeQL](.github/workflows/codeql.yml)
+- [DependaBot](.github/dependabot.yml)

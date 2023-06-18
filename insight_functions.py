@@ -168,6 +168,5 @@ def post_comments_to_fs(fs_id, comment):
 
 def investigation_post(client):
     """Bot Main Activity"""
-    when_was_the_last_time(client)
     get_insight_investigations(client)
     update_last_time(client)

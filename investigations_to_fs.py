@@ -5,17 +5,13 @@
 
 from insight_functions import *  # pylint: disable=W0401,W0614
 
-clients = [
-    "Lab",
-    "LOM",
-    "HSSD",
-    "MHC",
-    "ICS",
-    "GosM",
-]
+clients = []
 
 if __name__ == "__main__":
     function_check()
+    config = fetch_config()
+    for key in config:
+        clients.append(key)
     for client in clients:
         with open("config.json", "r", encoding="UTF-8") as config_file:
             config = json.load(config_file)

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""Module providing functions to Investigations.py"""
+"""Module providing functions to investigations_to_fs.py"""
 
 import os
 import sys
@@ -55,8 +55,7 @@ def get_insight_investigations(client):
 
 
 def check_for_new(client, investigations):
-    """Use lasttime to determine if new investigations are posted"""
-    print("Anything New?")
+    """Use last_time_data to determine if new investigations are posted"""
     for investigation in investigations:
         last_time_data = when_was_the_last_time(client)
         created_time = datetime.strptime(

@@ -15,3 +15,6 @@
 - Discontinued 6/16/23
 - Contained first 6 clients
 - Was not coded with clean standards, was bulky
+
+### < v2.0.6
+- Was not tracked, contained several iterations

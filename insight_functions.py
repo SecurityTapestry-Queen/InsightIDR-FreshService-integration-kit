@@ -13,7 +13,7 @@ import requests # pylint: disable=E0401
 # INVESTIGATIONS = None
 # INVESTIGATION_ITEM = None
 # COMMENT_DATA = None
-TICKET_ID = None
+# TICKET_ID = None
 # COMMENT = None
 # CONFIG = None
 
@@ -59,12 +59,11 @@ def get_insight_investigations(client):
     request = requests.get(url, headers=headers, params=params)
     # global INVESTIGATIONS # pylint: disable=W0603
     investigations = request.json()["data"]
-    return investigations
+    check_for_new(client,investigations)
 
-def check_for_new(client):
+def check_for_new(client,investigations):
     """Use lasttime to determine if new investigations are posted"""
     print("Anything New?")
-    investigations = get_insight_investigations(client)
     for investigation in investigations:
         last_time_data = when_was_the_last_time(client)
         created_time = datetime.strptime(investigation["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -72,8 +71,7 @@ def check_for_new(client):
         if checked_time > created_time:
             continue
         # global INVESTIGATION_ITEM # pylint: disable=W0603
-        investigation_item = investigation
-        post_ticket_to_fs(investigation_item,client)
+        post_ticket_to_fs(investigation,client)
 
 def update_last_time(client):
     """Update time per client in config.json"""
@@ -82,7 +80,7 @@ def update_last_time(client):
     with open('config.json', 'w', encoding="UTF-8") as config_file:
         json.dump(config, config_file, indent=4)
 
-def post_ticket_to_fs(investigation_item,client):
+def post_ticket_to_fs(investigation,client):
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
     config = fetch_config()
@@ -91,26 +89,26 @@ def post_ticket_to_fs(investigation_item,client):
         ccs = config[client]["ccs"]
     else: ccs = []
 
-    if investigation_item["priority"] == "LOW":
+    if investigation["priority"] == "LOW":
         idr_priority = 1
         idr_urgency = 1
         idr_impact = 1
-    elif investigation_item["priority"] == "MEDIUM":
+    elif investigation["priority"] == "MEDIUM":
         idr_priority = 2
         idr_urgency = 2
         idr_impact = 2
-    elif investigation_item["priority"] == "HIGH":
+    elif investigation["priority"] == "HIGH":
         idr_priority = 3
         idr_urgency = 3
         idr_impact = 3
-    elif investigation_item["priority"] == "CRITICAL":
+    elif investigation["priority"] == "CRITICAL":
         idr_priority = 4
         idr_urgency = 3
         idr_impact = 3
 
     data = {
-        "description": investigation_item["title"],
-        "subject": "Security Investigation: " + investigation_item["title"],
+        "description": investigation["title"],
+        "subject": "Security Investigation: " + investigation["title"],
         "email": email,
         "cc_emails": ccs,
         "status": 2,
@@ -130,7 +128,7 @@ def post_ticket_to_fs(investigation_item,client):
     )
     ticket_id = request.json()["ticket"]["id"]
     print("Posted ticket #" + str(ticket_id))
-    get_investigation_comments(investigation_item["rrn"],client,ticket_id)
+    get_investigation_comments(investigation["rrn"],client,ticket_id)
 
 def get_investigation_comments(t_id,client,ticket_id):
     """Fetch Comments from InsightIDR"""
@@ -174,5 +172,4 @@ def investigation_post(client):
     """Bot Main Activity"""
     when_was_the_last_time(client)
     get_insight_investigations(client)
-    check_for_new(client)
     update_last_time(client)

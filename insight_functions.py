@@ -9,13 +9,13 @@ import json
 from datetime import datetime
 import requests # pylint: disable=E0401
 
-# global last_time_data
-# global investigations
-# global investigation_item
-# global comment_data
-# global ticket_id
-# global comment
-# global config
+last_time_data = None
+investigations = None
+investigation_item = None
+comment_data = None
+ticket_id = None
+comment = None
+config = None
 
 fs_api = os.getenv("FS_API")
 

@@ -79,7 +79,8 @@ def update_last_time(client):
     """Update time per client in config.json"""
     config = fetch_config()
     config[client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-    json.dump(config, 'config.json', indent=4)
+    with open('config.json', 'w', encoding="UTF-8") as config_file:
+        json.dump(config, config_file, indent=4)
 
 def post_ticket_to_fs(investigation_item,client):
     """Posting ticket to FreshService"""

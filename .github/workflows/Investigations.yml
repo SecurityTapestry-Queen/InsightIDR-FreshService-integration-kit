@@ -2,13 +2,13 @@ name: Investigations
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
   Investigations:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 5
     environment: CI
     steps:
       - name: checkout the repo

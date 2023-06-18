@@ -3,7 +3,7 @@
 
 """Module performing Bot Activity"""
 
-from insight_functions import *
+from insight_functions import * # pylint: disable=W0401,W0614
 
 clients = [
     'Lab',

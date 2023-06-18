@@ -9,39 +9,39 @@ import json
 from datetime import datetime
 import requests # pylint: disable=E0401
 
-last_time_data = None
-investigations = None
-investigation_item = None
-comment_data = None
-ticket_id = None
-comment = None
-config = None
+LAST_TIME_DATA = None
+INVESTIGATIONS = None
+INVESTIGATION_ITEM = None
+COMMENT_DATA = None
+TICKET_ID = None
+COMMENT = None
+CONFIG = None
 
-fs_api = os.getenv("FS_API")
+FS_API = os.getenv("FS_API")
 
 
 def function_check():
-    """Functional Check for Python 3.10+ and fs_api secret"""
+    """Functional Check for Python 3.10+ and FS_API secret"""
     print('Performing Function Check')
     if sys.version_info < (3, 10):
         sys.exit('Python 3.10+ Needed')
-    if str(fs_api) == 'None':
+    if str(FS_API) == 'None':
         sys.exit('FS_API key missing')
     print('Function Check Succeeded')
 
 def when_was_the_last_time(client):
     """Check lasttime checked from config.json"""
     with open('config.json', 'r', encoding='UTF-8') as config_file:
-        global config
-        config = json.load(config_file)
-    global last_time_data
-    last_time_data = config[client]["time"]
+        global CONFIG # pylint: disable=W0603
+        CONFIG = json.load(config_file)
+    global LAST_TIME_DATA # pylint: disable=W0603
+    LAST_TIME_DATA = CONFIG[client]["time"]
 
 def get_insight_investigations(client):
     """Fetch Investigations from InsightIDR"""
     print("Getting Open Investigations for "+ str(client))
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
-    idr_api = os.getenv(config[client]['api'])
+    idr_api = os.getenv(CONFIG[client]['api'])
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {
         "statuses": "OPEN,INVESTIGATING",
@@ -50,57 +50,57 @@ def get_insight_investigations(client):
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
     request = requests.get(url, headers=headers, params=params)
-    global investigations
-    investigations = request.json()["data"]
+    global INVESTIGATIONS # pylint: disable=W0603
+    INVESTIGATIONS = request.json()["data"]
 
 def check_for_new(client):
     """Use lasttime to determine if new investigations are posted"""
     print("Anything New?")
-    for investigation in investigations:
+    for investigation in INVESTIGATIONS:
         created_time = datetime.strptime(investigation["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-        checked_time = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
+        checked_time = datetime.strptime(LAST_TIME_DATA, "%Y-%m-%dT%H:%M:%S.%fZ")
         if checked_time > created_time:
             continue
-        global investigation_item
-        investigation_item = investigation
+        global INVESTIGATION_ITEM # pylint: disable=W0603
+        INVESTIGATION_ITEM = investigation
         post_ticket_to_fs(client)
-        get_investigation_comments(investigation_item["rrn"],client)
+        get_investigation_comments(INVESTIGATION_ITEM["rrn"],client)
 
 def update_last_time(client):
     """Update time per client in config.json"""
     with open('config.json', 'w', encoding='UTF-8') as config_file:
-        config[client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-        json.dump(config, config_file, indent=4)
+        CONFIG[client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        json.dump(CONFIG, config_file, indent=4)
 
 def post_ticket_to_fs(client):
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
 
-    email = config[client]["email"]
-    if "ccs" in config[client]:
-        ccs = config[client]["ccs"]
+    email = CONFIG[client]["email"]
+    if "ccs" in CONFIG[client]:
+        ccs = CONFIG[client]["ccs"]
     else: ccs = []
 
-    if investigation_item["priority"] == "LOW":
+    if INVESTIGATION_ITEM["priority"] == "LOW":
         idr_priority = 1
         idr_urgency = 1
         idr_impact = 1
-    elif investigation_item["priority"] == "MEDIUM":
+    elif INVESTIGATION_ITEM["priority"] == "MEDIUM":
         idr_priority = 2
         idr_urgency = 2
         idr_impact = 2
-    elif investigation_item["priority"] == "HIGH":
+    elif INVESTIGATION_ITEM["priority"] == "HIGH":
         idr_priority = 3
         idr_urgency = 3
         idr_impact = 3
-    elif investigation_item["priority"] == "CRITICAL":
+    elif INVESTIGATION_ITEM["priority"] == "CRITICAL":
         idr_priority = 4
         idr_urgency = 3
         idr_impact = 3
 
     data = {
-        "description": investigation_item["title"],
-        "subject": "Security Investigation: " + investigation_item["title"],
+        "description": INVESTIGATION_ITEM["title"],
+        "subject": "Security Investigation: " + INVESTIGATION_ITEM["title"],
         "email": email,
         "cc_emails": ccs,
         "status": 2,
@@ -111,47 +111,47 @@ def post_ticket_to_fs(client):
         "group_id": 21000544549,
         "category": "InsightIDR",
     }
-    global ticket_id
+    global TICKET_ID # pylint: disable=W0603
     request = requests.post(
         url,
-        auth=(fs_api, "X"),
+        auth=(FS_API, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
     )
-    ticket_id = request.json()["ticket"]["id"]
-    print("Posted ticket #" + str(ticket_id))
+    TICKET_ID = request.json()["ticket"]["id"]
+    print("Posted ticket #" + str(TICKET_ID))
 
 def get_investigation_comments(t_id,client):
     """Fetch Comments from InsightIDR"""
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
-    idr_api = os.getenv(config[client]['api'])
+    idr_api = os.getenv(CONFIG[client]['api'])
     headers = {"X-Api-Key": idr_api, "Accept-version": "comments-preview"}
     params = {"multi-customer": True, "target": t_id}
 
     request = requests.get(url, headers=headers, params=params)
-    global comment_data
+    global COMMENT_DATA # pylint: disable=W0603
     comments = request.json()
-    comment_data = comments["data"]
-    global comment
-    for comment in comment_data:
-        created_time = datetime.strptime(comment["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-        checked_time = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
+    COMMENT_DATA = comments["data"]
+    global COMMENT # pylint: disable=W0603
+    for COMMENT in COMMENT_DATA:
+        created_time = datetime.strptime(COMMENT["created_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+        checked_time = datetime.strptime(LAST_TIME_DATA, "%Y-%m-%dT%H:%M:%S.%fZ")
 
         if checked_time > created_time:
             continue
-        if comment["body"] is None:
+        if COMMENT["body"] is None:
             continue
-        post_comments_to_fs(str(ticket_id))
+        post_comments_to_fs(str(TICKET_ID))
 
 def post_comments_to_fs(fs_id):
     """Posting comments from InsightIDR to FreshService"""
     webhook_url = (
         "https://securitytapestry.freshservice.com/api/v2/tickets/" + fs_id + "/notes"
     )
-    data = {"body": comment["body"], "private": False}
+    data = {"body": COMMENT["body"], "private": False}
     requests.post(
         webhook_url,
-        auth=(fs_api, "X"),
+        auth=(FS_API, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
     )

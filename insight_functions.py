@@ -163,7 +163,7 @@ def post_ticket_to_fs(investigation, client):
             mitre_sub_technique = "Sub-Techniques, if applicable"
             update_detection_rules(rule)
     else:
-        alert_detection_rule_rrn = "Not Applicable"
+        rule = "Not Applicable"
 
     data = {
         "description": alert_type_description,
@@ -190,7 +190,7 @@ def post_ticket_to_fs(investigation, client):
             "alert_type_description": alert_type_description,
             "alert_source": alert_source,
             "threat_status": investigation["disposition"],
-            "detection_rule_rrn": alert_detection_rule_rrn
+            "detection_rule_rrn": rule
         }
     }
     request = requests.post(

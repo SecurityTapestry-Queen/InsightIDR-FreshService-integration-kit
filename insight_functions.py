@@ -43,6 +43,7 @@ def fetch_detection_rules():
 
 def update_detection_rules(new_rule):
     """Update detection rules in detection_rules.json"""
+    print("Adding new Detection Rule: " + new_rule)
     detection_rules = fetch_detection_rules()
     detection_rules[new_rule] = {
         "tactic": "Tactic seen, not recorded",
@@ -53,30 +54,53 @@ def update_detection_rules(new_rule):
         json.dump(detection_rules, detection_rules_file, indent=4)
 
 
+def update_idr_investigation(client,rrn,fs_ticket):
+    """Updating an InsightIDR Investigation via PATCH method"""
+    config = fetch_config()
+    url = "https://us2.api.insight.rapid7.com/idr/v2/investigations/" + rrn
+    idr_api = os.getenv(config["Clients"][client]["api"])
+    headers = {
+    "X-Api-Key": idr_api,
+    "Accept-version": "investigations-preview"
+    }
+    params = {
+    "multi-customer": True
+    }
+    data = {
+        "disposition": fs_ticket["disposition"],
+        "status": fs_ticket["status"]
+    }
+    request = requests.patch(url,data,params,headers)
+    updated = request.json()
+    return updated
+
+
 def when_was_the_last_time(client):
     """Check lasttime checked from CONFIG"""
     config = fetch_config()
-    last_time_data = config[client]["time"]
+    last_time_data = config["Clients"][client]["time"]
     return last_time_data
+
 
 def get_alerts_from_idr(rrn, client):
     """Get Alerts from Investigation in InsightIDR"""
     print("Fetching Alerts for: " + str(rrn))
     config = fetch_config()
     url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + rrn + '/alerts'
-    idr_api = os.getenv(config[client]["api"])
+    idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {"multi-customer": True}
     request = requests.get(url, headers=headers, params=params)
     alerts = request.json()
     return alerts
 
+
 def get_insight_investigations(client):
     """Fetch Investigations from InsightIDR"""
     print("Getting Open Investigations for " + str(client))
     config = fetch_config()
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
-    idr_api = os.getenv(config[client]["api"])
+    idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {
         "statuses": "OPEN,INVESTIGATING",
@@ -105,9 +129,10 @@ def check_for_new(client, investigations):
 def update_last_time(client):
     """Update time per client in config.json"""
     config = fetch_config()
-    config[client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+    config["Clients"][client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
     with open("config.json", "w", encoding="UTF-8") as config_file:
         json.dump(config, config_file, indent=4)
+
 
 def post_ticket_to_fs(investigation, client):
     """Posting ticket to FreshService"""
@@ -115,10 +140,10 @@ def post_ticket_to_fs(investigation, client):
     config = fetch_config()
     alerts = get_alerts_from_idr(investigation["rrn"], client)
     detection_rules = fetch_detection_rules()
-    email = base64.b64decode(config[client]["email"]).decode("UTF-8")
+    email = base64.b64decode(config["Clients"][client]["email"]).decode("UTF-8")
     ccs = []
-    if "ccs" in config[client]:
-        for address in config[client]["ccs"]:
+    if "ccs" in config["Clients"][client]:
+        for address in config["Clients"][client]["ccs"]:
             ccs.append(base64.b64decode(address).decode("UTF-8"))
     else:
         ccs = []
@@ -208,7 +233,7 @@ def get_investigation_comments(t_id, client, ticket_id):
     """Fetch Comments from InsightIDR"""
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
     config = fetch_config()
-    idr_api = os.getenv(config[client]["api"])
+    idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "comments-preview"}
     params = {"multi-customer": True, "target": t_id}
 

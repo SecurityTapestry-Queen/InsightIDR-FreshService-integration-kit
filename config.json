@@ -1,59 +1,64 @@
 {
-    "Lab": {
-        "enabled": true,
-        "api": "IDR_API_L4",
-        "idr_organization_id": "cc6da3c6-9246-4fb1-ac99-6c4eb2626663",
-        "email": "YWxlcnRzQGxhYmZvdXIuZWR1",
-        "time": "2023-06-19T16:58:20.034698Z"
+    "Clients": {
+        "Lab": {
+            "enabled": true,
+            "api": "IDR_API_L4",
+            "idr_organization_id": "cc6da3c6-9246-4fb1-ac99-6c4eb2626663",
+            "email": "YWxlcnRzQGxhYmZvdXIuZWR1",
+            "time": "2023-06-19T16:58:20.034698Z"
+        },
+        "LOM": {
+            "enabled": true,
+            "api": "IDR_API_LEXUS",
+            "idr_organization_id": "",
+            "email": "YWxlcnRzQGxleHVzb2ZtZW1waGlzLmNvbQ==",
+            "ccs": [
+                "bHRlbXBsZUBsZXh1c29mbWVtcGhpcy5jb20="
+            ],
+            "time": "2023-06-19T18:42:00.884036Z"
+        },
+        "HSSD": {
+            "enabled": true,
+            "api": "IDR_API_HSSD",
+            "idr_organization_id": "",
+            "email": "bWRyQGhzc2RrMTIub3Jn",
+            "ccs": [
+                "anNlbG1hbkBoc3NkazEyLm9yZw==",
+                "Ym11bGxpbml4QGhzc2RrMTIub3Jn",
+                "YWF2ZXJldHRAaHNzZGsxMi5vcmc="
+            ],
+            "time": "2023-06-19T18:42:02.988444Z"
+        },
+        "MHC": {
+            "enabled": false,
+            "api": "IDR_API_MHC",
+            "idr_organization_id": "",
+            "email": "aXRkZXB0QG1waHNoYy5vcmc=",
+            "time": "2023-04-12T07:38:20.454312Z"
+        },
+        "ICS": {
+            "enabled": true,
+            "api": "IDR_API_ICS",
+            "idr_organization_id": "",
+            "email": "YWxlcnRzQGljcy1ocy5vcmc=",
+            "ccs": [
+                "dGxlYXN1cmVAaWNzLWhzLm9yZw=="
+            ],
+            "time": "2023-06-19T18:42:04.630274Z"
+        },
+        "GosM": {
+            "enabled": true,
+            "api": "IDR_API_GOSSETT",
+            "idr_organization_id": "b3b79d7b-1f3e-42f8-be0f-dc1ebf0d204c",
+            "email": "cmFwaWQ3QGdvc3NldHRtb3RvcnMuY29t",
+            "ccs": [
+                "ZGZpZWxkc0Bnb3NzZXR0bW90b3JzLmNvbQ==",
+                "cmdvZGJleUBnb3NzZXR0bW90b3JzLmNvbQ=="
+            ],
+            "time": "2023-06-19T18:42:06.406643Z"
+        }
     },
-    "LOM": {
-        "enabled": true,
-        "api": "IDR_API_LEXUS",
-        "idr_organization_id": "",
-        "email": "YWxlcnRzQGxleHVzb2ZtZW1waGlzLmNvbQ==",
-        "ccs": [
-            "bHRlbXBsZUBsZXh1c29mbWVtcGhpcy5jb20="
-        ],
-        "time": "2023-06-19T18:42:00.884036Z"
-    },
-    "HSSD": {
-        "enabled": true,
-        "api": "IDR_API_HSSD",
-        "idr_organization_id": "",
-        "email": "bWRyQGhzc2RrMTIub3Jn",
-        "ccs": [
-            "anNlbG1hbkBoc3NkazEyLm9yZw==",
-            "Ym11bGxpbml4QGhzc2RrMTIub3Jn",
-            "YWF2ZXJldHRAaHNzZGsxMi5vcmc="
-        ],
-        "time": "2023-06-19T18:42:02.988444Z"
-    },
-    "MHC": {
-        "enabled": false,
-        "api": "IDR_API_MHC",
-        "idr_organization_id": "",
-        "email": "aXRkZXB0QG1waHNoYy5vcmc=",
-        "time": "2023-04-12T07:38:20.454312Z"
-    },
-    "ICS": {
-        "enabled": true,
-        "api": "IDR_API_ICS",
-        "idr_organization_id": "",
-        "email": "YWxlcnRzQGljcy1ocy5vcmc=",
-        "ccs": [
-            "dGxlYXN1cmVAaWNzLWhzLm9yZw=="
-        ],
-        "time": "2023-06-19T18:42:04.630274Z"
-    },
-    "GosM": {
-        "enabled": true,
-        "api": "IDR_API_GOSSETT",
-        "idr_organization_id": "b3b79d7b-1f3e-42f8-be0f-dc1ebf0d204c",
-        "email": "cmFwaWQ3QGdvc3NldHRtb3RvcnMuY29t",
-        "ccs": [
-            "ZGZpZWxkc0Bnb3NzZXR0bW90b3JzLmNvbQ==",
-            "cmdvZGJleUBnb3NzZXR0bW90b3JzLmNvbQ=="
-        ],
-        "time": "2023-06-19T18:42:06.406643Z"
+    "Other": {
+        "last_checked_tickets_to_close": "2023-06-19T18:42:04.630274Z"
     }
 }

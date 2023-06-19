@@ -94,8 +94,10 @@ def post_ticket_to_fs(investigation, client):
     config = fetch_config()
     alerts = get_alerts_from_idr(investigation["rrn"], client)
     email = base64.b64decode(config[client]["email"]).decode("UTF-8")
+    ccs = []
     if "ccs" in config[client]:
-        ccs = base64.b64decode(config[client]["ccs"]).decode("UTF-8")
+        for address in config[client]["ccs"]:
+            ccs.append(base64.b64decode(address).decode("UTF-8"))
     else:
         ccs = []
 

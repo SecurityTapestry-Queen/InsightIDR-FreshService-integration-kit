@@ -41,7 +41,7 @@ def get_alerts_from_idr(rrn, client):
     """Get Alerts from Investigation in InsightIDR"""
     print("Fetching Alerts for Investigation RRN: " + str(rrn))
     config = fetch_config()
-    url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + id + '/alerts'
+    url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + rrn + '/alerts'
     idr_api = os.getenv(config[client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {"multi-customer": True}

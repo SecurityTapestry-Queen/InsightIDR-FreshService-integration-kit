@@ -24,6 +24,7 @@
     
     - 'enabled' - Denotes whether or not to activate alerts for this client.
     - 'api' - API Key symbol per client.
+    - 'idr_organization_id' - Symbol for company in InsightIDR
     - 'email' - Mail Email Address Alerts are to be directed to per client.
     - 'ccs' - Email Addresses to CC upon Investigation creation per client.
     - 'time' - Time in UTC of last bot check-in per client.

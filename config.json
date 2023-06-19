@@ -2,8 +2,9 @@
     "Lab": {
         "enabled": true,
         "api": "IDR_API_L4",
+        "idr_organization_id": "cc6da3c6-9246-4fb1-ac99-6c4eb2626663",
         "email": "alerts@labfour.edu",
-        "time": "2023-06-19T17:15:59.149810Z"
+        "time": "2023-06-19T16:58:20.034698Z"
     },
     "LOM": {
         "enabled": true,
@@ -12,7 +13,7 @@
         "ccs": [
             "ltemple@lexusofmemphis.com"
         ],
-        "time": "2023-06-19T17:16:01.040154Z"
+        "time": "2023-06-19T16:58:21.148248Z"
     },
     "HSSD": {
         "enabled": true,
@@ -38,7 +39,7 @@
         "ccs": [
             "tleasure@ics-hs.org"
         ],
-        "time": "2023-06-19T17:16:03.812230Z"
+        "time": "2023-06-19T16:58:22.836314Z"
     },
     "GosM": {
         "enabled": true,
@@ -48,6 +49,6 @@
             "dfields@gossettmotors.com",
             "rgodbey@gossettmotors.com"
         ],
-        "time": "2023-06-19T17:16:05.774001Z"
+        "time": "2023-06-19T16:58:23.946675Z"
     }
 }

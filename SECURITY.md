@@ -9,6 +9,6 @@
 
 ## Reporting a Vulnerability
 
-Report found vulnerabilities responsibly to vulnerability-reports@securitytapestry.com
+Report found vulnerabilities responsibly to vulnerability-report@securitytapestry.com
 
 Check commit history and issues for updates

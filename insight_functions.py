@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""Module providing functions to investigations_to_fs.py"""
+"""Module providing functions to investigations_post.py"""
 
 import os
 import sys
@@ -19,6 +19,8 @@ def function_check():
         sys.exit("Python 3.10+ Needed")
     if str(FS_API) == "None":
         sys.exit("FS_API key missing")
+    if os.path.isfile("config.json") == False:
+        sys.exit("config.json missing")
     print("Function Check Succeeded")
 
 
@@ -35,6 +37,17 @@ def when_was_the_last_time(client):
     last_time_data = config[client]["time"]
     return last_time_data
 
+def get_alerts_from_idr(rrn, client):
+    """Get Alerts from Investigation in InsightIDR"""
+    print("Fetching Alerts for Investigation RRN: " + str(rrn))
+    config = fetch_config()
+    url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + id + '/alerts'
+    idr_api = os.getenv(config[client]["api"])
+    headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
+    params = {"multi-customer": True}
+    request = requests.get(url, headers=headers, params=params)
+    alerts = request.json()
+    return alerts
 
 def get_insight_investigations(client):
     """Fetch Investigations from InsightIDR"""
@@ -74,11 +87,11 @@ def update_last_time(client):
     with open("config.json", "w", encoding="UTF-8") as config_file:
         json.dump(config, config_file, indent=4)
 
-
 def post_ticket_to_fs(investigation, client):
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
     config = fetch_config()
+    alerts = get_alerts_from_idr(investigation["rrn"], client)
     email = config[client]["email"]
     if "ccs" in config[client]:
         ccs = config[client]["ccs"]
@@ -101,6 +114,18 @@ def post_ticket_to_fs(investigation, client):
         idr_priority = 4
         idr_urgency = 3
         idr_impact = 3
+
+    if investigation["source"] == "ALERT":
+        alert_title = alerts["data"][0]["title"]
+        alert_type = alerts["data"][0]["alert_type"]
+        alert_type_description = alerts["data"][0]["alert_type_description"]
+        alert_source = alerts["data"][0]["alert_source"]
+    if investigation["source"] == "USER":
+        alert_title = "N/A"
+        alert_type = "N/A"
+        alert_type_description = "N/A"
+        alert_source = "N/A"
+
     data = {
         "description": investigation["title"],
         "subject": "Security Investigation: " + investigation["title"],
@@ -113,6 +138,19 @@ def post_ticket_to_fs(investigation, client):
         "source": 14,
         "group_id": 21000544549,
         "category": "InsightIDR",
+        "custom_fields": {
+            "rrn": investigation["rrn"],
+            "evidence": "Place Alert Evidence here from InsightIDR",
+            "research_links": "Place Research Links here, if applicable",
+            "mitre_attampck_tactics_including_id_and_description": "Tactics, if applicable",
+            "mitre_attampck_techniques_including_id_and_description": "Techniques, if applicable",
+            "mitre_attampck_subtechniques_including_id_and_description": "Sub-Techniques, if applicable",
+            "organization_id": investigation["organization_id"],
+            "alert_title": alert_title,
+            "alert_type": alert_type,
+            "alert_type_description": alert_type_description,
+            "alert_source": alert_source
+        }
     }
     request = requests.post(
         url,

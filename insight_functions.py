@@ -40,7 +40,7 @@ def when_was_the_last_time(client):
 
 def get_alerts_from_idr(rrn, client):
     """Get Alerts from Investigation in InsightIDR"""
-    print("Fetching Alerts for Investigation RRN: " + str(rrn))
+    print("Fetching Alerts for: " + str(rrn))
     config = fetch_config()
     url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + rrn + '/alerts'
     idr_api = os.getenv(config[client]["api"])
@@ -127,6 +127,11 @@ def post_ticket_to_fs(investigation, client):
         alert_type_description = "N/A"
         alert_source = "N/A"
 
+    if alerts["data"][0]["detection_rule_rrn"] != None:
+        alert_detection_rule_rrn = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
+    else:
+        alert_detection_rule_rrn = "Not Applicable"
+
     data = {
         "description": alert_type_description,
         "subject": "Security Investigation: " + investigation["title"],
@@ -136,7 +141,7 @@ def post_ticket_to_fs(investigation, client):
         "priority": idr_priority,
         "urgency": idr_urgency,
         "impact": idr_impact,
-        "source": 15,
+        "source": 1001,
         "group_id": 21000544549,
         "category": "InsightIDR",
         "custom_fields": {
@@ -151,7 +156,8 @@ def post_ticket_to_fs(investigation, client):
             "alert_type": alert_type,
             "alert_type_description": alert_type_description,
             "alert_source": alert_source,
-            "threat_status": investigation["disposition"]
+            "threat_status": investigation["disposition"],
+            "detection_rule_rrn": alert_detection_rule_rrn
         }
     }
     request = requests.post(

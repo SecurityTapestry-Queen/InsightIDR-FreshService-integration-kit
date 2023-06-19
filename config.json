@@ -48,7 +48,7 @@
     "GosM": {
         "enabled": true,
         "api": "IDR_API_GOSSETT",
-        "idr_organization_id": "",
+        "idr_organization_id": "b3b79d7b-1f3e-42f8-be0f-dc1ebf0d204c",
         "email": "cmFwaWQ3QGdvc3NldHRtb3RvcnMuY29t",
         "ccs": [
             "ZGZpZWxkc0Bnb3NzZXR0bW90b3JzLmNvbQ==",

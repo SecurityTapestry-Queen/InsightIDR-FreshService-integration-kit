@@ -22,6 +22,8 @@ def function_check():
         sys.exit("FS_API key missing")
     if os.path.isfile("config.json") == False:
         sys.exit("config.json missing")
+    if os.path.isfile("detection_rules.json") == False:
+        sys.exit("detection_rules.json missing")
     print("Function Check Succeeded")
 
 
@@ -30,6 +32,25 @@ def fetch_config():
     with open("config.json", "r", encoding="UTF-8") as config_file:
         config = json.load(config_file)
         return config
+    
+
+def fetch_detection_rules():
+    """Load Detection Rules into memory"""
+    with open("detection_rules.json", "r", encoding="UTF-8") as detection_rules_file:
+        detection_rules = json.load(detection_rules_file)
+        return detection_rules
+    
+
+def update_detection_rules(new_rule):
+    """Update detection rules in detection_rules.json"""
+    detection_rules = fetch_detection_rules()
+    detection_rules[new_rule] = {
+        "tactic": "Tactic seen, not recorded",
+        "technique": "Technique seen, not recorded",
+        "sub-technique": "Sub-Technique seen, not recorded"
+    } 
+    with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
+        json.dump(detection_rules, detection_rules_file, indent=4)
 
 
 def when_was_the_last_time(client):
@@ -93,6 +114,7 @@ def post_ticket_to_fs(investigation, client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
     config = fetch_config()
     alerts = get_alerts_from_idr(investigation["rrn"], client)
+    detection_rules = fetch_detection_rules()
     email = base64.b64decode(config[client]["email"]).decode("UTF-8")
     ccs = []
     if "ccs" in config[client]:
@@ -130,7 +152,16 @@ def post_ticket_to_fs(investigation, client):
         alert_source = "N/A"
 
     if alerts["data"][0]["detection_rule_rrn"] != None:
-        alert_detection_rule_rrn = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
+        rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
+        if rule in detection_rules:
+            mitre_tactic = detection_rules[rule]["tactic"]
+            mitre_technique = detection_rules[rule]["technique"]
+            mitre_sub_technique = detection_rules[rule]["sub-technique"]
+        else:
+            mitre_tactic = "Tactics, if applicable"
+            mitre_technique = "Techniques, if applicable"
+            mitre_sub_technique = "Sub-Techniques, if applicable"
+            update_detection_rules(rule)
     else:
         alert_detection_rule_rrn = "Not Applicable"
 
@@ -150,9 +181,9 @@ def post_ticket_to_fs(investigation, client):
             "rrn": investigation["rrn"],
             "evidence": "Place Alert Evidence here from InsightIDR",
             "research_links": "Place Research Links here, if applicable",
-            "mitre_attampck_tactics_including_id_and_description": "Tactics, if applicable",
-            "mitre_attampck_techniques_including_id_and_description": "Techniques, if applicable",
-            "mitre_attampck_subtechniques_including_id_and_description": "Sub-Techniques, if applicable",
+            "mitre_attampck_tactics_including_id_and_description": mitre_tactic,
+            "mitre_attampck_techniques_including_id_and_description": mitre_technique,
+            "mitre_attampck_subtechniques_including_id_and_description": mitre_sub_technique,
             "organization_id": investigation["organization_id"],
             "alert_title": alert_title,
             "alert_type": alert_type,

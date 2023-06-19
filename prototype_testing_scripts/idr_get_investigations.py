@@ -4,7 +4,7 @@ from datetime import datetime
 def getInvestigations():
     url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations'
     headers = {
-    "X-Api-Key": "x",
+    "X-Api-Key": "",
     "Accept-version": "investigations-preview"
     }
     params = {

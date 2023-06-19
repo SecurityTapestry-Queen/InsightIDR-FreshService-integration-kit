@@ -6,6 +6,7 @@
 import os
 import sys
 import json
+import base64
 from datetime import datetime
 import requests  # pylint: disable=E0401
 
@@ -92,9 +93,9 @@ def post_ticket_to_fs(investigation, client):
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
     config = fetch_config()
     alerts = get_alerts_from_idr(investigation["rrn"], client)
-    email = config[client]["email"]
+    email = base64.b64decode(config[client]["email"]).decode("UTF-8")
     if "ccs" in config[client]:
-        ccs = config[client]["ccs"]
+        ccs = base64.b64decode(config[client]["ccs"]).decode("UTF-8")
     else:
         ccs = []
 
@@ -120,14 +121,14 @@ def post_ticket_to_fs(investigation, client):
         alert_type = alerts["data"][0]["alert_type"]
         alert_type_description = alerts["data"][0]["alert_type_description"]
         alert_source = alerts["data"][0]["alert_source"]
-    if investigation["source"] == "USER":
+    else:
         alert_title = "N/A"
         alert_type = "N/A"
         alert_type_description = "N/A"
         alert_source = "N/A"
 
     data = {
-        "description": investigation["title"],
+        "description": alert_type_description,
         "subject": "Security Investigation: " + investigation["title"],
         "email": email,
         "cc_emails": ccs,
@@ -135,7 +136,7 @@ def post_ticket_to_fs(investigation, client):
         "priority": idr_priority,
         "urgency": idr_urgency,
         "impact": idr_impact,
-        "source": 14,
+        "source": 15,
         "group_id": 21000544549,
         "category": "InsightIDR",
         "custom_fields": {
@@ -149,7 +150,8 @@ def post_ticket_to_fs(investigation, client):
             "alert_title": alert_title,
             "alert_type": alert_type,
             "alert_type_description": alert_type_description,
-            "alert_source": alert_source
+            "alert_source": alert_source,
+            "threat_status": investigation["disposition"]
         }
     }
     request = requests.post(

@@ -28,7 +28,7 @@ jobs:
           IDR_API_GOSSETT: ${{ secrets.IDR_API_GOSSETT }}
           FS_API: ${{ secrets.FS_API }}
         run: |
-          # python3 investigations_post.py
+          python3 update_idr_investigations.py
       - name: commit config
         run: |
           git config --global user.email "bot-parser@users.noreply.github.com"

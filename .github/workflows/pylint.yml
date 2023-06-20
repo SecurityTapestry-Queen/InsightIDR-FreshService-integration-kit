@@ -21,12 +21,12 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint insight_functions.py | tee insight_functions.txt
-        pylint investigations_to_fs.py | tee investigations_to_fs.txt 
+        pylint investigations_post.py | tee investigations_post.txt 
     - name: Upload pylint artifacts
       uses: actions/upload-artifact@v3
       with:
         name: pylint report
         path: |
           insight_functions.txt
-          investigations_to_fs.txt
+          investigations_post.txt
         

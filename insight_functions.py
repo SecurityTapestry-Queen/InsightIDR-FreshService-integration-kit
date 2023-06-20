@@ -191,6 +191,7 @@ def post_ticket_to_fs(investigation, client):
         mitre_tactic = "Tactics, if applicable"
         mitre_technique = "Techniques, if applicable"
         mitre_sub_technique = "Sub-Techniques, if applicable"
+        rule = "Not Applicable"
 
     data = {
         "description": alert_type_description,

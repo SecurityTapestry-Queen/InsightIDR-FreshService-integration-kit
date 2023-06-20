@@ -183,6 +183,9 @@ def post_ticket_to_fs(investigation, client):
                 update_detection_rules(rule)
         else:
             rule = "Not Applicable"
+            mitre_tactic = "Tactics, if applicable"
+            mitre_technique = "Techniques, if applicable"
+            mitre_sub_technique = "Sub-Techniques, if applicable"
     else:
         alert_title = "N/A"
         alert_type = "N/A"

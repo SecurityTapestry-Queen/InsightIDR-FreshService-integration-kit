@@ -9,10 +9,10 @@ if __name__ == "__main__":
     function_check()
     config = fetch_config()
     clients = []
-    for key in config:
+    for key in config["Clients"]:
         clients.append(key)
     for client in clients:
-        if config[client]["enabled"] is True:
+        if config["Clients"][client]["enabled"] is True:
             investigation_post(client)
         else:
             print(str(client) + " is Disabled.")

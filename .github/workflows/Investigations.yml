@@ -2,7 +2,7 @@ name: Investigations
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/9 * * * *'
   workflow_dispatch:
 
 jobs:

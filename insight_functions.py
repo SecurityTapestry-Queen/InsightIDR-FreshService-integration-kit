@@ -170,25 +170,27 @@ def post_ticket_to_fs(investigation, client):
         alert_type = alerts["data"][0]["alert_type"]
         alert_type_description = alerts["data"][0]["alert_type_description"]
         alert_source = alerts["data"][0]["alert_source"]
+        if alerts["data"][0]["detection_rule_rrn"] != None:
+            rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
+            if rule in detection_rules:
+                mitre_tactic = detection_rules[rule]["tactic"]
+                mitre_technique = detection_rules[rule]["technique"]
+                mitre_sub_technique = detection_rules[rule]["sub-technique"]
+            else:
+                mitre_tactic = "Tactics, if applicable"
+                mitre_technique = "Techniques, if applicable"
+                mitre_sub_technique = "Sub-Techniques, if applicable"
+                update_detection_rules(rule)
+        else:
+            rule = "Not Applicable"
     else:
         alert_title = "N/A"
         alert_type = "N/A"
-        alert_type_description = "N/A"
-        alert_source = "N/A"
-
-    if alerts["data"][0]["detection_rule_rrn"] != None:
-        rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
-        if rule in detection_rules:
-            mitre_tactic = detection_rules[rule]["tactic"]
-            mitre_technique = detection_rules[rule]["technique"]
-            mitre_sub_technique = detection_rules[rule]["sub-technique"]
-        else:
-            mitre_tactic = "Tactics, if applicable"
-            mitre_technique = "Techniques, if applicable"
-            mitre_sub_technique = "Sub-Techniques, if applicable"
-            update_detection_rules(rule)
-    else:
-        rule = "Not Applicable"
+        alert_type_description = "Investigation created by user in InsightIDR"
+        alert_source = "User-Made Investigation"
+        mitre_tactic = "Tactics, if applicable"
+        mitre_technique = "Techniques, if applicable"
+        mitre_sub_technique = "Sub-Techniques, if applicable"
 
     data = {
         "description": alert_type_description,

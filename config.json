@@ -10,7 +10,7 @@
         "LOM": {
             "enabled": true,
             "api": "IDR_API_LEXUS",
-            "idr_organization_id": "",
+            "idr_organization_id": "787bed8a-7ac8-41bc-8337-5f093af0e025",
             "email": "YWxlcnRzQGxleHVzb2ZtZW1waGlzLmNvbQ==",
             "ccs": [
                 "bHRlbXBsZUBsZXh1c29mbWVtcGhpcy5jb20="

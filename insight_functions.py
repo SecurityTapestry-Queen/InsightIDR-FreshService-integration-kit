@@ -84,7 +84,6 @@ def when_was_the_last_time(client):
 
 def get_alerts_from_idr(rrn, client):
     """Get Alerts from Investigation in InsightIDR"""
-    print("Fetching Alerts for: " + str(rrn))
     config = fetch_config()
     url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + rrn + '/alerts'
     idr_api = os.getenv(config["Clients"][client]["api"])
@@ -166,6 +165,7 @@ def post_ticket_to_fs(investigation, client):
         idr_impact = 3
 
     if investigation["source"] == "ALERT":
+        print("Fetching Alerts for: " + str(investigation["rrn"]))
         alert_title = alerts["data"][0]["title"]
         alert_type = alerts["data"][0]["alert_type"]
         alert_type_description = alerts["data"][0]["alert_type_description"]

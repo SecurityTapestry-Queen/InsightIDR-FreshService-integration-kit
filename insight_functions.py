@@ -134,6 +134,7 @@ def check_for_new(client, investigations):
         checked_time = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
         if checked_time > created_time:
             continue
+        print("New Investigation Detected")
         post_ticket_to_fs(investigation, client)
 
 

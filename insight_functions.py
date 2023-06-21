@@ -18,12 +18,20 @@ def function_check():
     print("Performing Function Check")
     if sys.version_info < (3, 10):
         sys.exit("Python 3.10+ Needed")
+    else:
+        print("Correct Python Version Detected")
     if str(FS_API) == "None":
         sys.exit("FS_API key missing")
+    else:
+        print("FS_API key found")
     if os.path.isfile("config.json") == False:
         sys.exit("config.json missing")
+    else:
+        print("config.json detected")
     if os.path.isfile("detection_rules.json") == False:
         sys.exit("detection_rules.json missing")
+    else:
+        print("detection_rules.json detected")
     print("Function Check Succeeded")
 
 

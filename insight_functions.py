@@ -108,8 +108,12 @@ def get_insight_investigations(client):
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
     request = requests.get(url, headers=headers, params=params)
-    investigations = request.json()["data"]
-    check_for_new(client, investigations)
+    if "data" in request.json():
+        investigations = request.json()["data"]
+        check_for_new(client, investigations)
+    else:
+        print("Trouble getting data for " + client)
+        print(request.json())
 
 
 def check_for_new(client, investigations):

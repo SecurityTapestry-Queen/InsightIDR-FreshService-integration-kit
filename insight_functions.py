@@ -53,7 +53,19 @@ def update_detection_rules(new_rule):
     """Update detection rules in detection_rules.json"""
     print("Adding new Detection Rule: " + new_rule)
     detection_rules = fetch_detection_rules()
-    detection_rules[new_rule] = {
+    detection_rules["detection_rules"][new_rule] = {
+        "tactic": "Tactic seen, not recorded",
+        "technique": "Technique seen, not recorded",
+        "sub-technique": "Sub-Technique seen, not recorded"
+    } 
+    with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
+        json.dump(detection_rules, detection_rules_file, indent=4)
+
+def update_alert_types(new_alert_type):
+    """Update detection rules in detection_rules.json"""
+    print("Adding new Alert Type: " + new_alert_type)
+    detection_rules = fetch_detection_rules()
+    detection_rules["alert_types"][new_alert_type] = {
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
         "sub-technique": "Sub-Technique seen, not recorded"
@@ -185,15 +197,20 @@ def post_ticket_to_fs(investigation, client):
         alert_source = alerts["data"][0]["alert_source"]
         if alerts["data"][0]["detection_rule_rrn"] != None:
             rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
-            if rule in detection_rules:
-                mitre_tactic = detection_rules[rule]["tactic"]
-                mitre_technique = detection_rules[rule]["technique"]
-                mitre_sub_technique = detection_rules[rule]["sub-technique"]
-            else:
+            if rule in detection_rules["detection_rules"]:
+                mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
+                mitre_technique = detection_rules["detection_rules"][rule]["technique"]
+                mitre_sub_technique = detection_rules["detection_rules"][rule]["sub-technique"]
+            elif rule not in detection_rules["detection_rules"] and alert_type in detection_rules["alert_types"]:
+                mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
+                mitre_technique = detection_rules["alert_types"][alert_type]["technique"]
+                mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub-technique"]
+            elif rule not in detection_rules["detection_rules"] and alert_type not in detection_rules["alert_types"]:
                 mitre_tactic = "Tactics, if applicable"
                 mitre_technique = "Techniques, if applicable"
                 mitre_sub_technique = "Sub-Techniques, if applicable"
                 update_detection_rules(rule)
+                update_alert_types(alert_type)
         else:
             rule = "Not Applicable"
             mitre_tactic = "Tactics, if applicable"

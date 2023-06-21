@@ -20,7 +20,7 @@
         "HSSD": {
             "enabled": true,
             "api": "IDR_API_HSSD",
-            "idr_organization_id": "",
+            "idr_organization_id": "4f89aed5-9a79-4877-8e38-1649250be0cf",
             "email": "bWRyQGhzc2RrMTIub3Jn",
             "ccs": [
                 "anNlbG1hbkBoc3NkazEyLm9yZw==",
@@ -39,7 +39,7 @@
         "ICS": {
             "enabled": true,
             "api": "IDR_API_ICS",
-            "idr_organization_id": "",
+            "idr_organization_id": "593f982d-7eb4-4e39-8b14-83912443326b",
             "email": "YWxlcnRzQGljcy1ocy5vcmc=",
             "ccs": [
                 "dGxlYXN1cmVAaWNzLWhzLm9yZw=="

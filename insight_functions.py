@@ -104,7 +104,7 @@ def get_alerts_from_idr(rrn, client):
 
 def get_insight_investigations(client):
     """Fetch Investigations from InsightIDR"""
-    print("Getting Open Investigations for " + str(client))
+    print("Checking Investigations from " + str(client))
     config = fetch_config()
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations"
     idr_api = os.getenv(config["Clients"][client]["api"])

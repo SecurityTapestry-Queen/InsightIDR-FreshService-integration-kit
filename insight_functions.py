@@ -20,9 +20,9 @@ def function_check():
         sys.exit("Python 3.10+ Needed")
     if str(FS_API) == "None":
         sys.exit("FS_API key missing")
-    if os.path.isfile("config.json") == False:
+    if os.path.isfile("config.json") is False:
         sys.exit("config.json missing")
-    if os.path.isfile("detection_rules.json") == False:
+    if os.path.isfile("detection_rules.json") is False:
         sys.exit("detection_rules.json missing")
     print("Function Check Succeeded")
 
@@ -187,7 +187,7 @@ def post_ticket_to_fs(investigation, client):
         alert_type = alerts["data"][0]["alert_type"]
         alert_type_description = alerts["data"][0]["alert_type_description"]
         alert_source = alerts["data"][0]["alert_source"]
-        if alerts["data"][0]["detection_rule_rrn"] != None:
+        if alerts["data"][0]["detection_rule_rrn"] is not None:
             rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
             if rule in detection_rules["detection_rules"]:
                 mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]

@@ -229,27 +229,18 @@ def if_source_equals_alert(investigation,alerts,detection_rules):
     return alert_title,alert_type,alert_type_description,alert_source,rule,mitre_tactic,mitre_technique,mitre_sub_technique
 
 
-def post_ticket_to_fs(investigation, client):
-    """Posting ticket to FreshService"""
-    url = "https://securitytapestry.freshservice.com/api/v2/tickets"
-    config = fetch_config()
-    alerts = get_alerts_from_idr(investigation["rrn"], client)
-    detection_rules = fetch_detection_rules()
-    email = base64.b64decode(config["Clients"][client]["email"]).decode("UTF-8")
+def for_ccs(config,client):
+    """Enumerate Email addresses to CC Tickets"""
     ccs = []
     if "ccs" in config["Clients"][client]:
         for address in config["Clients"][client]["ccs"]:
             ccs.append(base64.b64decode(address).decode("UTF-8"))
     else:
         ccs = []
+    return ccs
 
-    idr_priority, idr_urgency, idr_impact = investigation_priority(investigation["priority"])
 
-    if investigation["source"] == "ALERT":
-        alert_title,alert_type,alert_type_description,alert_source,rule,mitre_tactic,mitre_technique,mitre_sub_technique = if_source_equals_alert(investigation,alerts,detection_rules)
-    else:
-        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_user_investigation()
-
+def build_ticket_json(investigation,alert_type_description,email,ccs,idr_priority,idr_urgency,idr_impact,mitre_tactic,mitre_technique,mitre_sub_technique,alert_title,alert_type,alert_source,rule):
     data = {
         "description": alert_type_description,
         "subject": "Security Investigation: " + investigation["title"],
@@ -278,6 +269,26 @@ def post_ticket_to_fs(investigation, client):
             "detection_rule_rrn": rule
         }
     }
+    return data
+
+
+def post_ticket_to_fs(investigation, client):
+    """Posting ticket to FreshService"""
+    url = "https://securitytapestry.freshservice.com/api/v2/tickets"
+    config = fetch_config()
+    alerts = get_alerts_from_idr(investigation["rrn"], client)
+    detection_rules = fetch_detection_rules()
+    email = base64.b64decode(config["Clients"][client]["email"]).decode("UTF-8")
+    ccs = for_ccs(config,client)
+
+    idr_priority, idr_urgency, idr_impact = investigation_priority(investigation["priority"])
+
+    if investigation["source"] == "ALERT":
+        alert_title,alert_type,alert_type_description,alert_source,rule,mitre_tactic,mitre_technique,mitre_sub_technique = if_source_equals_alert(investigation,alerts,detection_rules)
+    else:
+        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_user_investigation()
+
+    data = build_ticket_json(investigation,alert_type_description,email,ccs,idr_priority,idr_urgency,idr_impact,mitre_tactic,mitre_technique,mitre_sub_technique,alert_title,alert_type,alert_source,rule)
     request = requests.post(
         url,
         auth=(FS_API, "X"),

@@ -196,14 +196,12 @@ def if_alert_type_in_detection_rules(detection_rules,alert_type):
 
 def if_user_investigation():
     """Default Information incase of User-Generated Investigation"""
-    alert_title = "N/A"
-    alert_type = "N/A"
+    alert_title,alert_type,rule = "N/A"
     alert_type_description = "Investigation created by user in InsightIDR"
     alert_source = "User-Made Investigation"
     mitre_tactic = "Tactics, if applicable"
     mitre_technique = "Techniques, if applicable"
     mitre_sub_technique = "Sub-Techniques, if applicable"
-    rule = "N/A"
     return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule # pylint: disable=C0301
 
 def if_source_equals_alert(investigation,alerts,detection_rules):

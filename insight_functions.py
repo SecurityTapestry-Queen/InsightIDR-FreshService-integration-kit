@@ -152,6 +152,7 @@ def update_last_time(client):
 
 
 def investigation_priority(priority):
+    """Retrieving Priority for FreshService"""
     if priority == "LOW":
         idr_priority = 1
         idr_urgency = 1
@@ -170,6 +171,64 @@ def investigation_priority(priority):
         idr_impact = 3
     return idr_priority,idr_urgency,idr_impact
 
+
+def if_rule_in_detection_rules(detection_rules,rule):
+    """Use Logic based on Rule RRN in detection_rules"""
+    if rule in detection_rules["detection_rules"]:
+        mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
+        mitre_technique = detection_rules["detection_rules"][rule]["technique"]
+        mitre_sub_technique = detection_rules["detection_rules"][rule]["sub-technique"]
+    else:
+        mitre_tactic = "Tactics, if applicable"
+        mitre_technique = "Techniques, if applicable"
+        mitre_sub_technique = "Sub-Techniques, if applicable"
+        update_detection_rules(rule)
+    return mitre_tactic,mitre_technique,mitre_sub_technique
+
+
+def if_alert_type_in_detection_rules(detection_rules,alert_type):
+    """Use Logic based on Alert Type in detection_rules"""
+    if alert_type in detection_rules["alert_types"]:
+        mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
+        mitre_technique = detection_rules["alert_types"][alert_type]["technique"]
+        mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub-technique"]
+    else:
+        mitre_tactic = "Tactics, if applicable"
+        mitre_technique = "Techniques, if applicable"
+        mitre_sub_technique = "Sub-Techniques, if applicable"
+        update_alert_types(alert_type)
+    return mitre_tactic,mitre_technique,mitre_sub_technique
+
+
+def if_user_investigation():
+    """Default Information incase of User-Generated Investigation"""
+    alert_title = "N/A"
+    alert_type = "N/A"
+    alert_type_description = "Investigation created by user in InsightIDR"
+    alert_source = "User-Made Investigation"
+    mitre_tactic = "Tactics, if applicable"
+    mitre_technique = "Techniques, if applicable"
+    mitre_sub_technique = "Sub-Techniques, if applicable"
+    rule = "N/A"
+    return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule
+
+
+def if_source_equals_alert(investigation,alerts,detection_rules):
+    """Results if source is equal to Alert"""
+    print("Fetching Alerts for: " + str(investigation["rrn"]))
+    alert_title = alerts["data"][0]["title"]
+    alert_type = alerts["data"][0]["alert_type"]
+    alert_type_description = alerts["data"][0]["alert_type_description"]
+    alert_source = alerts["data"][0]["alert_source"]
+    if alerts["data"][0]["detection_rule_rrn"] is not None:
+        rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
+        mitre_tactic,mitre_technique,mitre_sub_technique = if_rule_in_detection_rules(detection_rules,rule)
+    else:
+        rule = "N/A"
+        mitre_tactic,mitre_technique,mitre_sub_technique = if_alert_type_in_detection_rules(detection_rules,alert_type)
+    return alert_title,alert_type,alert_type_description,alert_source,rule,mitre_tactic,mitre_technique,mitre_sub_technique
+
+
 def post_ticket_to_fs(investigation, client):
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
@@ -187,42 +246,9 @@ def post_ticket_to_fs(investigation, client):
     idr_priority, idr_urgency, idr_impact = investigation_priority(investigation["priority"])
 
     if investigation["source"] == "ALERT":
-        print("Fetching Alerts for: " + str(investigation["rrn"]))
-        alert_title = alerts["data"][0]["title"]
-        alert_type = alerts["data"][0]["alert_type"]
-        alert_type_description = alerts["data"][0]["alert_type_description"]
-        alert_source = alerts["data"][0]["alert_source"]
-        if alerts["data"][0]["detection_rule_rrn"] is not None:
-            rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
-            if rule in detection_rules["detection_rules"]:
-                mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
-                mitre_technique = detection_rules["detection_rules"][rule]["technique"]
-                mitre_sub_technique = detection_rules["detection_rules"][rule]["sub-technique"]
-            else:
-                mitre_tactic = "Tactics, if applicable"
-                mitre_technique = "Techniques, if applicable"
-                mitre_sub_technique = "Sub-Techniques, if applicable"
-                update_detection_rules(rule)
-        else:
-            rule = "N/A"
-            if alert_type in detection_rules["alert_types"]:
-                mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
-                mitre_technique = detection_rules["alert_types"][alert_type]["technique"]
-                mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub-technique"]
-            else:
-                mitre_tactic = "Tactics, if applicable"
-                mitre_technique = "Techniques, if applicable"
-                mitre_sub_technique = "Sub-Techniques, if applicable"
-                update_alert_types(alert_type)
+        alert_title,alert_type,alert_type_description,alert_source,rule,mitre_tactic,mitre_technique,mitre_sub_technique = if_source_equals_alert(investigation,alerts,detection_rules)
     else:
-        alert_title = "N/A"
-        alert_type = "N/A"
-        alert_type_description = "Investigation created by user in InsightIDR"
-        alert_source = "User-Made Investigation"
-        mitre_tactic = "Tactics, if applicable"
-        mitre_technique = "Techniques, if applicable"
-        mitre_sub_technique = "Sub-Techniques, if applicable"
-        rule = "N/A"
+        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_user_investigation()
 
     data = {
         "description": alert_type_description,

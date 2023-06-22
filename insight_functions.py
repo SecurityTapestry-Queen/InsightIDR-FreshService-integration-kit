@@ -151,6 +151,25 @@ def update_last_time(client):
         json.dump(config, config_file, indent=4)
 
 
+def investigation_priority(priority):
+    if priority == "LOW":
+        idr_priority = 1
+        idr_urgency = 1
+        idr_impact = 1
+    elif priority == "MEDIUM":
+        idr_priority = 2
+        idr_urgency = 2
+        idr_impact = 2
+    elif priority == "HIGH":
+        idr_priority = 3
+        idr_urgency = 3
+        idr_impact = 3
+    elif priority == "CRITICAL":
+        idr_priority = 4
+        idr_urgency = 3
+        idr_impact = 3
+    return idr_priority,idr_urgency,idr_impact
+
 def post_ticket_to_fs(investigation, client):
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
@@ -165,22 +184,7 @@ def post_ticket_to_fs(investigation, client):
     else:
         ccs = []
 
-    if investigation["priority"] == "LOW":
-        idr_priority = 1
-        idr_urgency = 1
-        idr_impact = 1
-    elif investigation["priority"] == "MEDIUM":
-        idr_priority = 2
-        idr_urgency = 2
-        idr_impact = 2
-    elif investigation["priority"] == "HIGH":
-        idr_priority = 3
-        idr_urgency = 3
-        idr_impact = 3
-    elif investigation["priority"] == "CRITICAL":
-        idr_priority = 4
-        idr_urgency = 3
-        idr_impact = 3
+    idr_priority, idr_urgency, idr_impact = investigation_priority(investigation["priority"])
 
     if investigation["source"] == "ALERT":
         print("Fetching Alerts for: " + str(investigation["rrn"]))

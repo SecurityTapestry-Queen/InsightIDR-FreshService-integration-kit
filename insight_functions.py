@@ -3,10 +3,7 @@
 
 """Module providing functions to investigations_post.py"""
 
-import os
-import sys
-import json
-import base64
+import os,sys,json,base64
 from datetime import datetime
 import requests  # pylint: disable=E0401
 

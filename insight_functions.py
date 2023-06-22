@@ -239,7 +239,7 @@ def for_ccs(config,client):
     return ccs
 
 
-def build_ticket_json(investigation,alert_type_description,email,ccs,idr_priority,idr_urgency,idr_impact,mitre_tactic,mitre_technique,mitre_sub_technique,alert_title,alert_type,alert_source,rule):  # pylint: disable=C0301
+def build_ticket_json(investigation,alert_type_description,email,ccs,idr_priority,idr_urgency,idr_impact,mitre_tactic,mitre_technique,mitre_sub_technique,alert_title,alert_type,alert_source,rule):  # pylint: disable=C0301,R0913
     """Build Ticket JSON"""
     data = {
         "description": alert_type_description,
@@ -272,7 +272,7 @@ def build_ticket_json(investigation,alert_type_description,email,ccs,idr_priorit
     return data
 
 
-def post_ticket_to_fs(investigation, client):
+def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
     config = fetch_config()

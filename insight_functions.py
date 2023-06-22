@@ -41,11 +41,12 @@ def fetch_detection_rules():
         return detection_rules
 
 
-def update_detection_rules(new_rule):
+def update_detection_rules(new_rule,alert_title):
     """Update detection rules in detection_rules.json"""
     print("Adding new Detection Rule: " + new_rule)
     detection_rules = fetch_detection_rules()
     detection_rules["detection_rules"][new_rule] = {
+        "alert_title": alert_title,
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
         "sub-technique": "Sub-Technique seen, not recorded"
@@ -172,7 +173,7 @@ def investigation_priority(priority):
     return idr_priority,idr_urgency,idr_impact
 
 
-def if_rule_in_detection_rules(detection_rules,rule):
+def if_rule_in_detection_rules(detection_rules,rule,alert_title):
     """Use Logic based on Rule RRN in detection_rules"""
     if rule in detection_rules["detection_rules"]:
         mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
@@ -182,7 +183,7 @@ def if_rule_in_detection_rules(detection_rules,rule):
         mitre_tactic = "Tactics, if applicable"
         mitre_technique = "Techniques, if applicable"
         mitre_sub_technique = "Sub-Techniques, if applicable"
-        update_detection_rules(rule)
+        update_detection_rules(rule,alert_title)
     return mitre_tactic,mitre_technique,mitre_sub_technique
 
 
@@ -221,7 +222,7 @@ def if_source_equals_alert(investigation,alerts,detection_rules):
     alert_source = alerts["data"][0]["alert_source"]
     if alerts["data"][0]["detection_rule_rrn"] is not None:
         rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
-        mitre_tactic,mitre_technique,mitre_sub_technique = if_rule_in_detection_rules(detection_rules,rule)  # pylint: disable=C0301
+        mitre_tactic,mitre_technique,mitre_sub_technique = if_rule_in_detection_rules(detection_rules,rule,alert_title)  # pylint: disable=C0301
     else:
         rule = "N/A"
         mitre_tactic,mitre_technique,mitre_sub_technique = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301

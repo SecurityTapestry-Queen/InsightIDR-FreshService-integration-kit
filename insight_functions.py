@@ -239,7 +239,13 @@ def for_ccs(config,client):
     return ccs
 
 
-def build_ticket_json(investigation,alert_type_description,email,ccs,idr_priority,idr_urgency,idr_impact,mitre_tactic,mitre_technique,mitre_sub_technique,alert_title,alert_type,alert_source,rule):  # pylint: disable=C0301,R0913
+def build_ticket_json(
+        investigation,alert_type_description,
+        email,ccs,
+        idr_priority,idr_urgency,idr_impact,
+        mitre_tactic,mitre_technique,mitre_sub_technique,
+        alert_title,alert_type,alert_source,rule,client
+        ):  # pylint: disable=R0913
     """Build Ticket JSON"""
     data = {
         "description": alert_type_description,
@@ -266,7 +272,8 @@ def build_ticket_json(investigation,alert_type_description,email,ccs,idr_priorit
             "alert_type_description": alert_type_description,
             "alert_source": alert_source,
             "threat_status": investigation["disposition"],
-            "detection_rule_rrn": rule
+            "detection_rule_rrn": rule,
+            "client_code": client
         }
     }
     return data
@@ -288,7 +295,14 @@ def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
     else:
         alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_user_investigation() # pylint: disable=C0301
 
-    data = build_ticket_json(investigation,alert_type_description,email,ccs,idr_priority,idr_urgency,idr_impact,mitre_tactic,mitre_technique,mitre_sub_technique,alert_title,alert_type,alert_source,rule) # pylint: disable=C0301
+    data = build_ticket_json(
+        investigation,
+        alert_type_description,
+        email,ccs,
+        idr_priority,idr_urgency,idr_impact,
+        mitre_tactic,mitre_technique,mitre_sub_technique,
+        alert_title,alert_type,alert_source,rule,client
+    )
     request = requests.post(
         url,
         auth=(FS_API, "X"),

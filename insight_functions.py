@@ -239,7 +239,7 @@ def for_ccs(config,client):
     return ccs
 
 
-def build_ticket_json(
+def build_ticket_json(   # pylint: disable=R0914
         investigation,alert_type_description,
         email,ccs,
         idr_priority,idr_urgency,idr_impact,

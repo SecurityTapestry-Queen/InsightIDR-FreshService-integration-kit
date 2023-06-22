@@ -32,14 +32,14 @@ def fetch_config():
     with open("config.json", "r", encoding="UTF-8") as config_file:
         config = json.load(config_file)
         return config
-    
+
 
 def fetch_detection_rules():
     """Load Detection Rules into memory"""
     with open("detection_rules.json", "r", encoding="UTF-8") as detection_rules_file:
         detection_rules = json.load(detection_rules_file)
         return detection_rules
-    
+
 
 def update_detection_rules(new_rule):
     """Update detection rules in detection_rules.json"""
@@ -49,9 +49,10 @@ def update_detection_rules(new_rule):
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
         "sub-technique": "Sub-Technique seen, not recorded"
-    } 
+    }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
+
 
 def update_alert_types(new_alert_type):
     """Update detection rules in detection_rules.json"""
@@ -61,7 +62,7 @@ def update_alert_types(new_alert_type):
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
         "sub-technique": "Sub-Technique seen, not recorded"
-    } 
+    }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
 

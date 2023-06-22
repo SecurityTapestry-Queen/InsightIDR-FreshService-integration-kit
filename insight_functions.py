@@ -155,21 +155,14 @@ def update_last_time(client):
 def investigation_priority(priority):
     """Retrieving Priority for FreshService"""
     if priority == "LOW":
-        idr_priority = 1
-        idr_urgency = 1
-        idr_impact = 1
+        idr_priority,idr_urgency,idr_impact = 1
     elif priority == "MEDIUM":
-        idr_priority = 2
-        idr_urgency = 2
-        idr_impact = 2
+        idr_priority,idr_urgency,idr_impact = 2
     elif priority == "HIGH":
-        idr_priority = 3
-        idr_urgency = 3
-        idr_impact = 3
+        idr_priority,idr_urgency,idr_impact = 3
     elif priority == "CRITICAL":
         idr_priority = 4
-        idr_urgency = 3
-        idr_impact = 3
+        idr_urgency,idr_impact = 3
     return idr_priority,idr_urgency,idr_impact
 
 

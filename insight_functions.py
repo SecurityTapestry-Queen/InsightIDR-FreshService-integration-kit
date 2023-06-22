@@ -201,21 +201,22 @@ def post_ticket_to_fs(investigation, client):
                 mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
                 mitre_technique = detection_rules["detection_rules"][rule]["technique"]
                 mitre_sub_technique = detection_rules["detection_rules"][rule]["sub-technique"]
-            elif rule not in detection_rules["detection_rules"] and alert_type in detection_rules["alert_types"]:
-                mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
-                mitre_technique = detection_rules["alert_types"][alert_type]["technique"]
-                mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub-technique"]
-            elif rule not in detection_rules["detection_rules"] and alert_type not in detection_rules["alert_types"]:
+            else:
                 mitre_tactic = "Tactics, if applicable"
                 mitre_technique = "Techniques, if applicable"
                 mitre_sub_technique = "Sub-Techniques, if applicable"
                 update_detection_rules(rule)
-                update_alert_types(alert_type)
         else:
-            rule = "Not Applicable"
-            mitre_tactic = "Tactics, if applicable"
-            mitre_technique = "Techniques, if applicable"
-            mitre_sub_technique = "Sub-Techniques, if applicable"
+            rule = "N/A"
+            if alert_type in detection_rules["alert_types"]:
+                mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
+                mitre_technique = detection_rules["alert_types"][alert_type]["technique"]
+                mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub-technique"]
+            else:
+                mitre_tactic = "Tactics, if applicable"
+                mitre_technique = "Techniques, if applicable"
+                mitre_sub_technique = "Sub-Techniques, if applicable"
+                update_alert_types(alert_type)
     else:
         alert_title = "N/A"
         alert_type = "N/A"
@@ -224,7 +225,7 @@ def post_ticket_to_fs(investigation, client):
         mitre_tactic = "Tactics, if applicable"
         mitre_technique = "Techniques, if applicable"
         mitre_sub_technique = "Sub-Techniques, if applicable"
-        rule = "Not Applicable"
+        rule = "N/A"
 
     data = {
         "description": alert_type_description,

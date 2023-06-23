@@ -46,7 +46,7 @@ def update_detection_rules(new_rule,alert_title):
         "alert_title": alert_title,
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
-        "sub-technique": "Sub-Technique seen, not recorded"
+        "sub_technique": "Sub-Technique seen, not recorded"
     }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
@@ -59,7 +59,7 @@ def update_alert_types(new_alert_type):
     detection_rules["alert_types"][new_alert_type] = {
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
-        "sub-technique": "Sub-Technique seen, not recorded"
+        "sub_technique": "Sub-Technique seen, not recorded"
     }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
@@ -167,7 +167,7 @@ def if_rule_in_detection_rules(detection_rules,rule,alert_title):
     if rule in detection_rules["detection_rules"]:
         mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
         mitre_technique = detection_rules["detection_rules"][rule]["technique"]
-        mitre_sub_technique = detection_rules["detection_rules"][rule]["sub-technique"]
+        mitre_sub_technique = detection_rules["detection_rules"][rule]["sub_technique"]
     else:
         mitre_tactic = "Tactics, if applicable"
         mitre_technique = "Techniques, if applicable"
@@ -181,7 +181,7 @@ def if_alert_type_in_detection_rules(detection_rules,alert_type):
     if alert_type in detection_rules["alert_types"]:
         mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
         mitre_technique = detection_rules["alert_types"][alert_type]["technique"]
-        mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub-technique"]
+        mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub_technique"]
     else:
         mitre_tactic = "Tactics, if applicable"
         mitre_technique = "Techniques, if applicable"

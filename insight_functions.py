@@ -3,9 +3,12 @@
 
 """Module providing functions to investigations_post.py"""
 
-import os,sys,json,base64
+import os
+import sys
+import json
+import base64
 from datetime import datetime
-import requests  # pylint: disable=E0401
+import requests
 
 FS_API = os.getenv("FS_API")
 
@@ -81,7 +84,11 @@ def update_idr_investigation(client,rrn,fs_ticket):
         "disposition": fs_ticket["disposition"],
         "status": fs_ticket["status"]
     }
-    request = requests.patch(url,data,params,headers)
+    request = requests.patch(url, # pylint: disable=E1121
+                             data,
+                             params,
+                             headers,
+                             timeout=30)
     updated = request.json()
     return updated
 
@@ -100,7 +107,10 @@ def get_alerts_from_idr(rrn, client):
     idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {"multi-customer": True}
-    request = requests.get(url, headers=headers, params=params)
+    request = requests.get(url, # pylint: disable=E1121
+                           headers,
+                           params,
+                           timeout=30)
     alerts = request.json()
     return alerts
 
@@ -118,7 +128,10 @@ def get_insight_investigations(client):
         "sources": "ALERT,USER",
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
-    request = requests.get(url, headers=headers, params=params)
+    request = requests.get(url, # pylint: disable=E1121
+                           headers,
+                           params,
+                           timeout=30)
     if "data" in request.json():
         investigations = request.json()["data"]
         check_for_new(client, investigations)
@@ -296,6 +309,7 @@ def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
         auth=(FS_API, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
+        timeout=30
     )
     ticket_id = request.json()["ticket"]["id"]
     print("Posted ticket #" + str(ticket_id))
@@ -310,7 +324,10 @@ def get_investigation_comments(t_id, client, ticket_id):
     headers = {"X-Api-Key": idr_api, "Accept-version": "comments-preview"}
     params = {"multi-customer": True, "target": t_id}
 
-    request = requests.get(url, headers=headers, params=params)
+    request = requests.get(url, # pylint: disable=E1121
+                           headers,
+                           params,
+                           timeout=30)
     comments = request.json()
     comment_data = comments["data"]
     last_time_data = when_was_the_last_time(client)
@@ -338,6 +355,7 @@ def post_comments_to_fs(fs_id, comment):
         auth=(FS_API, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
+        timeout=30
     )
     print("Posted comment to ticket #" + str(fs_id))
 

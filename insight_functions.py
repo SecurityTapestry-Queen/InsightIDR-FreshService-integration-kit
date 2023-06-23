@@ -138,7 +138,7 @@ def get_insight_investigations(client):
         investigations = request.json()["data"]
         check_for_new(client, investigations)
     else:
-        print("Trouble getting data for " + client)
+        print("Trouble getting Investigations for " + client)
         print(request.json())
 
 
@@ -318,9 +318,13 @@ def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
         headers={"Content-Type": "application/json"},
         timeout=30
     )
-    ticket_id = request.json()["ticket"]["id"]
-    print("Posted ticket #" + str(ticket_id))
-    get_investigation_comments(investigation["rrn"], client, ticket_id)
+    if "ticket" in request.json():
+        ticket_id = request.json()["ticket"]["id"]
+        print("Posted ticket #" + str(ticket_id))
+        get_investigation_comments(investigation["rrn"], client, ticket_id)
+    else:
+        print("Error posting ticket for: " + investigation["rrn"])
+        print(request.json())
 
 
 def get_investigation_comments(t_id, client, ticket_id):

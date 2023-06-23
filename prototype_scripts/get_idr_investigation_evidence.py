@@ -1,10 +1,9 @@
 import requests
 
-def getInsightInvestigation(id):
-    url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + id
+def getInsightInvestigation(rrn):
+    url = 'https://us2.api.insight.rapid7.com/idr/v1/restricted/investigations/' + rrn + '/evidence'
     headers = {
-    "X-Api-Key": "",
-    "Accept-version": "investigations-preview"
+    "X-Api-Key": ""
     }
     # params = {
     # "multi-customer": True

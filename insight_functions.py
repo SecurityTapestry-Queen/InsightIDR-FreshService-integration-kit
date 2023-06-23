@@ -49,7 +49,8 @@ def update_detection_rules(new_rule,alert_title):
         "alert_title": alert_title,
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
-        "sub_technique": "Sub-Technique seen, not recorded"
+        "sub_technique": "Sub-Technique seen, not recorded",
+        "mitigation": "Mitigation not recorded"
     }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
@@ -62,7 +63,8 @@ def update_alert_types(new_alert_type):
     detection_rules["alert_types"][new_alert_type] = {
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
-        "sub_technique": "Sub-Technique seen, not recorded"
+        "sub_technique": "Sub-Technique seen, not recorded",
+        "mitigation": "Mitigation not recorded"
     }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
@@ -181,12 +183,14 @@ def if_rule_in_detection_rules(detection_rules,rule,alert_title):
         mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
         mitre_technique = detection_rules["detection_rules"][rule]["technique"]
         mitre_sub_technique = detection_rules["detection_rules"][rule]["sub_technique"]
+        mitigation = detection_rules["detection_rules"][rule]["mitigation"]
     else:
         mitre_tactic = "Tactics, if applicable"
         mitre_technique = "Techniques, if applicable"
         mitre_sub_technique = "Sub-Techniques, if applicable"
+        mitigation = "Mitigation not recorded"
         update_detection_rules(rule,alert_title)
-    return mitre_tactic,mitre_technique,mitre_sub_technique
+    return mitre_tactic,mitre_technique,mitre_sub_technique,mitigation
 
 
 def if_alert_type_in_detection_rules(detection_rules,alert_type):
@@ -195,23 +199,25 @@ def if_alert_type_in_detection_rules(detection_rules,alert_type):
         mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
         mitre_technique = detection_rules["alert_types"][alert_type]["technique"]
         mitre_sub_technique = detection_rules["alert_types"][alert_type]["sub_technique"]
+        mitigation = detection_rules["alert_types"][alert_type]["mitigation"]
     else:
         mitre_tactic = "Tactics, if applicable"
         mitre_technique = "Techniques, if applicable"
         mitre_sub_technique = "Sub-Techniques, if applicable"
+        mitigation = "Mitigation not recorded"
         update_alert_types(alert_type)
-    return mitre_tactic,mitre_technique,mitre_sub_technique
+    return mitre_tactic,mitre_technique,mitre_sub_technique,mitigation
 
 
 def if_user_investigation():
     """Default Information incase of User-Generated Investigation"""
-    alert_title,alert_type,rule = "N/A"
+    alert_title,alert_type,rule,mitigation = "N/A"
     alert_type_description = "Investigation created by user in InsightIDR"
     alert_source = "User-Made Investigation"
     mitre_tactic = "Tactics, if applicable"
     mitre_technique = "Techniques, if applicable"
     mitre_sub_technique = "Sub-Techniques, if applicable"
-    return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule # pylint: disable=C0301
+    return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation # pylint: disable=C0301
 
 def if_source_equals_alert(investigation,alerts,detection_rules):
     """Results if source is equal to Alert"""
@@ -222,11 +228,11 @@ def if_source_equals_alert(investigation,alerts,detection_rules):
     alert_source = alerts["data"][0]["alert_source"]
     if alerts["data"][0]["detection_rule_rrn"] is not None:
         rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
-        mitre_tactic,mitre_technique,mitre_sub_technique = if_rule_in_detection_rules(detection_rules,rule,alert_title)  # pylint: disable=C0301
+        mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_rule_in_detection_rules(detection_rules,rule,alert_title)  # pylint: disable=C0301
     else:
         rule = "N/A"
-        mitre_tactic,mitre_technique,mitre_sub_technique = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301
-    return alert_title,alert_type,alert_type_description,alert_source,rule,mitre_tactic,mitre_technique,mitre_sub_technique  # pylint: disable=C0301
+        mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301
+    return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation  # pylint: disable=C0301
 
 
 def for_ccs(config,client):
@@ -245,7 +251,7 @@ def build_ticket_json(   # pylint: disable=R0914
         email,ccs,
         idr_priority,idr_urgency,idr_impact,
         mitre_tactic,mitre_technique,mitre_sub_technique,
-        alert_title,alert_type,alert_source,rule,client
+        alert_title,alert_type,alert_source,rule,client,mitigation
         ):
     """Build Ticket JSON"""
     data = {
@@ -274,7 +280,8 @@ def build_ticket_json(   # pylint: disable=R0914
             "alert_source": alert_source,
             "threat_status": investigation["disposition"],
             "detection_rule_rrn": rule,
-            "client_code": client
+            "client_code": client,
+            "mitigation": mitigation
         }
     }
     return data
@@ -292,17 +299,17 @@ def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
     idr_priority, idr_urgency, idr_impact = investigation_priority(investigation["priority"])
 
     if investigation["source"] == "ALERT":
-        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_source_equals_alert(investigation,alerts,detection_rules) # pylint: disable=C0301
+        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation = if_source_equals_alert(investigation,alerts,detection_rules) # pylint: disable=C0301
     else:
-        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_user_investigation() # pylint: disable=C0301
+        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation = if_user_investigation() # pylint: disable=C0301
 
-    data = build_ticket_json(
+    data = build_ticket_json( # pylint: disable=E1121
         investigation,
         alert_type_description,
         email,ccs,
         idr_priority,idr_urgency,idr_impact,
         mitre_tactic,mitre_technique,mitre_sub_technique,
-        alert_title,alert_type,alert_source,rule,client
+        alert_title,alert_type,alert_source,rule,client,mitigation
     )
     request = requests.post(
         url,

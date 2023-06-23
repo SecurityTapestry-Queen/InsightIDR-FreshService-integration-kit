@@ -110,8 +110,8 @@ def get_alerts_from_idr(rrn, client):
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {"multi-customer": True}
     request = requests.get(url, # pylint: disable=E1121
-                           headers,
                            params,
+                           headers=headers,
                            timeout=30)
     alerts = request.json()
     return alerts
@@ -131,8 +131,8 @@ def get_insight_investigations(client):
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
     request = requests.get(url, # pylint: disable=E1121
-                           headers,
                            params,
+                           headers=headers,
                            timeout=30)
     if "data" in request.json():
         investigations = request.json()["data"]
@@ -332,8 +332,8 @@ def get_investigation_comments(t_id, client, ticket_id):
     params = {"multi-customer": True, "target": t_id}
 
     request = requests.get(url, # pylint: disable=E1121
-                           headers,
                            params,
+                           headers=headers,
                            timeout=30)
     comments = request.json()
     comment_data = comments["data"]

@@ -81,17 +81,13 @@ def update_idr_investigation(client,rrn,ticket_id):
     "X-Api-Key": idr_api,
     "Accept-version": "investigations-preview"
     }
-    params = {
-    "multi-customer": True
-    }
     data = {
         "disposition": ticket_id["disposition"],
         "status": ticket_id["status"]
     }
     request = requests.patch(url, # pylint: disable=E1121
                              data,
-                             params,
-                             headers,
+                             headers=headers,
                              timeout=30)
     updated = request.json()
 
@@ -112,9 +108,7 @@ def get_alerts_from_idr(rrn, client):
     url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + rrn + '/alerts'
     idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
-    params = {"multi-customer": True}
     request = requests.get(url, # pylint: disable=E1121
-                           params,
                            headers=headers,
                            timeout=30)
     alerts = request.json()
@@ -131,7 +125,6 @@ def get_insight_investigations(client):
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {
         "statuses": "OPEN,INVESTIGATING",
-        "multi-customer": True,
         "sources": "ALERT,USER",
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
@@ -345,7 +338,7 @@ def get_investigation_comments(investigation_id, client, ticket_id):
     config = fetch_config()
     idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "comments-preview"}
-    params = {"multi-customer": True, "target": investigation_id}
+    params = {"target": investigation_id}
 
     request = requests.get(url, # pylint: disable=E1121
                            params,

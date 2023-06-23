@@ -27,6 +27,20 @@
             "technique": "T1595 - Active Scanning\nAdversaries may execute active reconnaissance scans to gather information that can be used during targeting. Active scans are those where the adversary probes victim infrastructure via network traffic, as opposed to other forms of reconnaissance that do not involve direct interaction.\n\nAdversaries may perform different forms of active scanning depending on what information they seek to gather. These scans can also be performed in various ways, including using native features of network protocols such as ICMP. Information from these scans may reveal opportunities for other forms of reconnaissance (ex: Search Open Websites/Domains or Search Open Technical Databases), establishing operational resources (ex: Develop Capabilities or Obtain Capabilities), and/or initial access (ex: External Remote Services or Exploit Public-Facing Application).",
             "sub_technique": "T1595.001 - Scanning IP Blocks\nAdversaries may scan victim IP blocks to gather information that can be used during targeting. Public IP addresses may be allocated to organizations by block, or a range of sequential addresses.\n\nAdversaries may scan IP blocks in order to Gather Victim Network Information, such as which IP addresses are actively in use as well as more detailed information about hosts assigned these addresses. Scans may range from simple pings (ICMP requests and responses) to more nuanced scans that may reveal host software/versions via server banners or other network artifacts. Information from these scans may reveal opportunities for other forms of reconnaissance (ex: Search Open Websites/Domains or Search Open Technical Databases), establishing operational resources (ex: Develop Capabilities or Obtain Capabilities), and/or initial access (ex: External Remote Services).",
             "mitigation": "MITIGATION\nM1056 - Pre-compromise\nThis category is used for any applicable mitigation activities that apply to techniques occurring before an adversary gains Initial Access, such as Reconnaissance and Resource Development techniques."
+        },
+        "rrn:cba:::detection-rule:OHTL4ETFY9BO": {
+            "alert_title": "Suspicious Process - Malicious Hash On Asset",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:N9YCOVYQA4FF": {
+            "alert_title": "Suspicious Process - RunDLL32 in Non-Standard Directory",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {
@@ -59,6 +73,12 @@
             "technique": "T1110 - Brute Force\nAdversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained. Without knowledge of the password for an account or set of accounts, an adversary may systematically guess the password using a repetitive or iterative mechanism. Brute forcing passwords can take place via interaction with a service that will check the validity of those credentials or offline against previously acquired credential data, such as password hashes.\n\nBrute forcing credentials may take place at various points during a breach. For example, adversaries may attempt to brute force access to Valid Accounts within a victim environment leveraging knowledge gathered from other post-compromise behaviors such as OS Credential Dumping, Account Discovery, or Password Policy Discovery. Adversaries may also combine brute forcing activity with behaviors such as External Remote Services as part of Initial Access.",
             "sub_technique": "T1110.001 - Password Guessing\nAdversaries with no prior knowledge of legitimate credentials within the system or environment may guess passwords to attempt access to accounts. Without knowledge of the password for an account, an adversary may opt to systematically guess the password using a repetitive or iterative mechanism. An adversary may guess login credentials without prior knowledge of system or environment passwords during an operation by using a list of common passwords. Password guessing may or may not take into account the target's policies on password complexity or use policies that may lock accounts out after a number of failed attempts.\n\nGuessing passwords can be a risky option because it could cause numerous authentication failures and account lockouts, depending on the organization's login failure policies.\n\nTypically, management services over commonly used ports are used when guessing passwords. Commonly targeted services include the following:\n\nSSH (22/TCP)\nTelnet (23/TCP)\nFTP (21/TCP)\nNetBIOS / SMB / Samba (139/TCP & 445/TCP)\nLDAP (389/TCP)\nKerberos (88/TCP)\nRDP / Terminal Services (3389/TCP)\nHTTP/HTTP Management Services (80/TCP & 443/TCP)\nMSSQL (1433/TCP)\nOracle (1521/TCP)\nMySQL (3306/TCP)\nVNC (5900/TCP)\nSNMP (161/UDP and 162/TCP/UDP)\nIn addition to management services, adversaries may \"target single sign-on (SSO) and cloud-based applications utilizing federated authentication protocols,\" as well as externally facing email applications, such as Office 365.. Further, adversaries may abuse network device interfaces (such as wlanAPI) to brute force accessible wifi-router(s) via wireless authentication protocols.\n\nIn default environments, LDAP and Kerberos connection attempts are less likely to trigger events over SMB, which creates Windows \"logon failure\" event ID 4625.",
             "mitigation": "MITIGATION\nM1027 - Password Policies\nSet and enforce secure password policies for accounts.\n\nMITIGATION\nM1032 - Multi-factor Authentication\nUse two or more pieces of evidence to authenticate to a system; such as username and password in addition to a token from a physical smart card or token generator.\n\nMITIGATION\nM1036 - Account Use Policies\nConfigure features related to account use like login attempt lockouts, specific login times, etc.\n\nMITIGATION\nM1051 - Update Software\nPerform regular software updates to mitigate exploitation risk."
+        },
+        "Malicious Hash On Asset": {
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     }
 }

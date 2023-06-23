@@ -281,7 +281,7 @@ def build_ticket_json(   # pylint: disable=R0914
             "threat_status": investigation["disposition"],
             "detection_rule_rrn": rule,
             "client_code": client,
-            "mitigation": mitigation
+            "mitigation_longtext": mitigation
         }
     }
     return data

@@ -31,7 +31,7 @@ def fetch_config():
     """Load Config into memory"""
     with open("config.json", "r", encoding="UTF-8") as config_file:
         config = json.load(config_file)
-        
+
         return config
 
 
@@ -39,7 +39,7 @@ def fetch_detection_rules():
     """Load Detection Rules into memory"""
     with open("detection_rules.json", "r", encoding="UTF-8") as detection_rules_file:
         detection_rules = json.load(detection_rules_file)
-        
+
         return detection_rules
 
 
@@ -94,7 +94,7 @@ def update_idr_investigation(client,rrn,fs_ticket):
                              headers,
                              timeout=30)
     updated = request.json()
-    
+
     return updated
 
 
@@ -102,7 +102,7 @@ def when_was_the_last_time(client):
     """Check lasttime checked from CONFIG"""
     config = fetch_config()
     last_time_data = config["Clients"][client]["time"]
-    
+
     return last_time_data
 
 
@@ -118,7 +118,7 @@ def get_alerts_from_idr(rrn, client):
                            headers=headers,
                            timeout=30)
     alerts = request.json()
-    
+
     return alerts
 
 
@@ -180,7 +180,7 @@ def investigation_priority(priority):
         idr_priority,idr_urgency,idr_impact = 3,3,3
     elif priority == "CRITICAL":
         idr_priority,idr_urgency,idr_impact = 4,3,3
-    
+
     return idr_priority,idr_urgency,idr_impact
 
 
@@ -197,7 +197,7 @@ def if_rule_in_detection_rules(detection_rules,rule,alert_title):
         mitre_sub_technique = "Sub-Techniques, if applicable"
         mitigation = "Mitigation not recorded"
         update_detection_rules(rule,alert_title)
-    
+
     return mitre_tactic,mitre_technique,mitre_sub_technique,mitigation
 
 
@@ -214,7 +214,7 @@ def if_alert_type_in_detection_rules(detection_rules,alert_type):
         mitre_sub_technique = "Sub-Techniques, if applicable"
         mitigation = "Mitigation not recorded"
         update_alert_types(alert_type)
-    
+
     return mitre_tactic,mitre_technique,mitre_sub_technique,mitigation
 
 
@@ -226,7 +226,7 @@ def if_user_investigation():
     mitre_tactic = "Tactics, if applicable"
     mitre_technique = "Techniques, if applicable"
     mitre_sub_technique = "Sub-Techniques, if applicable"
-    
+
     return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation # pylint: disable=C0301
 
 def if_source_equals_alert(investigation,alerts,detection_rules):
@@ -242,7 +242,7 @@ def if_source_equals_alert(investigation,alerts,detection_rules):
     else:
         rule = "N/A"
         mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301
-    
+
     return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation  # pylint: disable=C0301
 
 
@@ -252,7 +252,7 @@ def for_ccs(config,client):
     if "ccs" in config["Clients"][client]:
         for address in config["Clients"][client]["ccs"]:
             ccs.append(base64.b64decode(address).decode("UTF-8"))
-    
+
     return ccs
 
 
@@ -294,7 +294,7 @@ def build_ticket_json(   # pylint: disable=R0913.R0914
             "mitigation_longtext": mitigation
         }
     }
-    
+
     return data
 
 

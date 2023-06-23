@@ -246,7 +246,7 @@ def build_ticket_json(   # pylint: disable=R0914
         idr_priority,idr_urgency,idr_impact,
         mitre_tactic,mitre_technique,mitre_sub_technique,
         alert_title,alert_type,alert_source,rule,client
-        ):  # pylint: disable=R0913
+        ):
     """Build Ticket JSON"""
     data = {
         "description": alert_type_description,
@@ -292,7 +292,7 @@ def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
     idr_priority, idr_urgency, idr_impact = investigation_priority(investigation["priority"])
 
     if investigation["source"] == "ALERT":
-        alert_title,alert_type,alert_type_description,alert_source,rule,mitre_tactic,mitre_technique,mitre_sub_technique = if_source_equals_alert(investigation,alerts,detection_rules) # pylint: disable=C0301
+        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_source_equals_alert(investigation,alerts,detection_rules) # pylint: disable=C0301
     else:
         alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule = if_user_investigation() # pylint: disable=C0301
 
@@ -337,9 +337,7 @@ def get_investigation_comments(t_id, client, ticket_id):
         )
         checked_time = datetime.strptime(last_time_data, "%Y-%m-%dT%H:%M:%S.%fZ")
 
-        if checked_time > created_time:
-            continue
-        if comment["body"] is None:
+        if checked_time > created_time or comment["body"] is None:
             continue
         post_comments_to_fs(str(ticket_id), comment)
 

@@ -72,7 +72,7 @@ def update_alert_types(new_alert_type):
         json.dump(detection_rules, detection_rules_file, indent=4)
 
 
-def update_idr_investigation(client,rrn,fs_ticket):
+def update_idr_investigation(client,rrn,ticket_id):
     """Updating an InsightIDR Investigation via PATCH method"""
     config = fetch_config()
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations/" + rrn
@@ -85,8 +85,8 @@ def update_idr_investigation(client,rrn,fs_ticket):
     "multi-customer": True
     }
     data = {
-        "disposition": fs_ticket["disposition"],
-        "status": fs_ticket["status"]
+        "disposition": ticket_id["disposition"],
+        "status": ticket_id["status"]
     }
     request = requests.patch(url, # pylint: disable=E1121
                              data,
@@ -339,13 +339,13 @@ def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
         sys.exit(3)
 
 
-def get_investigation_comments(t_id, client, ticket_id):
+def get_investigation_comments(investigation_id, client, ticket_id):
     """Fetch Comments from InsightIDR"""
     url = "https://us2.api.insight.rapid7.com/idr/v1/comments"
     config = fetch_config()
     idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "comments-preview"}
-    params = {"multi-customer": True, "target": t_id}
+    params = {"multi-customer": True, "target": investigation_id}
 
     request = requests.get(url, # pylint: disable=E1121
                            params,
@@ -365,10 +365,10 @@ def get_investigation_comments(t_id, client, ticket_id):
         post_comments_to_fs(str(ticket_id), comment)
 
 
-def post_comments_to_fs(fs_id, comment):
+def post_comments_to_fs(ticket_id, comment):
     """Posting comments from InsightIDR to FreshService"""
     webhook_url = (
-        "https://securitytapestry.freshservice.com/api/v2/tickets/" + fs_id + "/notes"
+        "https://securitytapestry.freshservice.com/api/v2/tickets/" + ticket_id + "/notes"
     )
     data = {"body": comment["body"], "private": False}
     requests.post(
@@ -378,7 +378,7 @@ def post_comments_to_fs(fs_id, comment):
         headers={"Content-Type": "application/json"},
         timeout=30
     )
-    print("Posted comment to ticket #" + str(fs_id))
+    print("Posted comment to ticket #" + str(ticket_id))
 
 
 def investigation_post(client):

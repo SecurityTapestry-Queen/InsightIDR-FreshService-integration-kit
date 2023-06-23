@@ -140,6 +140,7 @@ def get_insight_investigations(client):
     else:
         print("Trouble getting Investigations for " + client)
         print(request.json())
+        sys.exit(2)
 
 
 def check_for_new(client, investigations):
@@ -281,7 +282,7 @@ def build_ticket_json(   # pylint: disable=R0914
             "threat_status": investigation["disposition"],
             "detection_rule_rrn": rule,
             "client_code": client,
-            "mitigation": mitigation
+            "mitigation_longtext": mitigation
         }
     }
     return data
@@ -325,6 +326,7 @@ def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
     else:
         print("Error posting ticket for: " + investigation["rrn"])
         print(request.json())
+        sys.exit(3)
 
 
 def get_investigation_comments(t_id, client, ticket_id):

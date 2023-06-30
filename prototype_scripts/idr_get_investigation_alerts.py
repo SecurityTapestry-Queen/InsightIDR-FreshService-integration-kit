@@ -6,14 +6,15 @@ def getInsightInvestigation(id):
     "X-Api-Key": "",
     "Accept-version": "investigations-preview"
     }
-    params = {
-    "multi-customer": True
-    }
+    # params = {
+    # "multi-customer": True
+    # }
 
-    r = requests.get(url, headers=headers, params=params)
+    r = requests.get(url, headers=headers)
     investigations = r.json()
     print(investigations)
 
-ticket = 'rrn:investigation:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:investigation:GPGFFIG08MAJ'
+ticket = 'rrn:investigation:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:investigation:9XNTJFN89LNZ'
+# ticket = 'rrn:investigation:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:investigation:WRQWFFFA2EZV'
 
 getInsightInvestigation(ticket)

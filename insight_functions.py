@@ -222,7 +222,7 @@ def if_user_investigation():
         mitre_sub_technique,
         rule,
         mitigation,
-    )  # pylint: disable=C0301
+    )
 
 
 def if_source_equals_alert(investigation, alerts, detection_rules):
@@ -262,7 +262,7 @@ def if_source_equals_alert(investigation, alerts, detection_rules):
                 detection_rules,
                 rule,
                 alert_title
-            )  # pylint: disable=C0301
+            )
         else:
             rule = "N/A"
             (
@@ -273,7 +273,7 @@ def if_source_equals_alert(investigation, alerts, detection_rules):
             ) = if_alert_type_in_detection_rules(
                 detection_rules,
                 alert_type
-            )  # pylint: disable=C0301
+            )
 
     return (
         alert_title,
@@ -285,7 +285,7 @@ def if_source_equals_alert(investigation, alerts, detection_rules):
         mitre_sub_technique,
         rule,
         mitigation,
-    )  # pylint: disable=C0301
+    )
 
 
 def for_ccs(config, client):
@@ -379,7 +379,7 @@ def post_ticket_to_fs(investigation, client):  # pylint: disable=R0914
             investigation,
             alerts,
             detection_rules
-        )  # pylint: disable=C0301
+        )
     else:
         (
             alert_title,
@@ -391,7 +391,7 @@ def post_ticket_to_fs(investigation, client):  # pylint: disable=R0914
             mitre_sub_technique,
             rule,
             mitigation,
-        ) = if_user_investigation()  # pylint: disable=C0301
+        ) = if_user_investigation()
 
     data = build_ticket_json(  # pylint: disable=E1121
         investigation,

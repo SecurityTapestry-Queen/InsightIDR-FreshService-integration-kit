@@ -1,0 +1,64 @@
+[
+    {
+        "headline": "Attacker Tool - Angry IP Scanner",
+        "evidence": [
+            {
+                "type": "OdinMatchEvidence",
+                "title": "Attacker Tool - Angry IP Scanner",
+                "description": "Attacker Tool - Angry IP Scanner",
+                "details": {
+                    "odinIndicatorId": "97afd019-d44a-48b4-b4c8-1d07d09a943a",
+                    "odinIndicatorVersion": "97afd019-d44a-48b4-b4c8-1d07d09a943a",
+                    "matchId": "302f738d-a4e0-45e8-a516-c7eb95418996",
+                    "detectionRuleRrn": "rrn:cba:::detection-rule:B1IYQ8DJ5MLW"
+                }
+            },
+            {
+                "type": "OdinMatchContentEvidence",
+                "title": "Match Content",
+                "description": "Match Content",
+                "details": {
+                    "contentType": "process_start_event",
+                    "content": "{\"hostname\":\"ST-1001\",\"dns_domain\":\"ST-1001\",\"os_type\":\"WINDOWS\",\"r7_hostid\":\"ab708d8fc785ecf88566009b42d77f0d\",\"process\":{\"start_time\":\"2023-06-23T19:47:09.807Z\",\"name\":\"javaw.exe\",\"pid\":5144,\"r7_id\":\"{6407358a-f6bd-6495-3322-000000005800}\",\"exe_path\":\"C:\\\\Program Files\\\\Angry IP Scanner\\\\jre\\\\bin\\\\javaw.exe\",\"cmd_line\":\"\\\"C:\\\\Program Files\\\\Angry IP Scanner\\\\jre\\\\bin\\\\javaw\\\" -jar \\\"C:\\\\Program Files\\\\Angry IP Scanner\\\\ipscan.exe\\\" \",\"username\":\"ST-1001\\\\Honcho\",\"session\":2,\"exe_file\":{\"owner\":\"BUILTIN\\\\Administrators\",\"orig_filename\":\"javaw.exe\",\"description\":\"OpenJDK Platform binary\",\"product_name\":\"OpenJDK Platform 17.0.6\",\"version\":\"17.0.6.0\",\"created\":\"2023-02-11T17:11:40.000Z\",\"last_modified\":\"2023-02-11T17:11:40.000Z\",\"size\":38912,\"internal_name\":\"javaw\",\"hashes\":{\"md5\":\"b6f1b4efe5064cc969be146adfbc5799\",\"sha256\":\"2cd28a6dba69f49d41b4adc82c20bfb9d6f25cfdd9bc0fe6e59441f241c6d968\",\"sha1\":\"15644ccbfb7decad3996289948ced8f732b219c7\"},\"signing_status\":\"UNSIGNED\"},\"hash_reputation\":{\"reputation\":\"Known\",\"threat_level\":\"None\",\"reliability\":\"High\",\"first_analyzed_time\":\"2023-01-23T16:16:51.000Z\",\"engine_count\":24,\"engine_match\":0,\"engine_percent\":0},\"delta_created_start\":11414129},\"parent_process\":{\"start_time\":\"2023-06-23T19:47:09.782Z\",\"name\":\"ipscan.exe\",\"pid\":8240,\"ppid\":4904,\"r7_id\":\"{6407358a-f6bd-6495-3222-000000005800}\",\"exe_path\":\"C:\\\\Program Files\\\\Angry IP Scanner\\\\ipscan.exe\",\"cmd_line\":\"\\\"C:\\\\Program Files\\\\Angry IP Scanner\\\\ipscan.exe\\\" \",\"username\":\"ST-1001\\\\Honcho\",\"session\":2,\"exe_file\":{\"owner\":\"BUILTIN\\\\Administrators\",\"orig_filename\":\"ipscan.exe\",\"description\":\"Angry IP Scanner - fast and friendly network scanner\",\"product_name\":\"Angry IP Scanner\",\"created\":\"2023-02-11T17:11:40.000Z\",\"last_modified\":\"2023-02-11T17:11:40.000Z\",\"size\":2528029,\"internal_name\":\"ipscan\",\"hashes\":{\"md5\":\"9867afd0d29a84decf760e43860c63a1\",\"sha256\":\"ae50c71517182c9773bb138745f10a643b1215078ede439b2b3adb486a9cfb14\",\"sha1\":\"9bbc82c8317271ab3d35e0c9cd3f05175305dce1\"}},\"delta_created_start\":11414129},\"env_vars\":[{\"var\":\"ALLUSERSPROFILE\",\"val\":\"C:\\\\ProgramData\"},{\"var\":\"APPDATA\",\"val\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\"},{\"var\":\"CLIENTNAME\",\"val\":\"QUETZALCOATL\"},{\"var\":\"ChocolateyInstall\",\"val\":\"C:\\\\ProgramData\\\\chocolatey\"},{\"var\":\"ChocolateyLastPathUpdate\",\"val\":\"133250129999064299\"},{\"var\":\"HOMEPATH\",\"val\":\"\\\\Users\\\\Administrator\"},{\"var\":\"LOCALAPPDATA\",\"val\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\"},{\"var\":\"LOGONSERVER\",\"val\":\"\\\\\\\\ST-1001\"},{\"var\":\"OS\",\"val\":\"Windows_NT\"},{\"var\":\"OneDrive\",\"val\":\"C:\\\\Users\\\\Administrator\\\\OneDrive - Lab Four Professional Development Center\"},{\"var\":\"OneDriveCommercial\",\"val\":\"C:\\\\Users\\\\Administrator\\\\OneDrive - Lab Four Professional Development Center\"},{\"var\":\"PATHEXT\",\"val\":\".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.RB;.RBW;.PY;.PYW\"},{\"var\":\"PSModulePath\",\"val\":\"C:\\\\Program Files\\\\WindowsPowerShell\\\\Modules;C:\\\\Windows\\\\system32\\\\WindowsPowerShell\\\\v1.0\\\\Modules\"},{\"var\":\"Path\",\"val\":\"C:\\\\Program Files (x86)\\\\Microsoft SDKs\\\\Azure\\\\CLI2\\\\wbin;C:\\\\Python311\\\\Scripts\\\\;C:\\\\Python311\\\\;C:\\\\Ruby31-x64\\\\bin;C:\\\\Windows\\\\system32;C:\\\\Windows;C:\\\\Windows\\\\System32\\\\Wbem;C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\;C:\\\\Windows\\\\System32\\\\OpenSSH\\\\;C:\\\\metasploit-framework\\\\bin\\\\;C:\\\\Program Files\\\\Git\\\\cmd;C:\\\\Program Files\\\\PuTTY\\\\;C:\\\\Program Files\\\\WireGuard\\\\;C:\\\\Program Files\\\\nodejs\\\\;C:\\\\ProgramData\\\\chocolatey\\\\bin;C:\\\\Program Files\\\\dotnet\\\\;C:\\\\Program Files\\\\Microsoft SQL Server\\\\150\\\\Tools\\\\Binn\\\\;C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps;C:\\\\Program Files (x86)\\\\Nmap;C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Programs\\\\Microsoft VS Code\\\\bin;C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Packages\\\\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\\\\LocalCache\\\\local-packages\\\\Python310\\\\Scripts;C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm;C:\\\\MinGW\\\\bin;\"},{\"var\":\"SESSIONNAME\",\"val\":\"RDP-Tcp#17\"},{\"var\":\"TEMP\",\"val\":\"C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\"},{\"var\":\"TMP\",\"val\":\"C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\"},{\"var\":\"USERDOMAIN\",\"val\":\"ST-1001\"},{\"var\":\"USERDOMAIN_ROAMINGPROFILE\",\"val\":\"ST-1001\"},{\"var\":\"USERNAME\",\"val\":\"Honcho\"},{\"var\":\"USERPROFILE\",\"val\":\"C:\\\\Users\\\\Administrator\"},{\"var\":\"ZES_ENABLE_SYSMAN\",\"val\":\"1\"}],\"endpoint_id\":\"ab708d8fc785ecf88566009b42d77f0d\",\"endpoint_vendor\":\"Rapid7\",\"r7_context\":{\"asset\":{\"rrn\":\"rrn:uba:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:asset:VVT4L9TM4BSY\",\"name\":\"st-1001.lanone.com\"}}}",
+                    "eventSource": {
+                        "name": "Endpoint Agents",
+                        "id": "12feb7d6-f51f-4b61-b47e-b25e6ab614a8",
+                        "type": "eventsource"
+                    }
+                }
+            }
+        ],
+        "start_time": "2023-06-23T19:48:22.573Z"
+    },
+    {
+        "headline": "Attacker Tool - Angry IP Scanner",
+        "evidence": [
+            {
+                "type": "OdinMatchEvidence",
+                "title": "Attacker Tool - Angry IP Scanner",
+                "description": "Attacker Tool - Angry IP Scanner",
+                "details": {
+                    "odinIndicatorId": "97afd019-d44a-48b4-b4c8-1d07d09a943a",
+                    "odinIndicatorVersion": "97afd019-d44a-48b4-b4c8-1d07d09a943a",
+                    "matchId": "0c9a7c84-33af-41f7-a92b-89ce1024475a",
+                    "detectionRuleRrn": "rrn:cba:::detection-rule:B1IYQ8DJ5MLW"
+                }
+            },
+            {
+                "type": "OdinMatchContentEvidence",
+                "title": "Match Content",
+                "description": "Match Content",
+                "details": {
+                    "contentType": "process_start_event",
+                    "content": "{\"hostname\":\"ST-1001\",\"dns_domain\":\"ST-1001\",\"os_type\":\"WINDOWS\",\"r7_hostid\":\"ab708d8fc785ecf88566009b42d77f0d\",\"process\":{\"start_time\":\"2023-06-23T19:47:09.782Z\",\"name\":\"ipscan.exe\",\"pid\":8240,\"r7_id\":\"{6407358a-f6bd-6495-3222-000000005800}\",\"exe_path\":\"C:\\\\Program Files\\\\Angry IP Scanner\\\\ipscan.exe\",\"cmd_line\":\"\\\"C:\\\\Program Files\\\\Angry IP Scanner\\\\ipscan.exe\\\" \",\"username\":\"ST-1001\\\\Honcho\",\"session\":2,\"exe_file\":{\"owner\":\"BUILTIN\\\\Administrators\",\"orig_filename\":\"ipscan.exe\",\"description\":\"Angry IP Scanner - fast and friendly network scanner\",\"product_name\":\"Angry IP Scanner\",\"created\":\"2023-02-11T17:11:40.000Z\",\"last_modified\":\"2023-02-11T17:11:40.000Z\",\"size\":2528029,\"internal_name\":\"ipscan\",\"hashes\":{\"md5\":\"9867afd0d29a84decf760e43860c63a1\",\"sha256\":\"ae50c71517182c9773bb138745f10a643b1215078ede439b2b3adb486a9cfb14\",\"sha1\":\"9bbc82c8317271ab3d35e0c9cd3f05175305dce1\"}},\"hash_reputation\":{\"reputation\":\"Known\",\"threat_level\":\"None\",\"reliability\":\"High\",\"first_analyzed_time\":\"2023-02-11T21:12:24.000Z\",\"engine_count\":38,\"engine_match\":0,\"engine_percent\":0},\"delta_created_start\":11414129},\"parent_process\":{\"start_time\":\"2023-06-22T00:19:58.060Z\",\"name\":\"explorer.exe\",\"pid\":4904,\"ppid\":2624,\"r7_id\":\"{6407358a-93ae-6493-ef0a-000000005800}\",\"exe_path\":\"C:\\\\Windows\\\\explorer.exe\",\"cmd_line\":\"C:\\\\Windows\\\\Explorer.EXE\",\"username\":\"ST-1001\\\\Honcho\",\"session\":2,\"exe_file\":{\"owner\":\"NT SERVICE\\\\TrustedInstaller\",\"orig_filename\":\"EXPLORER.EXE\",\"description\":\"Windows Explorer\",\"product_name\":\"Microsoft\u00ae Windows\u00ae Operating System\",\"version\":\"10.0.19041.3031 (WinBuild.160101.0800)\",\"created\":\"2023-06-14T02:07:44.374Z\",\"last_modified\":\"2023-06-14T02:07:44.576Z\",\"size\":5308576,\"internal_name\":\"explorer\",\"hashes\":{\"md5\":\"790e65f13eceb64fe297df08eb1c953a\",\"sha256\":\"b6f176e86ded71b8494fad53791367c870318b1e7d9c3e1aee1b0dac6cfac237\",\"sha1\":\"5f04bc4911eeba35ec294b111c57d90808a4c4bd\"}},\"delta_created_start\":684734},\"env_vars\":[{\"var\":\"ALLUSERSPROFILE\",\"val\":\"C:\\\\ProgramData\"},{\"var\":\"APPDATA\",\"val\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\"},{\"var\":\"CLIENTNAME\",\"val\":\"QUETZALCOATL\"},{\"var\":\"ChocolateyInstall\",\"val\":\"C:\\\\ProgramData\\\\chocolatey\"},{\"var\":\"ChocolateyLastPathUpdate\",\"val\":\"133250129999064299\"},{\"var\":\"HOMEPATH\",\"val\":\"\\\\Users\\\\Administrator\"},{\"var\":\"LOCALAPPDATA\",\"val\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\"},{\"var\":\"LOGONSERVER\",\"val\":\"\\\\\\\\ST-1001\"},{\"var\":\"OS\",\"val\":\"Windows_NT\"},{\"var\":\"OneDrive\",\"val\":\"C:\\\\Users\\\\Administrator\\\\OneDrive - Lab Four Professional Development Center\"},{\"var\":\"OneDriveCommercial\",\"val\":\"C:\\\\Users\\\\Administrator\\\\OneDrive - Lab Four Professional Development Center\"},{\"var\":\"PATHEXT\",\"val\":\".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.RB;.RBW;.PY;.PYW\"},{\"var\":\"PSModulePath\",\"val\":\"C:\\\\Program Files\\\\WindowsPowerShell\\\\Modules;C:\\\\Windows\\\\system32\\\\WindowsPowerShell\\\\v1.0\\\\Modules\"},{\"var\":\"Path\",\"val\":\"C:\\\\Program Files (x86)\\\\Microsoft SDKs\\\\Azure\\\\CLI2\\\\wbin;C:\\\\Python311\\\\Scripts\\\\;C:\\\\Python311\\\\;C:\\\\Ruby31-x64\\\\bin;C:\\\\Windows\\\\system32;C:\\\\Windows;C:\\\\Windows\\\\System32\\\\Wbem;C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\;C:\\\\Windows\\\\System32\\\\OpenSSH\\\\;C:\\\\metasploit-framework\\\\bin\\\\;C:\\\\Program Files\\\\Git\\\\cmd;C:\\\\Program Files\\\\PuTTY\\\\;C:\\\\Program Files\\\\WireGuard\\\\;C:\\\\Program Files\\\\nodejs\\\\;C:\\\\ProgramData\\\\chocolatey\\\\bin;C:\\\\Program Files\\\\dotnet\\\\;C:\\\\Program Files\\\\Microsoft SQL Server\\\\150\\\\Tools\\\\Binn\\\\;C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps;C:\\\\Program Files (x86)\\\\Nmap;C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Programs\\\\Microsoft VS Code\\\\bin;C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Packages\\\\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\\\\LocalCache\\\\local-packages\\\\Python310\\\\Scripts;C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm;C:\\\\MinGW\\\\bin;\"},{\"var\":\"SESSIONNAME\",\"val\":\"RDP-Tcp#17\",\"parent_val\":\"RDP-Tcp#1\"},{\"var\":\"TEMP\",\"val\":\"C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\"},{\"var\":\"TMP\",\"val\":\"C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\"},{\"var\":\"USERDOMAIN\",\"val\":\"ST-1001\"},{\"var\":\"USERDOMAIN_ROAMINGPROFILE\",\"val\":\"ST-1001\"},{\"var\":\"USERNAME\",\"val\":\"Honcho\"},{\"var\":\"USERPROFILE\",\"val\":\"C:\\\\Users\\\\Administrator\"},{\"var\":\"ZES_ENABLE_SYSMAN\",\"val\":\"1\"}],\"endpoint_id\":\"ab708d8fc785ecf88566009b42d77f0d\",\"endpoint_vendor\":\"Rapid7\",\"r7_context\":{\"asset\":{\"rrn\":\"rrn:uba:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:asset:VVT4L9TM4BSY\",\"name\":\"st-1001.lanone.com\"}}}",
+                    "eventSource": {
+                        "name": "Endpoint Agents",
+                        "id": "12feb7d6-f51f-4b61-b47e-b25e6ab614a8",
+                        "type": "eventsource"
+                    }
+                }
+            }
+        ],
+        "start_time": "2023-06-23T19:48:22.655Z"
+    }
+]

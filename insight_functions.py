@@ -225,16 +225,19 @@ def if_user_investigation():
 def if_source_equals_alert(investigation,alerts,detection_rules):
     """Results if source is equal to Alert"""
     print("Fetching Alerts for: " + str(investigation["rrn"]))
-    alert_title = alerts["data"][0]["title"]
-    alert_type = alerts["data"][0]["alert_type"]
-    alert_type_description = alerts["data"][0]["alert_type_description"]
-    alert_source = alerts["data"][0]["alert_source"]
-    if alerts["data"][0]["detection_rule_rrn"] is not None:
-        rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
-        mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_rule_in_detection_rules(detection_rules,rule,alert_title)  # pylint: disable=C0301
+    if len(alerts["data"]) == 0:
+        alert_title,alert_type,rule,mitigation,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique = "Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data"
     else:
-        rule = "N/A"
-        mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301
+        alert_title = alerts["data"][0]["title"]
+        alert_type = alerts["data"][0]["alert_type"]
+        alert_type_description = alerts["data"][0]["alert_type_description"]
+        alert_source = alerts["data"][0]["alert_source"]
+        if alerts["data"][0]["detection_rule_rrn"] is not None:
+            rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
+            mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_rule_in_detection_rules(detection_rules,rule,alert_title)  # pylint: disable=C0301
+        else:
+            rule = "N/A"
+            mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301
 
     return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation  # pylint: disable=C0301
 

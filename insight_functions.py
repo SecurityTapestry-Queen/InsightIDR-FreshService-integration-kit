@@ -203,6 +203,41 @@ def if_alert_type_in_detection_rules(detection_rules, alert_type):
     return mitre_tactic, mitre_technique, mitre_sub_technique, mitigation
 
 
+def determine_evidence_type(client , investigation):
+    """Determine Evidence Formatting"""
+    config = fetch_config()
+    url = 'https://us2.api.insight.rapid7.com/idr/v1/restricted/investigations/' + investigation["rrn"] + '/evidence'
+    idr_api = os.getenv(config["Clients"][client]["api"])
+    headers = {"X-Api-Key": idr_api}
+    request = requests.get(url, headers=headers, timeout=30)
+    data = request.json()
+    evidence_type = data["indicator_occurrences"][0]["evidence"][0]["type"]
+    if evidence_type == "OdinMatchEvidence":
+        evidence = if_evidence_odin_match(data)
+    if evidence_type == "HoneypotConnectionEvidence":
+        evidence = if_evidence_honeypot_connection(data)
+    else:
+        evidence = "N/A"
+
+    return evidence
+
+
+def if_evidence_odin_match(data):
+    """If Odin Match Content"""
+    pointer = data["indicator_occurrences"][0]["evidence"][1]["details"]["content"]
+    string = str(json.dumps(pointer))
+
+    return string
+
+
+def if_evidence_honeypot_connection(data):
+    """If Honeypot Connection"""
+    pointer = data["indicator_occurrences"][0]["evidence"]
+    string = str(json.dumps(pointer))
+
+    return string
+
+
 def if_user_investigation():
     """Default Information incase of User-Generated Investigation"""
     alert_title = alert_type = rule = mitigation = "N/A"
@@ -211,6 +246,7 @@ def if_user_investigation():
     mitre_tactic = "Tactics, if applicable"
     mitre_technique = "Techniques, if applicable"
     mitre_sub_technique = "Sub-Techniques, if applicable"
+    evidence = "N/A"
 
     return (
         alert_title,
@@ -222,10 +258,11 @@ def if_user_investigation():
         mitre_sub_technique,
         rule,
         mitigation,
-    )  # pylint: disable=C0301
+        evidence
+    )
 
 
-def if_source_equals_alert(investigation, alerts, detection_rules):
+def if_source_equals_alert(investigation, alerts, detection_rules, client):
     """Results if source is equal to Alert"""
     print("Fetching Alerts for: " + str(investigation["rrn"]))
     if len(alerts["data"]) == 0:
@@ -251,6 +288,7 @@ def if_source_equals_alert(investigation, alerts, detection_rules):
         alert_type = alerts["data"][0]["alert_type"]
         alert_type_description = alerts["data"][0]["alert_type_description"]
         alert_source = alerts["data"][0]["alert_source"]
+        evidence = determine_evidence_type(client, investigation)
         if alerts["data"][0]["detection_rule_rrn"] is not None:
             rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
             (
@@ -262,7 +300,7 @@ def if_source_equals_alert(investigation, alerts, detection_rules):
                 detection_rules,
                 rule,
                 alert_title
-            )  # pylint: disable=C0301
+            )
         else:
             rule = "N/A"
             (
@@ -273,7 +311,7 @@ def if_source_equals_alert(investigation, alerts, detection_rules):
             ) = if_alert_type_in_detection_rules(
                 detection_rules,
                 alert_type
-            )  # pylint: disable=C0301
+            )
 
     return (
         alert_title,
@@ -285,7 +323,8 @@ def if_source_equals_alert(investigation, alerts, detection_rules):
         mitre_sub_technique,
         rule,
         mitigation,
-    )  # pylint: disable=C0301
+        evidence
+    )
 
 
 def for_ccs(config, client):
@@ -315,6 +354,7 @@ def build_ticket_json(  # pylint: disable=R0913.R0914
     rule,
     client,
     mitigation,
+    evidence
 ):
     """Build Ticket JSON"""
     data = {
@@ -331,7 +371,7 @@ def build_ticket_json(  # pylint: disable=R0913.R0914
         "category": "InsightIDR",
         "custom_fields": {
             "rrn": investigation["rrn"],
-            "evidence": "Place Alert Evidence here from InsightIDR",
+            "evidence": evidence,
             "research_links": "Place Research Links here, if applicable",
             "mitre_attampck_tactics_including_id_and_description": mitre_tactic,
             "mitre_attampck_techniques_including_id_and_description": mitre_technique,
@@ -375,11 +415,13 @@ def post_ticket_to_fs(investigation, client):  # pylint: disable=R0914
             mitre_sub_technique,
             rule,
             mitigation,
+            evidence
         ) = if_source_equals_alert(
             investigation,
             alerts,
-            detection_rules
-        )  # pylint: disable=C0301
+            detection_rules,
+            client
+        )
     else:
         (
             alert_title,
@@ -391,7 +433,8 @@ def post_ticket_to_fs(investigation, client):  # pylint: disable=R0914
             mitre_sub_technique,
             rule,
             mitigation,
-        ) = if_user_investigation()  # pylint: disable=C0301
+            evidence
+        ) = if_user_investigation()
 
     data = build_ticket_json(  # pylint: disable=E1121
         investigation,
@@ -410,6 +453,7 @@ def post_ticket_to_fs(investigation, client):  # pylint: disable=R0914
         rule,
         client,
         mitigation,
+        evidence
     )
     request = requests.post(
         url,

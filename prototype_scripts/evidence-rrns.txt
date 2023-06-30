@@ -1,0 +1,7 @@
+base=rrn:investigation:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:investigation:
+angry_ip_scanner=BBDC2MA7X3SY
+takeown_sys_binaries=MXAW1002QDAE
+honeypot_connection=UMS89TFB80D8 #odd one out, evidence-wise
+mstsc_spawned_ip_scanner=VOCC6D4L5V8M
+inpacket_lateral_movement=I1GTEBVJ7GNE
+mimikatz_module_names=Q19SYMH2K0SU

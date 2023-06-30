@@ -43,7 +43,7 @@ def fetch_detection_rules():
         return detection_rules
 
 
-def update_detection_rules(new_rule,alert_title):
+def update_detection_rules(new_rule, alert_title):
     """Update detection rules in detection_rules.json"""
     print("Adding new Detection Rule: " + new_rule)
     detection_rules = fetch_detection_rules()
@@ -52,7 +52,7 @@ def update_detection_rules(new_rule,alert_title):
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
         "sub_technique": "Sub-Technique seen, not recorded",
-        "mitigation": "Mitigation not recorded"
+        "mitigation": "Mitigation not recorded",
     }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
@@ -66,29 +66,22 @@ def update_alert_types(new_alert_type):
         "tactic": "Tactic seen, not recorded",
         "technique": "Technique seen, not recorded",
         "sub_technique": "Sub-Technique seen, not recorded",
-        "mitigation": "Mitigation not recorded"
+        "mitigation": "Mitigation not recorded",
     }
     with open("detection_rules.json", "w", encoding="UTF-8") as detection_rules_file:
         json.dump(detection_rules, detection_rules_file, indent=4)
 
 
-def update_idr_investigation(client,rrn,ticket_id):
+def update_idr_investigation(client, rrn, ticket_id):
     """Updating an InsightIDR Investigation via PATCH method"""
     config = fetch_config()
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations/" + rrn
     idr_api = os.getenv(config["Clients"][client]["api"])
-    headers = {
-    "X-Api-Key": idr_api,
-    "Accept-version": "investigations-preview"
-    }
-    data = {
-        "disposition": ticket_id["disposition"],
-        "status": ticket_id["status"]
-    }
-    request = requests.patch(url, # pylint: disable=E1121
-                             data,
-                             headers=headers,
-                             timeout=30)
+    headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
+    data = {"disposition": ticket_id["disposition"], "status": ticket_id["status"]}
+    request = requests.patch(
+        url, data, headers=headers, timeout=30  # pylint: disable=E1121
+    )
     updated = request.json()
 
     return updated
@@ -105,12 +98,10 @@ def when_was_the_last_time(client):
 def get_alerts_from_idr(rrn, client):
     """Get Alerts from Investigation in InsightIDR"""
     config = fetch_config()
-    url = 'https://us2.api.insight.rapid7.com/idr/v2/investigations/' + rrn + '/alerts'
+    url = "https://us2.api.insight.rapid7.com/idr/v2/investigations/" + rrn + "/alerts"
     idr_api = os.getenv(config["Clients"][client]["api"])
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
-    request = requests.get(url, # pylint: disable=E1121
-                           headers=headers,
-                           timeout=30)
+    request = requests.get(url, headers=headers, timeout=30)  # pylint: disable=E1121
     alerts = request.json()
 
     return alerts
@@ -128,10 +119,9 @@ def get_insight_investigations(client):
         "sources": "ALERT,USER",
         "priorities": "CRITICAL,HIGH,MEDIUM,LOW",
     }
-    request = requests.get(url, # pylint: disable=E1121
-                           params,
-                           headers=headers,
-                           timeout=30)
+    request = requests.get(
+        url, params, headers=headers, timeout=30  # pylint: disable=E1121
+    )
     if "data" in request.json():
         investigations = request.json()["data"]
         check_for_new(client, investigations)
@@ -158,7 +148,9 @@ def check_for_new(client, investigations):
 def update_last_time(client):
     """Update time per client in config.json"""
     config = fetch_config()
-    config["Clients"][client]["time"] = str(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+    config["Clients"][client]["time"] = str(
+        datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    )
     with open("config.json", "w", encoding="UTF-8") as config_file:
         json.dump(config, config_file, indent=4)
 
@@ -166,18 +158,18 @@ def update_last_time(client):
 def investigation_priority(priority):
     """Retrieving Priority for FreshService"""
     if priority == "LOW":
-        idr_priority,idr_urgency,idr_impact = 1,1,1
+        idr_priority, idr_urgency, idr_impact = 1, 1, 1
     elif priority == "MEDIUM":
-        idr_priority,idr_urgency,idr_impact = 2,2,2
+        idr_priority, idr_urgency, idr_impact = 2, 2, 2
     elif priority == "HIGH":
-        idr_priority,idr_urgency,idr_impact = 3,3,3
+        idr_priority, idr_urgency, idr_impact = 3, 3, 3
     elif priority == "CRITICAL":
-        idr_priority,idr_urgency,idr_impact = 4,3,3
+        idr_priority, idr_urgency, idr_impact = 4, 3, 3
 
-    return idr_priority,idr_urgency,idr_impact
+    return idr_priority, idr_urgency, idr_impact
 
 
-def if_rule_in_detection_rules(detection_rules,rule,alert_title):
+def if_rule_in_detection_rules(detection_rules, rule, alert_title):
     """Use Logic based on Rule RRN in detection_rules"""
     if rule in detection_rules["detection_rules"]:
         mitre_tactic = detection_rules["detection_rules"][rule]["tactic"]
@@ -189,12 +181,12 @@ def if_rule_in_detection_rules(detection_rules,rule,alert_title):
         mitre_technique = "Techniques, if applicable"
         mitre_sub_technique = "Sub-Techniques, if applicable"
         mitigation = "Mitigation not recorded"
-        update_detection_rules(rule,alert_title)
+        update_detection_rules(rule, alert_title)
 
-    return mitre_tactic,mitre_technique,mitre_sub_technique,mitigation
+    return mitre_tactic, mitre_technique, mitre_sub_technique, mitigation
 
 
-def if_alert_type_in_detection_rules(detection_rules,alert_type):
+def if_alert_type_in_detection_rules(detection_rules, alert_type):
     """Use Logic based on Alert Type in detection_rules"""
     if alert_type in detection_rules["alert_types"]:
         mitre_tactic = detection_rules["alert_types"][alert_type]["tactic"]
@@ -208,25 +200,52 @@ def if_alert_type_in_detection_rules(detection_rules,alert_type):
         mitigation = "Mitigation not recorded"
         update_alert_types(alert_type)
 
-    return mitre_tactic,mitre_technique,mitre_sub_technique,mitigation
+    return mitre_tactic, mitre_technique, mitre_sub_technique, mitigation
 
 
 def if_user_investigation():
     """Default Information incase of User-Generated Investigation"""
-    alert_title,alert_type,rule,mitigation = "N/A","N/A","N/A","N/A"
+    alert_title = alert_type = rule = mitigation = "N/A"
     alert_type_description = "Investigation created by user in InsightIDR"
     alert_source = "User-Made Investigation"
     mitre_tactic = "Tactics, if applicable"
     mitre_technique = "Techniques, if applicable"
     mitre_sub_technique = "Sub-Techniques, if applicable"
 
-    return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation # pylint: disable=C0301
+    return (
+        alert_title,
+        alert_type,
+        alert_type_description,
+        alert_source,
+        mitre_tactic,
+        mitre_technique,
+        mitre_sub_technique,
+        rule,
+        mitigation,
+    )  # pylint: disable=C0301
 
-def if_source_equals_alert(investigation,alerts,detection_rules):
+
+def if_source_equals_alert(investigation, alerts, detection_rules):
     """Results if source is equal to Alert"""
     print("Fetching Alerts for: " + str(investigation["rrn"]))
     if len(alerts["data"]) == 0:
-        alert_title,alert_type,rule,mitigation,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique = "Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data"
+        alert_title = (
+            alert_type
+        ) = (
+            rule
+        ) = (
+            mitigation
+        ) = (
+            alert_type_description
+        ) = (
+            alert_source
+        ) = (
+            mitre_tactic
+        ) = (
+            mitre_technique
+        ) = (
+            mitre_sub_technique
+         ) = "Error Retrieving Data"
     else:
         alert_title = alerts["data"][0]["title"]
         alert_type = alerts["data"][0]["alert_type"]
@@ -234,15 +253,42 @@ def if_source_equals_alert(investigation,alerts,detection_rules):
         alert_source = alerts["data"][0]["alert_source"]
         if alerts["data"][0]["detection_rule_rrn"] is not None:
             rule = alerts["data"][0]["detection_rule_rrn"]["rule_rrn"]
-            mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_rule_in_detection_rules(detection_rules,rule,alert_title)  # pylint: disable=C0301
+            (
+                mitre_tactic,
+                mitre_technique,
+                mitre_sub_technique,
+                mitigation,
+            ) = if_rule_in_detection_rules(
+                detection_rules,
+                rule,
+                alert_title
+            )  # pylint: disable=C0301
         else:
             rule = "N/A"
-            mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301
+            (
+                mitre_tactic,
+                mitre_technique,
+                mitre_sub_technique,
+                mitigation,
+            ) = if_alert_type_in_detection_rules(
+                detection_rules,
+                alert_type
+            )  # pylint: disable=C0301
 
-    return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation  # pylint: disable=C0301
+    return (
+        alert_title,
+        alert_type,
+        alert_type_description,
+        alert_source,
+        mitre_tactic,
+        mitre_technique,
+        mitre_sub_technique,
+        rule,
+        mitigation,
+    )  # pylint: disable=C0301
 
 
-def for_ccs(config,client):
+def for_ccs(config, client):
     """Enumerate Email addresses to CC Tickets"""
     ccs = []
     if "ccs" in config["Clients"][client]:
@@ -252,13 +298,24 @@ def for_ccs(config,client):
     return ccs
 
 
-def build_ticket_json(   # pylint: disable=R0913.R0914
-        investigation,alert_type_description,
-        email,ccs,
-        idr_priority,idr_urgency,idr_impact,
-        mitre_tactic,mitre_technique,mitre_sub_technique,
-        alert_title,alert_type,alert_source,rule,client,mitigation
-        ):
+def build_ticket_json(  # pylint: disable=R0913.R0914
+    investigation,
+    alert_type_description,
+    email,
+    ccs,
+    idr_priority,
+    idr_urgency,
+    idr_impact,
+    mitre_tactic,
+    mitre_technique,
+    mitre_sub_technique,
+    alert_title,
+    alert_type,
+    alert_source,
+    rule,
+    client,
+    mitigation,
+):
     """Build Ticket JSON"""
     data = {
         "description": alert_type_description,
@@ -287,43 +344,79 @@ def build_ticket_json(   # pylint: disable=R0913.R0914
             "threat_status": investigation["disposition"],
             "detection_rule_rrn": rule,
             "client_code": client,
-            "mitigation_longtext": mitigation
-        }
+            "mitigation_longtext": mitigation,
+        },
     }
 
     return data
 
 
-def post_ticket_to_fs(investigation, client): # pylint: disable=R0914
+def post_ticket_to_fs(investigation, client):  # pylint: disable=R0914
     """Posting ticket to FreshService"""
     url = "https://securitytapestry.freshservice.com/api/v2/tickets"
     config = fetch_config()
     alerts = get_alerts_from_idr(investigation["rrn"], client)
     detection_rules = fetch_detection_rules()
     email = base64.b64decode(config["Clients"][client]["email"]).decode("UTF-8")
-    ccs = for_ccs(config,client)
+    ccs = for_ccs(config, client)
 
-    idr_priority, idr_urgency, idr_impact = investigation_priority(investigation["priority"])
+    idr_priority, idr_urgency, idr_impact = investigation_priority(
+        investigation["priority"]
+    )
 
     if investigation["source"] == "ALERT":
-        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation = if_source_equals_alert(investigation,alerts,detection_rules) # pylint: disable=C0301
+        (
+            alert_title,
+            alert_type,
+            alert_type_description,
+            alert_source,
+            mitre_tactic,
+            mitre_technique,
+            mitre_sub_technique,
+            rule,
+            mitigation,
+        ) = if_source_equals_alert(
+            investigation,
+            alerts,
+            detection_rules
+        )  # pylint: disable=C0301
     else:
-        alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation = if_user_investigation() # pylint: disable=C0301
+        (
+            alert_title,
+            alert_type,
+            alert_type_description,
+            alert_source,
+            mitre_tactic,
+            mitre_technique,
+            mitre_sub_technique,
+            rule,
+            mitigation,
+        ) = if_user_investigation()  # pylint: disable=C0301
 
-    data = build_ticket_json( # pylint: disable=E1121
+    data = build_ticket_json(  # pylint: disable=E1121
         investigation,
         alert_type_description,
-        email,ccs,
-        idr_priority,idr_urgency,idr_impact,
-        mitre_tactic,mitre_technique,mitre_sub_technique,
-        alert_title,alert_type,alert_source,rule,client,mitigation
+        email,
+        ccs,
+        idr_priority,
+        idr_urgency,
+        idr_impact,
+        mitre_tactic,
+        mitre_technique,
+        mitre_sub_technique,
+        alert_title,
+        alert_type,
+        alert_source,
+        rule,
+        client,
+        mitigation,
     )
     request = requests.post(
         url,
         auth=(FS_API, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
-        timeout=30
+        timeout=30,
     )
     if "ticket" in request.json():
         ticket_id = request.json()["ticket"]["id"]
@@ -343,10 +436,9 @@ def get_investigation_comments(investigation_id, client, ticket_id):
     headers = {"X-Api-Key": idr_api, "Accept-version": "comments-preview"}
     params = {"target": investigation_id}
 
-    request = requests.get(url, # pylint: disable=E1121
-                           params,
-                           headers=headers,
-                           timeout=30)
+    request = requests.get(
+        url, params, headers=headers, timeout=30  # pylint: disable=E1121
+    )
     comments = request.json()
     comment_data = comments["data"]
     last_time_data = when_was_the_last_time(client)
@@ -364,7 +456,9 @@ def get_investigation_comments(investigation_id, client, ticket_id):
 def post_comments_to_fs(ticket_id, comment):
     """Posting comments from InsightIDR to FreshService"""
     webhook_url = (
-        "https://securitytapestry.freshservice.com/api/v2/tickets/" + ticket_id + "/notes"
+        "https://securitytapestry.freshservice.com/api/v2/tickets/"
+        + ticket_id
+        + "/notes"
     )
     data = {"body": comment["body"], "private": False}
     requests.post(
@@ -372,7 +466,7 @@ def post_comments_to_fs(ticket_id, comment):
         auth=(FS_API, "X"),
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
-        timeout=30
+        timeout=30,
     )
     print("Posted comment to ticket #" + str(ticket_id))
 

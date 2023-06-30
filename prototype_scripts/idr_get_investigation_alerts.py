@@ -12,7 +12,7 @@ def getInsightInvestigation(id):
 
     r = requests.get(url, headers=headers)
     investigations = r.json()
-    print(investigations)
+    print(investigations["data"][0])
 
 ticket = 'rrn:investigation:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:investigation:9XNTJFN89LNZ'
 # ticket = 'rrn:investigation:us2:cc6da3c6-9246-4fb1-ac99-6c4eb2626663:investigation:WRQWFFFA2EZV'

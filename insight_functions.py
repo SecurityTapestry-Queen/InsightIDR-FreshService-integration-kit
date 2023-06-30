@@ -225,7 +225,7 @@ def if_user_investigation():
 def if_source_equals_alert(investigation,alerts,detection_rules):
     """Results if source is equal to Alert"""
     print("Fetching Alerts for: " + str(investigation["rrn"]))
-    if alerts["data"] is None:
+    if len(alerts["data"]) == 0:
         alert_title,alert_type,rule,mitigation,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique = "Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data","Error Retrieving Data"
     else:
         alert_title = alerts["data"][0]["title"]
@@ -239,7 +239,7 @@ def if_source_equals_alert(investigation,alerts,detection_rules):
             rule = "N/A"
             mitre_tactic,mitre_technique,mitre_sub_technique,mitigation = if_alert_type_in_detection_rules(detection_rules,alert_type)  # pylint: disable=C0301
 
-        return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation  # pylint: disable=C0301
+    return alert_title,alert_type,alert_type_description,alert_source,mitre_tactic,mitre_technique,mitre_sub_technique,rule,mitigation  # pylint: disable=C0301
 
 
 def for_ccs(config,client):

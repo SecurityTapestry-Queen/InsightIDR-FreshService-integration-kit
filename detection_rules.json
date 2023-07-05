@@ -41,6 +41,13 @@
             "technique": "T1036 - Masquerading\nAdversaries may attempt to manipulate features of their artifacts to make them appear legitimate or benign to users and/or security tools. Masquerading occurs when the name or location of an object, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation. This may include manipulating file metadata, tricking users into misidentifying the file type, and giving legitimate task or service names.\n\nRenaming abusable system utilities to evade security monitoring is also a form of Masquerading.",
             "sub_technique": "T1036.001 - Invalid Code Signature\nAdversaries may attempt to mimic features of valid code signatures to increase the chance of deceiving a user, analyst, or tool. Code signing provides a level of authenticity on a binary from the developer and a guarantee that the binary has not been tampered with. Adversaries can copy the metadata and signature information from a signed program, then use it as a template for an unsigned program. Files with invalid code signatures will fail digital signature validation checks, but they may appear more legitimate to users and security tools may improperly handle these files.\n\nUnlike Code Signing, this activity will not result in a valid signature.",
             "mitigation": "M1045 - Code Signing\nEnforce binary and application integrity with digital signature verification to prevent untrusted code from executing."
+        },
+        "rrn:cba:::detection-rule:TCAQYNFRF3K5": {
+            "alert_title": "Attacker Technique - Rundll32.exe Executes CobaltStrike Function Name",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

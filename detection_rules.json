@@ -51,10 +51,10 @@
         },
         "rrn:cba:::detection-rule:9BC10RNR8886": {
             "alert_title": "ET MALWARE JAWS Webserver Unauthenticated Shell Command Execution",
-            "tactic": "Tactic seen, not recorded",
-            "technique": "Technique seen, not recorded",
-            "sub_technique": "Sub-Technique seen, not recorded",
-            "mitigation": "Mitigation not recorded"
+            "tactic": "N/A",
+            "technique": "N/A",
+            "sub_technique": "N/A",
+            "mitigation": "Review the alert in question. If necessary, rebuild the host from a known, good source and have the user change their password."
         }
     },
     "alert_types": {

@@ -47,7 +47,7 @@
             "time": "2023-07-10T21:29:01.085761Z"
         },
         "GosM": {
-            "enabled": false,
+            "enabled": true,
             "api": "IDR_API_GOSSETT",
             "idr_organization_id": "b3b79d7b-1f3e-42f8-be0f-dc1ebf0d204c",
             "email": "cmFwaWQ3QGdvc3NldHRtb3RvcnMuY29t",

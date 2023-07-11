@@ -72,6 +72,34 @@ def update_alert_types(new_alert_type):
         json.dump(detection_rules, detection_rules_file, indent=4)
 
 
+def fetch_assets_by_rrn(client):
+    config = fetch_config()
+    idr_api = os.getenv(config["Clients"][client]["api"])
+    url = "https://us2.api.insight.rapid7.com/idr/v1/assets/_search"
+    headers = {"X-Api-Key": idr_api, "Accept-version": "strong-force-preview"}
+    payload = {
+        "search": [
+            {
+                "field": "rrn",
+                "operator": "CONTAINS",
+                "value": "rrn"
+            }
+        ],
+        "sort": [
+            {
+                "field": "name",
+                "order": "ASC"
+            }
+        ]
+    }
+    request = requests.post(
+        url, json=payload, headers=headers
+    )
+    assets = request.json()
+
+    print(assets)
+
+
 def update_idr_investigation(client, rrn, ticket_id):
     """Updating an InsightIDR Investigation via PATCH method"""
     config = fetch_config()

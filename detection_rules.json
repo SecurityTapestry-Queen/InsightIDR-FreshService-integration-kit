@@ -119,10 +119,10 @@
             "mitigation": "Mitigation not recorded"
         },
         "Account Leak": {
-            "tactic": "Tactic seen, not recorded",
-            "technique": "Technique seen, not recorded",
-            "sub_technique": "Sub-Technique seen, not recorded",
-            "mitigation": "Mitigation not recorded"
+            "tactic": "N/A",
+            "technique": "N/A",
+            "sub_technique": "N/A",
+            "mitigation": "Change Passwords Immediately, and provide user Security Awareness Training"
         }
     }
 }

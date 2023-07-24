@@ -72,10 +72,10 @@
         },
         "rrn:cba:::detection-rule:ZH5XL6NVAGUX": {
             "alert_title": "RAPID7 TEST NTA IDS - rapid7.com/NetworkSensorIDSTest",
-            "tactic": "Tactic seen, not recorded",
-            "technique": "Technique seen, not recorded",
-            "sub_technique": "Sub-Technique seen, not recorded",
-            "mitigation": "Mitigation not recorded"
+            "tactic": "N/A",
+            "technique": "N/A",
+            "sub_technique": "N/A",
+            "mitigation": "N/A"
         }
     },
     "alert_types": {

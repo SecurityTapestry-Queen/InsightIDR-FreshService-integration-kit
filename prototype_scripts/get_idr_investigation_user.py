@@ -14,6 +14,6 @@ def getInsightInvestigation(id):
     investigations = r.json()
     print(investigations)
 
-ticket = '2f8e7f2e-1266-470e-ac3d-92af80e836b4'
+ticket = 'rrn:investigation:us2:787bed8a-7ac8-41bc-8337-5f093af0e025:investigation:JDW390DIWSWS'
 
 getInsightInvestigation(ticket)

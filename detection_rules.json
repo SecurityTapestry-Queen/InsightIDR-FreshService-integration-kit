@@ -168,6 +168,12 @@
             "technique": "Technique seen, not recorded",
             "sub_technique": "Sub-Technique seen, not recorded",
             "mitigation": "Mitigation not recorded"
+        },
+        "Custom Alert - Pattern Detection": {
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     }
 }

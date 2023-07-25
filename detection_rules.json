@@ -162,6 +162,12 @@
             "technique": "N/A",
             "sub_technique": "N/A",
             "mitigation": "N/A"
+        },
+        "Custom Alert - Change Detection": {
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     }
 }

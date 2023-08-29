@@ -83,6 +83,13 @@
             "technique": "Technique seen, not recorded",
             "sub_technique": "Sub-Technique seen, not recorded",
             "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:YBSI1HOERRHW": {
+            "alert_title": "Suspicious Process - Schtask.exe Creates Task from XML File Without XML Extension",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

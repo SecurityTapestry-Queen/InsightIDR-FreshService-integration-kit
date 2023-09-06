@@ -3,12 +3,12 @@
 
 """Module to produce Graph/s in relation to Investigations from InsightIDR for multiple clients"""
 
+import json
 from matplotlib import pyplot as plt
-import numpy as np
 import requests
 
 
-USER_NAT = "0aaedb2f-45d4-492c-be16-29014c13d70e"
+USER_KEY = "0aaedb2f-45d4-492c-be16-29014c13d70e"
 
 ORG_ID = {
     "Lab": "cc6da3c6-9246-4fb1-ac99-6c4eb2626663",
@@ -21,16 +21,14 @@ ORG_ID = {
 def check_investigations():
     '''Checks Investigations from InsightIDR'''
     url = "https://us2.api.insight.rapid7.com/idr/v2/investigations/"
-    idr_api = USER_NAT
+    idr_api = USER_KEY
     headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
     params = {
         "multi-customer": True,
         "size": 100, #Default 20
         "start_time": "2022-10-18T00:00:00Z" #Default Start Time 28 days prior
         }
-    metadata = requests.get(url, params, headers=headers, timeout=30).json()['metadata']
-    num_pages = metadata['total_pages']
-    total_data = metadata['total_data']
+    num_pages = requests.get(url, params, headers=headers, timeout=30).json()['metadata']['total_pages']
     investigations_list = []
     lab_list = []
     hssd_list = []
@@ -56,11 +54,17 @@ def check_investigations():
         if investigation['organization_id'] == ORG_ID['ICS']:
             ics_list.append(investigation)
 
-    return investigations_list, total_data, lab_list, hssd_list, lom_list, gosm_list, ics_list
+    # TESTING1 - Dump to file for testing
+    json_dump = json.dumps(investigations_list, indent=4)
+    with open("investigations_list.json","w",encoding="UTF-8") as outfile:
+        outfile.write(json_dump)
+    # END TESTING1
+
+    return investigations_list, lab_list, hssd_list, lom_list, gosm_list, ics_list
 
 
 def make_autopct(values):
-    '''For displaying Percentage and Value on Chart'''
+    '''For displaying Percentage and Value on Pie Chart'''
     def my_autopct(pct):
         total = sum(values)
         val = int(round(pct*total/100.0))
@@ -70,7 +74,7 @@ def make_autopct(values):
 
 def investigations_pie_chart_all():
     '''Creates Pie Chart based on incoming Data'''
-    investigations, validated_count, lab_i, hssd_i, lom_i, gosm_i, ics_i = check_investigations()
+    investigations, lab_i, hssd_i, lom_i, gosm_i, ics_i = check_investigations()
     lab_count = len(lab_i)
     hssd_count = len(hssd_i)
     lom_count = len(lom_i)
@@ -83,20 +87,9 @@ def investigations_pie_chart_all():
     plt.pie(client_numbers,labels=client_labels,autopct=make_autopct(client_numbers))
     plt.axis('equal')
     plt.suptitle("Investigations by Client")
-    plt.title(str(len(investigations))+" Total")
+    plt.title(str(len(investigations))+" Total (Since 10-18-2022)")
     plt.savefig("./docs/charts/investigations_all.png")
-    
-    return investigations, validated_count, lab_count, hssd_count, lom_count, gosm_count, ics_count
 
 
 if __name__ == "__main__":
-    investigations, validated_count, lab_count, hssd_count, lom_count, gosm_count, ics_count = investigations_pie_chart_all()
-    print("Lab: " + str(lab_count))
-    print("HSSD: " + str(hssd_count))
-    print("LOM: " + str(lom_count))
-    print("GosM: " + str(gosm_count))
-    print("ICS: " + str(ics_count))
-    print("Total (Since 10-18-2022): " + str(len(investigations)))
-    if len(investigations) == validated_count:
-        print('Success!')
-        
+    investigations_pie_chart_all()

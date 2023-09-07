@@ -4,9 +4,11 @@
 """Module to produce Graph/s in relation to Investigations from InsightIDR for multiple clients"""
 
 import json
+from collections import Counter
 from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
+import seaborn as sns
 import requests
 
 
@@ -275,7 +277,7 @@ def investigations_bar_chart_all_priority():
 
 
 def investigations_time_series_creation_all():
-    '''Resample the 'created_time' to daily frequency and count the number of investigations created each day, Create the time series plot'''
+    '''Count the number of investigations created each day, Create the time series plot'''
     with open("investigations_json/investigations_list.json","r",encoding="UTF-8") as infile:
         investigations_loaded = json.load(infile)
         dataframe = convert_json_to_dataframe(investigations_loaded)
@@ -290,6 +292,23 @@ def investigations_time_series_creation_all():
     plt.grid(True)
     plt.savefig("../docs/charts/investigations_time_series_creation_all.png")
 
+def investigations_time_priority_creation_all():
+    '''Count the number of investigations created each day, Create the time series plot'''
+    with open("investigations_json/investigations_list.json","r",encoding="UTF-8") as infile:
+        investigations_loaded = json.load(infile)
+        dataframe = convert_json_to_dataframe(investigations_loaded)
+    time_series_data_by_priority = dataframe.groupby('priority').resample('D', on='created_time').size().reset_index(name='count')
+
+    # Create the line chart
+    plt.figure(figsize=(14, 6))
+    sns.lineplot(x='created_time', y='count', hue='priority', data=time_series_data_by_priority, markers=True, dashes=False)
+    plt.xlabel('Created Time')
+    plt.ylabel('Number of Investigations')
+    plt.title('Number of Investigations Created Over Time by Priority')
+    plt.legend(title='Priority')
+    plt.grid(True)
+    plt.savefig("../docs/charts/investigations_time_priority_creation_all.png")
+
 
 if __name__ == "__main__":
     # check_investigations() # Comment if don't need to call API again
@@ -297,3 +316,4 @@ if __name__ == "__main__":
     investigations_bar_chart_all_priority()
     investigations_donut_all_clients()
     investigations_time_series_creation_all()
+    investigations_time_priority_creation_all()

@@ -72,21 +72,6 @@ def update_alert_types(new_alert_type):
         json.dump(detection_rules, detection_rules_file, indent=4)
 
 
-def update_idr_investigation(client, rrn, ticket_id):
-    """Updating an InsightIDR Investigation via PATCH method"""
-    config = fetch_config()
-    url = "https://us2.api.insight.rapid7.com/idr/v2/investigations/" + rrn
-    idr_api = os.getenv(config["Clients"][client]["api"])
-    headers = {"X-Api-Key": idr_api, "Accept-version": "investigations-preview"}
-    data = {"disposition": ticket_id["disposition"], "status": ticket_id["status"]}
-    request = requests.patch(
-        url, data, headers=headers, timeout=30  # pylint: disable=E1121
-    )
-    updated = request.json()
-
-    return updated
-
-
 def when_was_the_last_time(client):
     """Check lasttime checked from CONFIG"""
     config = fetch_config()

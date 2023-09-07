@@ -35,9 +35,7 @@
 
 4. [Investigations.yml](.github/workflows/Investigations.yml) - Main Workflow file for Github Actions, calls all API Keys and [investigations_post.py](investigations_post.py) every 5-10 minutes via cronjob.
 
-5. [update_idr_investigation.py](update_idr_investigation.py) - Secondary script run on daily schedule to close Investigations in InsightIDR, called by [FS-Tickets-Sync-To-IDR.yml](.github/workflows/FS-Tickets-Sync-To-IDR.yml) - Currently non-functional
-
-6. [detection_rules.json](detection_rules.json) - Contains collected Detection Rules, Alert Types, and MITRE TTPs
+5. [detection_rules.json](detection_rules.json) - Contains collected Detection Rules, Alert Types, and MITRE TTPs
 
 ### Extra Workflows
 

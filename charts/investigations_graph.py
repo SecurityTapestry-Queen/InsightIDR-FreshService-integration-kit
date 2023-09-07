@@ -310,6 +310,48 @@ def investigations_time_priority_creation_all():
     plt.savefig("../docs/charts/investigations_time_priority_creation_all.png")
 
 
+def investigations_histogram_frequency_distribution():
+    '''Creates Frequency Distribution of Investigation Creation Times'''
+    with open("investigations_json/investigations_list.json","r",encoding="UTF-8") as infile:
+        investigations_loaded = json.load(infile)
+        dataframe = convert_json_to_dataframe(investigations_loaded)
+
+    # Extract the hour of the day when each investigation was created
+    dataframe['created_hour'] = dataframe['created_time'].dt.hour
+
+    # Create the histogram
+    plt.figure(figsize=(10, 6))
+    plt.hist(dataframe['created_hour'].dropna(), bins=range(0, 25), edgecolor='black', color='cyan')
+    plt.xlabel('Hour of the Day (UTC)')
+    plt.ylabel('Number of Investigations')
+    plt.title('Frequency Distribution of Investigation Creation Times')
+    plt.xticks(range(0, 24))
+    plt.savefig("../docs/charts/investigations_histogram_frequency_distribution.png")
+
+
+def investigations_created_over_time_disposition_all():
+    '''Number of Investigations created over time by Disposition'''
+    with open("investigations_json/investigations_list.json","r",encoding="UTF-8") as infile:
+        investigations_loaded = json.load(infile)
+        dataframe = convert_json_to_dataframe(investigations_loaded)
+
+    # Resample the 'created_time' to daily frequency and count the number of investigations created each day, separated by disposition
+    time_series_data_by_disposition = dataframe.groupby('disposition').resample('D', on='created_time').size().reset_index(name='count')
+
+    # Create the area chart
+    plt.figure(figsize=(14, 6))
+    sns.lineplot(x='created_time', y='count', hue='disposition', data=time_series_data_by_disposition, markers=True, dashes=False)
+    plt.fill_between(time_series_data_by_disposition['created_time'].unique(), 
+                    time_series_data_by_disposition.groupby('created_time')['count'].sum(), 
+                    color='grey', alpha=0.2)
+    plt.xlabel('Created Time')
+    plt.ylabel('Number of Investigations')
+    plt.title('Number of Investigations Created Over Time by Disposition')
+    plt.legend(title='Disposition')
+    plt.grid(True)
+    plt.savefig("../docs/charts/investigations_created_over_time_disposition_all.png")
+
+
 if __name__ == "__main__":
     # check_investigations() # Comment if don't need to call API again
     investigations_pie_chart_all_clients()
@@ -317,3 +359,5 @@ if __name__ == "__main__":
     investigations_donut_all_clients()
     investigations_time_series_creation_all()
     investigations_time_priority_creation_all()
+    investigations_histogram_frequency_distribution()
+    investigations_created_over_time_disposition_all()

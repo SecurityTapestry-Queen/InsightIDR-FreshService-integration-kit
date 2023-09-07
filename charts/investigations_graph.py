@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 import requests
 
 
-USER_KEY = ""
+USER_KEY = "" # Remove when done testing locally
 
 ORG_ID = {
     "Lab": "cc6da3c6-9246-4fb1-ac99-6c4eb2626663",
@@ -213,7 +213,7 @@ def investigations_pie_chart_all_clients():
     plt.axis('equal')
     plt.suptitle("Investigations by Client")
     plt.title(str(len(investigations))+" Total (Since 10-18-2022)")
-    plt.savefig("./docs/charts/investigations_all.png")
+    plt.savefig("../docs/charts/investigations_all.png")
 
 
 def investigations_bar_chart_all_priority():
@@ -228,10 +228,10 @@ def investigations_bar_chart_all_priority():
     ax.bar_label(bars, fmt='{:,.0f}')
     plt.suptitle("Investigations by Priority")
     plt.title(str(len(investigations))+" Total (Since 10-18-2022)")
-    plt.savefig("./docs/charts/investigations_priority.png")
+    plt.savefig("../docs/charts/investigations_priority.png")
 
 
 if __name__ == "__main__":
-    check_investigations()
+    # check_investigations() # Comment if don't need to call API again
     investigations_pie_chart_all_clients()
     investigations_bar_chart_all_priority()

@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 import requests
 
 
-USER_KEY = "0aaedb2f-45d4-492c-be16-29014c13d70e"
+USER_KEY = ""
 
 ORG_ID = {
     "Lab": "cc6da3c6-9246-4fb1-ac99-6c4eb2626663",

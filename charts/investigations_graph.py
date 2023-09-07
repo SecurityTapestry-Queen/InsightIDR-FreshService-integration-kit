@@ -5,6 +5,8 @@
 
 import json
 from matplotlib import pyplot as plt
+import pandas as pd
+import numpy as np
 import requests
 
 
@@ -177,6 +179,22 @@ def make_autopct(values):
     return my_autopct
 
 
+def convert_json_to_dataframe(json_data):
+    '''Convert the JSON data to a Pandas DataFrame for easier manipulation'''
+    dataframe = pd.DataFrame(json_data)
+
+    # Helper function to convert time strings to datetime objects
+    def to_datetime(series):
+        return pd.to_datetime(series, errors='coerce')
+
+    # Convert time-related columns to datetime format
+    time_columns = ['last_accessed', 'created_time', 'first_alert_time', 'latest_alert_time']
+    for col in time_columns:
+        dataframe[col] = to_datetime(dataframe[col])
+
+    return dataframe
+
+
 def client_counts():
     '''Count by Client'''
     investigations, lab_i, hssd_i, lom_i, gosm_i, ics_i, unspec_i,low_i,medium_i,high_i,critical_i = load_investigations()
@@ -216,6 +234,31 @@ def investigations_pie_chart_all_clients():
     plt.savefig("../docs/charts/investigations_all.png")
 
 
+def investigations_donut_all_clients():
+    '''Creates Donut Chart based on incoming data'''
+    investigations, lab_i, hssd_i, lom_i, gosm_i, ics_i, lab_count, hssd_count, lom_count, gosm_count, ics_count = client_counts()
+    client_labels = ["Lab","HSSD","LOM","GosM","ICS"]
+    client_numbers = [lab_count,hssd_count,lom_count,gosm_count,ics_count]
+    fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
+    wedges, texts = ax.pie(client_numbers, wedgeprops=dict(width=0.5), startangle=-40)
+    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+    kw = dict(arrowprops=dict(arrowstyle="-"), bbox=bbox_props, zorder=0, va="center")
+
+    for i, p in enumerate(wedges):
+        ang = (p.theta2 - p.theta1)/2. + p.theta1
+        y = np.sin(np.deg2rad(ang))
+        x = np.cos(np.deg2rad(ang))
+        horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
+        connectionstyle = f"angle,angleA=0,angleB={ang}"
+        kw["arrowprops"].update({"connectionstyle": connectionstyle})
+        ax.annotate(client_labels[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
+                horizontalalignment=horizontalalignment, **kw)
+        
+    plt.suptitle("Investigations by Client")
+    ax.set_title(str(len(investigations))+" Total (Since 10-18-2022)", y=0.95)
+    plt.savefig("../docs/charts/investigations_all_clients_donut.png")
+
+
 def investigations_bar_chart_all_priority():
     '''Creates Bar Chart based on incoming Data'''
     investigations, unspec_i, low_i, medium_i, high_i, critical_i, unspec_count, low_count, medium_count, high_count, critical_count = priority_counts()
@@ -231,7 +274,26 @@ def investigations_bar_chart_all_priority():
     plt.savefig("../docs/charts/investigations_priority.png")
 
 
+def investigations_time_series_creation_all():
+    '''Resample the 'created_time' to daily frequency and count the number of investigations created each day, Create the time series plot'''
+    with open("investigations_json/investigations_list.json","r",encoding="UTF-8") as infile:
+        investigations_loaded = json.load(infile)
+        dataframe = convert_json_to_dataframe(investigations_loaded)
+    time_series_data = dataframe.resample('D', on='created_time').size()
+
+    plt.figure(figsize=(14, 6))
+    plt.plot(time_series_data.index,time_series_data.values,
+             marker='o', linestyle='-', color='purple')
+    plt.xlabel('Created Time')
+    plt.ylabel('Number of Investigations')
+    plt.title('Number of Investigations Created Over Time')
+    plt.grid(True)
+    plt.savefig("../docs/charts/investigations_time_series_creation_all.png")
+
+
 if __name__ == "__main__":
     # check_investigations() # Comment if don't need to call API again
     investigations_pie_chart_all_clients()
     investigations_bar_chart_all_priority()
+    investigations_donut_all_clients()
+    investigations_time_series_creation_all()

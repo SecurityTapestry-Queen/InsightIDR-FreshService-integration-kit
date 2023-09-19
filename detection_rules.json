@@ -97,6 +97,13 @@
             "technique": "Technique seen, not recorded",
             "sub_technique": "Sub-Technique seen, not recorded",
             "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:X7N53HBU3MD7": {
+            "alert_title": "Suspicious Process - Regsvr32.exe Registering DLL in ProgramData",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

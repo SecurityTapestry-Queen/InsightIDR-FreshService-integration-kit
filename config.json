@@ -30,11 +30,14 @@
             "time": "2023-09-21T17:16:22.362232Z"
         },
         "MHC": {
-            "enabled": false,
+            "enabled": true,
             "api": "IDR_API_MHC",
-            "idr_organization_id": "",
+            "idr_organization_id": "d13e0d1c-232a-454c-b241-56b2d714e699",
             "email": "aXRkZXB0QG1waHNoYy5vcmc=",
-            "time": "2023-04-12T07:38:20.454312Z"
+            "ccs": [
+                "YnBlcnJ5QG1waHNoYy5vcmc="
+            ],
+            "time": "2023-09-20T07:38:20.454312Z"
         },
         "ICS": {
             "enabled": true,

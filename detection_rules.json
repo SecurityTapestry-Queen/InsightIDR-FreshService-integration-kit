@@ -111,6 +111,13 @@
             "technique": "N/A",
             "sub_technique": "N/A",
             "mitigation": "N/A"
+        },
+        "rrn:cba:::detection-rule:ADBZ4TYYZKZD": {
+            "alert_title": "Suspicious Process - Explorer Runs JavaScript File From Non-C Drive",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

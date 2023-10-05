@@ -1,7 +1,7 @@
 {
     "Clients": {
         "Lab": {
-            "enabled": false,
+            "enabled": true,
             "api": "IDR_API_L4",
             "idr_organization_id": "cc6da3c6-9246-4fb1-ac99-6c4eb2626663",
             "email": "YWxlcnRzQGxhYmZvdXIuZWR1",

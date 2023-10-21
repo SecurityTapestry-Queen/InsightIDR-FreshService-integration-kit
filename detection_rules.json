@@ -146,6 +146,20 @@
             "technique": "Technique seen, not recorded",
             "sub_technique": "Sub-Technique seen, not recorded",
             "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:Q91Q3J68LPAD": {
+            "alert_title": "Attacker Technique - SearchIndexer.exe Spawns Svchost.exe With Unusual Argument",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:WC8YOKLCQRE9": {
+            "alert_title": "Suspicious Process - SVCHost with Unusual Arguments",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

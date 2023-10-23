@@ -160,6 +160,20 @@
             "technique": "Technique seen, not recorded",
             "sub_technique": "Sub-Technique seen, not recorded",
             "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:66W0491KLQU8": {
+            "alert_title": "Attacker Technique - Decrypting Data Stored in Registry Using Powershell",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:EIU437X4PW8R": {
+            "alert_title": "Suspicious Process - PowerShell Reflection.Assembly",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

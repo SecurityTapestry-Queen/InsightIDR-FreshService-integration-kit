@@ -181,6 +181,13 @@
             "technique": "N/A",
             "sub_technique": "N/A",
             "mitigation": "N/A"
+        },
+        "rrn:cba:::detection-rule:TC5BN3FTWZDC": {
+            "alert_title": "Suspicious Authentication - Performive",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

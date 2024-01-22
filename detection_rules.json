@@ -195,6 +195,13 @@
             "technique": "Technique seen, not recorded",
             "sub_technique": "Sub-Technique seen, not recorded",
             "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:FI13QBNFP79U": {
+            "alert_title": "Suspicious Authentication - Avast",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

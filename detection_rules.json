@@ -191,10 +191,10 @@
         },
         "rrn:cba:::detection-rule:L7NH1T75UATF": {
             "alert_title": "Attacker Technique - Inbox Forwarding Rule Created",
-            "tactic": "Tactic seen, not recorded",
-            "technique": "Technique seen, not recorded",
-            "sub_technique": "Sub-Technique seen, not recorded",
-            "mitigation": "Mitigation not recorded"
+            "tactic": "N/A",
+            "technique": "N/A",
+            "sub_technique": "N/A",
+            "mitigation": "N/A"
         },
         "rrn:cba:::detection-rule:FI13QBNFP79U": {
             "alert_title": "Suspicious Authentication - Avast",

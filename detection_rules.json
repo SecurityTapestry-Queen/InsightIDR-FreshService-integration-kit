@@ -327,10 +327,10 @@
             "mitigation": "Mitigation not recorded"
         },
         "Third Party Alert": {
-            "tactic": "Tactic seen, not recorded",
-            "technique": "Technique seen, not recorded",
-            "sub_technique": "Sub-Technique seen, not recorded",
-            "mitigation": "Mitigation not recorded"
+            "tactic": "N/A",
+            "technique": "N/A",
+            "sub_technique": "N/A",
+            "mitigation": "N/A"
         },
         "Lateral Movement - Local Credentials": {
             "tactic": "Tactic seen, not recorded",

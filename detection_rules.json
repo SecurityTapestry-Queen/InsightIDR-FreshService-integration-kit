@@ -223,6 +223,13 @@
             "technique": "Technique seen, not recorded",
             "sub_technique": "Sub-Technique seen, not recorded",
             "mitigation": "Mitigation not recorded"
+        },
+        "rrn:cba:::detection-rule:VA1ZJEUCXILI": {
+            "alert_title": "Suspicious Authentication - DataCamp Limited",
+            "tactic": "Tactic seen, not recorded",
+            "technique": "Technique seen, not recorded",
+            "sub_technique": "Sub-Technique seen, not recorded",
+            "mitigation": "Mitigation not recorded"
         }
     },
     "alert_types": {

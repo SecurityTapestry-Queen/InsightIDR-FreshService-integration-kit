@@ -8,7 +8,7 @@
             "time": "2024-03-26T15:00:05.160558Z"
         },
         "LOM": {
-            "enabled": true,
+            "enabled": false,
             "api": "IDR_API_LEXUS",
             "idr_organization_id": "787bed8a-7ac8-41bc-8337-5f093af0e025",
             "email": "YWxlcnRzQGxleHVzb2ZtZW1waGlzLmNvbQ==",
@@ -18,7 +18,7 @@
             "time": "2024-03-26T15:00:05.638536Z"
         },
         "HSSD": {
-            "enabled": true,
+            "enabled": false,
             "api": "IDR_API_HSSD",
             "idr_organization_id": "4f89aed5-9a79-4877-8e38-1649250be0cf",
             "email": "bWRyQGhzc2RrMTIub3Jn",

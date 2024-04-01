@@ -30,7 +30,7 @@
             "time": "2024-03-26T15:00:06.089321Z"
         },
         "MHC": {
-            "enabled": true,
+            "enabled": false,
             "api": "IDR_API_MHC",
             "idr_organization_id": "d13e0d1c-232a-454c-b241-56b2d714e699",
             "email": "aXRkZXB0QG1waHNoYy5vcmc=",
